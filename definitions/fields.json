@@ -1,0 +1,517 @@
+[
+  {
+    "name": "net/minecraft/entity/LivingEntity",
+    "syntheticFields": [
+      {
+        "name": "maxAirTicks",
+        "type": "I",
+        "access": 1
+      },
+      {
+        "name": "expToDrop",
+        "type": "I",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/class_1635",
+    "syntheticFields": [
+      {
+        "name": "dimension",
+        "type": "I",
+        "access": 1
+      },
+      {
+        "name": "captureTreeGeneration",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "ticksPerAnimalSpawns",
+        "type": "J",
+        "access": 1
+      },
+      {
+        "name": "ticksPerMonsterSpawns",
+        "type": "J",
+        "access": 1
+      },
+      {
+        "name": "captureBlockStates",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "pvpMode",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "capturedBlockStates",
+        "type": "Ljava/util/ArrayList;",
+        "signature": "Ljava/util/ArrayList<Lorg/bukkit/block/BlockState;>;",
+        "access": 1
+      }
+
+    ]
+  },
+  {
+    "name": "net/minecraft/world/explosion/Explosion",
+    "syntheticFields": [
+      {
+        "name": "wasCanceled",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/passive/AgeableEntity",
+    "syntheticFields": [
+      {
+        "name": "ageLocked",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/LightningBoltEntity",
+    "syntheticFields": [
+      {
+        "name": "isEffect",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/passive/HorseBaseEntity",
+    "syntheticFields": [
+      {
+        "name": "maxDomestication",
+        "type": "I",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/server/PlayerManager",
+    "syntheticFields": [
+      {
+        "name": "cserver",
+        "type": "Lorg/bukkit/craftbukkit/CraftServer;",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/server/network/ServerPlayNetworkHandler",
+    "syntheticFields": [
+      {
+        "name": "bukkitChatThrottle",
+        "type": "I",
+        "access": 65
+      },
+      {
+        "name": "chatSpamField",
+        "type": "Ljava/util/concurrent/atomic/AtomicIntegerFieldUpdater;",
+        "access": 65
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/player/ServerPlayerEntity",
+    "syntheticFields": [
+      {
+        "name": "weather",
+        "type": "Lorg/bukkit/WeatherType;"
+      },
+      {
+        "name": "newExp",
+        "type": "I",
+        "access": 1
+      },
+      {
+        "name": "newLevel",
+        "type": "I",
+        "access": 1
+      },
+      {
+        "name": "newTotalExp",
+        "type": "I",
+        "access": 1
+      },
+      {
+        "name": "keepLevel",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "joining",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "maxHealthCache",
+        "type": "D",
+        "access": 1
+      },
+      {
+        "name": "compassTarget",
+        "type": "Lorg/bukkit/Location;",
+        "access": 1
+      },
+      {
+        "name": "listName",
+        "type": "Lnet/minecraft/text/Text;",
+        "access": 1
+      },
+      {
+        "name": "displayName",
+        "type": "Ljava/lang/String;",
+        "access": 1
+      },
+      {
+        "name": "timeOffset",
+        "type": "J",
+        "access": 1
+      },
+      {
+        "name": "relativeTime",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "fauxSleeping",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "spawnWorld",
+        "type": "Ljava/lang/String;",
+        "access": 1
+      }
+
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/Entity",
+    "syntheticFields": [
+      {
+        "name": "bukkitEntity",
+        "type": "Lorg/bukkit/craftbukkit/entity/CraftEntity;",
+        "access": 1
+      },
+      {
+        "name": "projectileSource",
+        "type": "Lorg/bukkit/projectiles/ProjectileSource;",
+        "access": 1
+      },
+      {
+        "name": "valid",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": " net/minecraft/world/World",
+    "syntheticFields": [
+      {
+        "name": "world",
+        "type": "Lorg/bukkit/craftbukkit/CraftWorld;",
+        "access": 1
+      },
+      {
+        "name": "keepSpawnInMemory",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/server/network/ServerHandshakeNetworkHandler",
+    "syntheticFields": [
+      {
+        "name": "throttleTracker",
+        "type": "Ljava/util/HashMap;",
+        "signature": "Ljava/util/HashMap<Ljava/net/InetAddress;Ljava/lang/Long;>;",
+        "access": 1
+      },
+      {
+        "name": "throttleCounter",
+        "type": "I",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/server/MinecraftServer",
+    "syntheticFields": [
+      {
+        "name": "worlds",
+        "type": "Ljava/util/List;",
+        "signature": "Ljava/util/List<Lnet/minecraft/server/world/ServerWorld;>;",
+        "access": 1
+      },
+      {
+        "name": "processQueue",
+        "type": "Ljava/util/Queue;",
+        "signature": "Ljava/util/Queue<Ljava/lang/Runnable;>;",
+        "access": 1
+      },
+      {
+        "name": "reader",
+        "type": "Ljline/console/ConsoleReader;",
+        "access": 1
+      },
+      {
+        "name": "LOGGER",
+        "type": "Lorg/apache/logging/log4j/Logger;",
+        "access": 9
+      },
+      {
+        "name": "server",
+        "type": "Lorg/bukkit/craftbukkit/CraftServer;",
+        "access": 1
+      },
+      {
+        "name": "options",
+        "type": "Ljoptsimple/OptionSet;",
+        "access": 1
+      },
+      {
+        "name": "console",
+        "type": "Lorg/bukkit/command/ConsoleCommandSender;",
+        "access": 1
+      },
+      {
+        "name": "universe",
+        "type": "Ljava/io/File;",
+        "access": 1
+      },
+      {
+        "name": "methodProfiler",
+        "type": "Lnet/minecraft/util/profiler/Profiler;",
+        "access": 1
+      },
+      {
+        "name": "autosavePeriod",
+        "type": "I",
+        "access": 1
+      },
+      {
+        "name": "primaryThread",
+        "type": "Ljava/lang/Thread;",
+        "access": 1
+      },
+      {
+        "name": "spawnAnimals",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/container/PlayerContainer",
+    "syntheticFields": [
+      {
+        "name": "bukkitEntity",
+        "type": "Lorg/bukkit/craftbukkit/inventory/CraftInventoryView;",
+        "access": 1
+      },
+      {
+        "name": "player",
+        "type": "Lnet/minecraft/entity/player/PlayerInventory;",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/player/PlayerEntity",
+    "syntheticFields": [
+      {
+        "name": "spawnWorld",
+        "type": "Ljava/lang/String;",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/inventory/CraftingInventory",
+    "syntheticFields": [
+      {
+        "name": "currentRecipe",
+        "type": "Lnet/minecraft/recipe/Recipe;",
+        "access": 1
+      },
+      {
+        "name": "resultInventory",
+        "type": "Lnet/minecraft/inventory/Inventory;",
+        "access": 1
+      },
+      {
+        "name": "owner",
+        "type": "Lnet/minecraft/entity/player/PlayerEntity;",
+        "access": 1
+      },
+      {
+        "name": "MAX_STACK",
+        "type": "I",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/projectile/ProjectileEntity",
+    "syntheticFields": [
+      {
+        "name": "isIncendiary",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "bukkitYield",
+        "type": "F",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/TntEntity",
+    "syntheticFields": [
+      {
+        "name": "isIncendiary",
+        "type": "Z",
+        "access": 1
+      },
+      {
+        "name": "yield",
+        "type": "F",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/container/Container",
+    "syntheticFields": [
+      {
+        "name": "checkReachable",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/vehicle/BoatEntity",
+    "syntheticFields": [
+      {
+        "name": "maxSpeed",
+        "type": "D",
+        "accessor": 1
+      },
+      {
+        "name": "occupiedDeceleration",
+        "type": "D",
+        "accessor": 1
+      },
+      {
+        "name": "unoccupiedDeceleration",
+        "type": "D",
+        "accessor": 1
+      },
+      {
+        "name": "landBoats",
+        "type": "Z",
+        "accessor": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/entity/vehicle/AbstractMinecartEntity",
+    "syntheticFields": [
+      {
+        "name": "maxSpeed",
+        "type": "D",
+        "accessor": 1
+      },
+      {
+        "name": "flyingVelocityMod",
+        "type": "Lorg/bukkit/util/Vector;",
+        "accessor": 1
+      },
+      {
+        "name": "slowWhenEmpty",
+        "type": "Z",
+        "accessor": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/world/chunk/Chunk",
+    "syntheticFields": [
+      {
+        "name": "bukkitChunk",
+        "type": "Lorg/bukkit/Chunk;",
+        "access": 1
+      },
+      {
+        "name": "mustSave",
+        "type": "Z",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/class_44",
+    "syntheticFields": [
+      {
+        "name": "customRecipes",
+        "type": "Ljava/util/Map;",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/class_632",
+    "syntheticFields": [
+      {
+        "name": "uuid",
+        "type": "Ljava/util/UUID;",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/item/map/MapState",
+    "syntheticFields": [
+      {
+        "name": "mapView",
+        "type": "Lorg/bukkit/craftbukkit/map/CraftMapView;",
+        "access": 1
+      },
+      {
+        "name": "uniqueId",
+        "type": "Ljava/util/UUID;",
+        "access": 1
+      },
+      {
+        "name": "server",
+        "type": "Lorg/bukkit/craftbukkit/CraftServer;",
+        "access": 1
+      }
+    ]
+  },
+  {
+    "name": "net/minecraft/server/dedicated/AbstractPropertiesHandler",
+    "syntheticFields": [
+      {
+        "name": "options",
+        "type": "Ljoptsimple/OptionSet;",
+        "access": 1
+      }
+    ]
+  }
+]
