@@ -310,11 +310,6 @@
         "access": 1,
         "name": "M",
         "type": "Lorg/bukkit/craftbukkit/util/HashTreeSet;"
-      },
-      {
-        "access": 1,
-        "name": "dimension",
-        "type": "I"
       }
     ],
     "syntheticMethods": []
@@ -1756,7 +1751,7 @@
       },
       {
         "access": 1,
-        "name": "world",
+        "name": "craftWorld",
         "type": "Lorg/bukkit/craftbukkit/CraftWorld;"
       },
       {
@@ -1768,6 +1763,11 @@
         "access": 1,
         "name": "capturedTileEntities",
         "type": "Ljava/util/Map;"
+      },
+      {
+        "access": 1,
+        "name": "timings",
+        "type": "Lorg/bukkit/craftbukkit/SpigotTimings$WorldTimingsHandler;"
       }
     ],
     "syntheticMethods": []
@@ -1853,7 +1853,7 @@
     "syntheticMethods": []
   },
   {
-    "name": "net/minecraft/server/PacketStatusListener/ServerListPingEvent",
+    "name": "net/minecraft/server/network/ServerQueryNetworkHandler/ServerListPingEvent",
     "injectInterfaces": [
       "io/github/fukkitmc/fukkit/extras/ServerListPingEventExtra"
     ],
@@ -1871,7 +1871,7 @@
       {
         "access": 1,
         "name": "player",
-        "type": "Lnet/minecraft/server/EntityPlayer;"
+        "type": "L net/minecraft/entity/player/PlayerEntity;"
       },
       {
         "access": 1,
@@ -1935,7 +1935,7 @@
       {
         "access": 1,
         "name": "listName",
-        "type": "Lnet/minecraft/server/IChatBaseComponent;"
+        "type": "Lnet/minecraft/text/Text;"
       },
       {
         "access": 1,

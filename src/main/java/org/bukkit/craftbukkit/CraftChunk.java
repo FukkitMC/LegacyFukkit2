@@ -2,7 +2,7 @@ package org.bukkit.craftbukkit;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
-import net.minecraft.server.*;
+
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
@@ -37,7 +37,7 @@ public class CraftChunk implements Chunk {
     }
 
     public World getWorld() {
-        return worldServer.getWorld();
+        return worldServer.getCraftWorld();
     }
 
     public CraftWorld getCraftWorld() {
@@ -115,7 +115,7 @@ public class CraftChunk implements Chunk {
             }
 
             BlockPos position = (BlockPos) obj;
-            entities[index++] = worldServer.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ()).getState();
+            entities[index++] = worldServer.getCraftWorld().getBlockAt(position.getX(), position.getY(), position.getZ()).getState();
         }
 
         return entities;

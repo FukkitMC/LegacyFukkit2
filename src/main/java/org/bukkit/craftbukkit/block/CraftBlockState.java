@@ -54,11 +54,11 @@ public class CraftBlockState implements BlockState {
     }
 
     public static CraftBlockState getBlockState(net.minecraft.world.World world, int x, int y, int z) {
-        return new CraftBlockState(world.getWorld().getBlockAt(x, y, z));
+        return new CraftBlockState(world.getCraftWorld().getBlockAt(x, y, z));
     }
 
     public static CraftBlockState getBlockState(net.minecraft.world.World world, int x, int y, int z, int flag) {
-        return new CraftBlockState(world.getWorld().getBlockAt(x, y, z), flag);
+        return new CraftBlockState(world.getCraftWorld().getBlockAt(x, y, z), flag);
     }
 
     public World getWorld() {

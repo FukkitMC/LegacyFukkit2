@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCategory;
-import net.minecraft.server.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StrongholdStructure;
 import net.minecraft.util.ProgressListener;
@@ -58,7 +57,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
         world.getDimensionBiomeSource().method_576(biomegrid.biome, x << 4, z << 4, 16, 16);
 
         // Try ChunkData method (1.8+)
-        CraftChunkData data = (CraftChunkData) generator.generateChunkData(this.world.getWorld(), random, x, z, biomegrid);
+        CraftChunkData data = (CraftChunkData) generator.generateChunkData(this.world.getCraftWorld(), random, x, z, biomegrid);
         if (data != null) {
             char[][] sections = data.getRawChunkData();
             chunk = new Chunk(this.world, x, z);
@@ -88,7 +87,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
         }
         else {
             // Try extended block method (1.2+)
-            short[][] xbtypes = generator.generateExtBlockSections(this.world.getWorld(), this.random, x, z, biomegrid);
+            short[][] xbtypes = generator.generateExtBlockSections(this.world.getCraftWorld(), this.random, x, z, biomegrid);
             if (xbtypes != null) {
                 chunk = new Chunk(this.world, x, z);
                 
@@ -111,7 +110,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                 }
             }
             else { // Else check for byte-per-block section data
-                byte[][] btypes = generator.generateBlockSections(this.world.getWorld(), this.random, x, z, biomegrid);
+                byte[][] btypes = generator.generateBlockSections(this.world.getCraftWorld(), this.random, x, z, biomegrid);
                 
                 if (btypes != null) {
                     chunk = new Chunk(this.world, x, z);
@@ -134,7 +133,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                 }
                 else { // Else, fall back to pre 1.2 method
                     @SuppressWarnings("deprecation")
-                            byte[] types = generator.generate(this.world.getWorld(), this.random, x, z);
+                            byte[] types = generator.generate(this.world.getCraftWorld(), this.random, x, z);
                     int ydim = types.length / 256;
                     int scnt = ydim / 16;
                     

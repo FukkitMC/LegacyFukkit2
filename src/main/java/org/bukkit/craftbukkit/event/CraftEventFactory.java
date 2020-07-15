@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
 import net.minecraft.entity.EndCrystalEntity;
@@ -28,7 +30,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
 import net.minecraft.network.packet.s2c.play.ContainerSlotUpdateS2CPacket;
-import net.minecraft.server.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -87,6 +88,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.meta.BookMeta;
 
+@Environment(EnvType.SERVER)
 public class CraftEventFactory {
     public static final DamageSource MELTING = CraftDamageSource.copyOf(DamageSource.ON_FIRE);
     public static final DamageSource POISON = CraftDamageSource.copyOf(DamageSource.MAGIC);
@@ -118,7 +120,7 @@ public class CraftEventFactory {
      * Block place methods
      */
     public static BlockMultiPlaceEvent callBlockMultiPlaceEvent(World world, PlayerEntity who, List<BlockState> blockStates, int clickedX, int clickedY, int clickedZ) {
-        CraftWorld craftWorld = world.getWorld();
+        CraftWorld craftWorld = ((io.github.fukkitmc.fukkit.mixins.extras.WorldExtra)world).getCraftWorld();
         CraftServer craftServer = world.getServer();
         Player player = (who == null) ? null : (Player) who.getBukkitEntity();
 
@@ -139,7 +141,7 @@ public class CraftEventFactory {
     }
 
     public static BlockPlaceEvent callBlockPlaceEvent(World world, PlayerEntity who, BlockState replacedBlockState, int clickedX, int clickedY, int clickedZ) {
-        CraftWorld craftWorld = world.getWorld();
+        CraftWorld craftWorld = world.getCraftWorld();
         CraftServer craftServer = world.getServer();
 
         Player player = (who == null) ? null : (Player) who.getBukkitEntity();
@@ -506,7 +508,8 @@ public class CraftEventFactory {
             DamageCause cause = null;
             Block damager = blockDamage;
             blockDamage = null;
-            if (source == DamageSource.field_7253) {
+            if (source == DamageSource.CACTUS
+            ) {
                 cause = DamageCause.CONTACT;
             } else {
                 throw new RuntimeException(String.format("Unhandled damage of %s by %s from %s", entity, damager, source.name)); // Spigot
@@ -520,7 +523,7 @@ public class CraftEventFactory {
             DamageCause cause = null;
             CraftEntity damager = entityDamage.getBukkitEntity();
             entityDamage = null;
-            if (source == DamageSource.field_7259 || source == DamageSource.field_7260) {
+            if (source == DamageSource.ANVIL || source == DamageSource.FALLING_BLOCK) {
                 cause = DamageCause.FALLING_BLOCK;
             } else if (damager instanceof LightningStrike) {
                 cause = DamageCause.LIGHTNING;
@@ -648,7 +651,7 @@ public class CraftEventFactory {
     }
 
     public static void handleBlockGrowEvent(World world, int x, int y, int z, net.minecraft.block.Block type, int data) {
-        Block block = world.getWorld().getBlockAt(x, y, z);
+        Block block = world.getCraftWorld().getBlockAt(x, y, z);
         CraftBlockState state = (CraftBlockState) block.getState();
         state.setTypeId(net.minecraft.block.Block.getIdByBlock(type));
         state.setRawData((byte) data);
@@ -692,7 +695,7 @@ public class CraftEventFactory {
     }
 
     public static EntityChangeBlockEvent callEntityChangeBlockEvent(Entity entity, int x, int y, int z, net.minecraft.block.Block type, int data) {
-        Block block = entity.world.getWorld().getBlockAt(x, y, z);
+        Block block = entity.world.getCraftWorld().getBlockAt(x, y, z);
         Material material = CraftMagicNumbers.getMaterial(type);
 
         return callEntityChangeBlockEvent(entity.getBukkitEntity(), block, material, data);
@@ -795,13 +798,13 @@ public class CraftEventFactory {
     }
 
     public static BlockRedstoneEvent callRedstoneChange(World world, int x, int y, int z, int oldCurrent, int newCurrent) {
-        BlockRedstoneEvent event = new BlockRedstoneEvent(world.getWorld().getBlockAt(x, y, z), oldCurrent, newCurrent);
+        BlockRedstoneEvent event = new BlockRedstoneEvent(world.getCraftWorld().getBlockAt(x, y, z), oldCurrent, newCurrent);
         world.getServer().getPluginManager().callEvent(event);
         return event;
     }
 
     public static NotePlayEvent callNotePlayEvent(World world, int x, int y, int z, byte instrument, byte note) {
-        NotePlayEvent event = new NotePlayEvent(world.getWorld().getBlockAt(x, y, z), org.bukkit.Instrument.getByType(instrument), new org.bukkit.Note(note));
+        NotePlayEvent event = new NotePlayEvent(world.getCraftWorld().getBlockAt(x, y, z), org.bukkit.Instrument.getByType(instrument), new org.bukkit.Note(note));
         world.getServer().getPluginManager().callEvent(event);
         return event;
     }
@@ -813,7 +816,7 @@ public class CraftEventFactory {
     }
 
     public static BlockIgniteEvent callBlockIgniteEvent(World world, int x, int y, int z, int igniterX, int igniterY, int igniterZ) {
-        org.bukkit.World bukkitWorld = world.getWorld();
+        org.bukkit.World bukkitWorld = world.getCraftWorld();
         Block igniter = bukkitWorld.getBlockAt(igniterX, igniterY, igniterZ);
         IgniteCause cause;
         switch (igniter.getType()) {
@@ -835,7 +838,7 @@ public class CraftEventFactory {
     }
 
     public static BlockIgniteEvent callBlockIgniteEvent(World world, int x, int y, int z, Entity igniter) {
-        org.bukkit.World bukkitWorld = world.getWorld();
+        org.bukkit.World bukkitWorld = world.getCraftWorld();
         org.bukkit.entity.Entity bukkitIgniter = igniter.getBukkitEntity();
         IgniteCause cause;
         switch (bukkitIgniter.getType()) {
@@ -859,7 +862,7 @@ public class CraftEventFactory {
     }
 
     public static BlockIgniteEvent callBlockIgniteEvent(World world, int x, int y, int z, Explosion explosion) {
-        org.bukkit.World bukkitWorld = world.getWorld();
+        org.bukkit.World bukkitWorld = world.getCraftWorld();
         org.bukkit.entity.Entity igniter = explosion.field_233 == null ? null : explosion.field_233.getBukkitEntity();
 
         BlockIgniteEvent event = new BlockIgniteEvent(bukkitWorld.getBlockAt(x, y, z), IgniteCause.EXPLOSION, igniter);
@@ -868,7 +871,7 @@ public class CraftEventFactory {
     }
 
     public static BlockIgniteEvent callBlockIgniteEvent(World world, int x, int y, int z, IgniteCause cause, Entity igniter) {
-        BlockIgniteEvent event = new BlockIgniteEvent(world.getWorld().getBlockAt(x, y, z), cause, igniter.getBukkitEntity());
+        BlockIgniteEvent event = new BlockIgniteEvent(world.getCraftWorld().getBlockAt(x, y, z), cause, igniter.getBukkitEntity());
         world.getServer().getPluginManager().callEvent(event);
         return event;
     }

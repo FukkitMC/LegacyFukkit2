@@ -346,7 +346,7 @@ public class CraftWorld implements World {
         }
 
         world.field_6635.unloadQueue.remove(x, z);
-        net.minecraft.world.chunk.Chunk chunk = world.field_6635.chunks.get(LongHash.toLong(x, z));
+        net.minecraft.world.chunk.Chunk chunk = (net.minecraft.world.chunk.Chunk) world.field_6635.chunks.get(LongHash.toLong(x, z));
 
         if (chunk == null) {
             world.timings.syncChunkLoadTimer.startTiming(); // Spigot

@@ -15,7 +15,7 @@ public class StructureGrowDelegate implements BlockChangeDelegate {
     private final List<BlockState> blocks = new ArrayList<BlockState>();
 
     public StructureGrowDelegate(World world) {
-        this.world = world.getWorld();
+        this.world = world.getCraftWorld();
     }
 
     public boolean setRawTypeId(int x, int y, int z, int type) {

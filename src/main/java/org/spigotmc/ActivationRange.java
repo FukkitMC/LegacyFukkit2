@@ -1,8 +1,7 @@
 package org.spigotmc;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
 import net.minecraft.class_1760;
 import net.minecraft.class_1889;
 import net.minecraft.entity.EndCrystalEntity;
@@ -30,7 +29,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.bukkit.craftbukkit.SpigotTimings;
-import org.bukkit.entity.Creeper;
 
 public class ActivationRange
 {
@@ -125,7 +123,7 @@ public class ActivationRange
             {
                 for ( int j1 = k; j1 <= l; ++j1 )
                 {
-                    if ( world.getWorld().isChunkLoaded( i1, j1 ) )
+                    if ( world.getCraftWorld().isChunkLoaded( i1, j1 ) )
                     {
                         activateChunkEntities( world.getChunk( i1, j1 ) );
                     }

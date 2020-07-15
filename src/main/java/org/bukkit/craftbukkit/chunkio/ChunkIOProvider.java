@@ -17,19 +17,15 @@ class ChunkIOProvider implements AsynchronousExecutor.CallBackProvider<QueuedChu
 
     // async stuff
     public Chunk callStage1(QueuedChunk queuedChunk) throws RuntimeException {
-        try {
-            ThreadedAnvilChunkStorage loader = queuedChunk.loader;
-            Object[] data = loader.loadChunk(queuedChunk.world, queuedChunk.x, queuedChunk.z);
-            
-            if (data != null) {
-                queuedChunk.compound = (CompoundTag) data[1];
-                return (Chunk) data[0];
-            }
+        ThreadedAnvilChunkStorage loader = queuedChunk.loader;
+        Object[] data = loader.loadChunk(queuedChunk.world, queuedChunk.x, queuedChunk.z);
 
-            return null;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        if (data != null) {
+            queuedChunk.compound = (CompoundTag) data[1];
+            return (Chunk) data[0];
         }
+
+        return null;
     }
 
     // sync stuff

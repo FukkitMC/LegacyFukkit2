@@ -45,7 +45,7 @@ public class CraftBlockProjectileSource implements BlockProjectileSource {
 
     @Override
     public Block getBlock() {
-        return dispenserBlock.getWorld().getWorld().getBlockAt(dispenserBlock.getPos().getX(), dispenserBlock.getPos().getY(), dispenserBlock.getPos().getZ());
+        return dispenserBlock.getWorld().getCraftWorld().getBlockAt(dispenserBlock.getPos().getX(), dispenserBlock.getPos().getY(), dispenserBlock.getPos().getZ());
     }
 
     @Override

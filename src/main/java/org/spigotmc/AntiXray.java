@@ -91,7 +91,7 @@ public class AntiXray
             int startZ = chunkY << 4;
 
             byte replaceWithTypeId;
-            switch ( world.getWorld().getEnvironment() )
+            switch ( world.getCraftWorld().getEnvironment() )
             {
                 case NETHER:
                     replaceWithTypeId = (byte) CraftMagicNumbers.getId(Blocks.NETHERRACK);

@@ -104,7 +104,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.help.HelpMap;
@@ -915,7 +914,7 @@ public final class CraftServer implements Server {
             worlddata = new LevelProperties(worldSettings, name);
         }
         worlddata.checkName(name); // CraftBukkit - Migration did not rewrite the level.dat; This forces 1.8 to take the last loaded world as respawn (in this case the end)
-        ServerWorld internal = (ServerWorld) new ServerWorld(console, sdm, worlddata, dimension, console.methodProfiler, creator.environment(), generator).getWorld();
+        ServerWorld internal = (ServerWorld) new ServerWorld(console, sdm, worlddata, dimension, console.methodProfiler, creator.environment(), generator).getCraftWorld();
 
         if (!(worlds.containsKey(name.toLowerCase()))) {
             return null;
@@ -930,13 +929,13 @@ public final class CraftServer implements Server {
         console.worlds.add(internal);
 
         if (generator != null) {
-            internal.getWorld().getPopulators().addAll(generator.getDefaultPopulators(internal.getWorld()));
+            internal.getCraftWorld().getPopulators().addAll(generator.getDefaultPopulators(internal.getCraftWorld()));
         }
 
-        pluginManager.callEvent(new WorldInitEvent(internal.getWorld()));
+        pluginManager.callEvent(new WorldInitEvent(internal.getCraftWorld()));
         System.out.print("Preparing start region for level " + (console.worlds.size() - 1) + " (Seed: " + internal.method_247() + ")");
 
-        if (internal.getWorld().getKeepSpawnInMemory()) {
+        if (internal.getCraftWorld().getKeepSpawnInMemory()) {
             short short1 = 196;
             long i = System.currentTimeMillis();
             for (int j = -short1; j <= short1; j += 16) {
@@ -960,8 +959,8 @@ public final class CraftServer implements Server {
                 }
             }
         }
-        pluginManager.callEvent(new WorldLoadEvent(internal.getWorld()));
-        return internal.getWorld();
+        pluginManager.callEvent(new WorldLoadEvent(internal.getCraftWorld()));
+        return internal.getCraftWorld();
     }
 
     @Override
@@ -989,7 +988,7 @@ public final class CraftServer implements Server {
             return false;
         }
 
-        WorldUnloadEvent e = new WorldUnloadEvent(handle.getWorld());
+        WorldUnloadEvent e = new WorldUnloadEvent(handle.getCraftWorld());
         pluginManager.callEvent(e);
 
         if (e.isCancelled()) {
