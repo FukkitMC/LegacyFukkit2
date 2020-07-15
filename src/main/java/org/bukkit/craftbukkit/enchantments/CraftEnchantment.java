@@ -26,18 +26,18 @@ public class CraftEnchantment extends Enchantment {
 
     @Override
     public EnchantmentTarget getItemTarget() {
-        switch (target.slot) {
+        switch (target.target) {
         case ALL:
             return EnchantmentTarget.ALL;
-        case ARMOR:
+        case ALL_ARMOR:
             return EnchantmentTarget.ARMOR;
-        case ARMOR_FEET:
+        case FEET:
             return EnchantmentTarget.ARMOR_FEET;
-        case ARMOR_HEAD:
+        case HEAD:
             return EnchantmentTarget.ARMOR_HEAD;
-        case ARMOR_LEGS:
+        case LEGS:
             return EnchantmentTarget.ARMOR_LEGS;
-        case ARMOR_TORSO:
+        case TORSO:
             return EnchantmentTarget.ARMOR_TORSO;
         case DIGGER:
             return EnchantmentTarget.TOOL;

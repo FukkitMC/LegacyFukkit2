@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.entity;
 
-import io.github.fukkitmc.legacy.extra.EntityExtra;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.util.math.BlockPos;
@@ -20,8 +19,8 @@ public class CraftFish extends AbstractProjectile implements Fish {
     }
 
     public ProjectileSource getShooter() {
-        if (getHandle().owner != null) {
-            return (ProjectileSource) ((EntityExtra)getHandle().owner).getBukkitEntity();
+        if (getHandle().field_8099 != null) {
+            return getHandle().field_8099.getBukkitEntity();
         }
 
         return null;
@@ -29,7 +28,7 @@ public class CraftFish extends AbstractProjectile implements Fish {
 
     public void setShooter(ProjectileSource shooter) {
         if (shooter instanceof CraftHumanEntity) {
-            getHandle().owner = (PlayerEntity) ((CraftHumanEntity) shooter).entity;
+            getHandle().field_8099 = (PlayerEntity) ((CraftHumanEntity) shooter).entity;
         }
     }
 

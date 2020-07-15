@@ -1,6 +1,8 @@
 package org.bukkit.craftbukkit.command;
 
+import java.util.Iterator;
 import java.util.List;
+import net.minecraft.class_1371;
 import net.minecraft.class_1712;
 import net.minecraft.command.AbstractCommand;
 import net.minecraft.command.CommandException;
@@ -9,6 +11,7 @@ import net.minecraft.command.CommandStats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.CommandBlockMinecartEntity;
 import net.minecraft.server.*;
+import net.minecraft.server.command.Console;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -58,7 +61,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         Validate.notNull(sender, "Sender cannot be null");
         Validate.notNull(args, "Arguments cannot be null");
         Validate.notNull(alias, "Alias cannot be null");
-        return vanillaCommand.tabComplete(getListener(sender), args, new BlockPos(0, 0, 0));
+        return (List<String>) vanillaCommand.method_5886(getListener(sender), args, new BlockPos(0, 0, 0));
     }
 
     public static CommandSender lastSender = null; // Nasty :(
@@ -86,24 +89,27 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         try {
             if (vanillaCommand.isAccessible(icommandlistener)) {
                 if (i > -1) {
-                    List<Entity> list = class_1712.getPlayers(icommandlistener, as[i], Entity.class);
+                    List<Entity> list = ((List<Entity>)class_1712.method_6705(icommandlistener, as[i], Entity.class));
                     String s2 = as[i];
                     
                     icommandlistener.feedback(CommandStats.Type.AFFECTED_ENTITIES, list.size());
+                    Iterator<Entity> iterator = list.iterator();
 
-                    for (Entity entity : list) {
+                    while (iterator.hasNext()) {
+                        Entity entity = iterator.next();
+
                         CommandSender oldSender = lastSender;
                         lastSender = bSender;
                         try {
                             as[i] = entity.getUuid().toString();
                             vanillaCommand.execute(icommandlistener, as);
                             j++;
-                        } catch (ExceptionUsage exceptionusage) {
-                            TranslatableText chatmessage = new TranslatableText("commands.generic.usage", new TranslatableText(exceptionusage.getMessage(), exceptionusage.getArgs()));
+                        } catch (class_1371 exceptionusage) {
+                            TranslatableText chatmessage = new TranslatableText("commands.generic.usage", new Object[] { new TranslatableText(exceptionusage.getMessage(), exceptionusage.method_4844())});
                             chatmessage.getStyle().setColor(Formatting.RED);
                             icommandlistener.sendMessage(chatmessage);
                         } catch (CommandException commandexception) {
-                            AbstractCommand.a(icommandlistener, vanillaCommand, 1, commandexception.getMessage(), commandexception.getArgs());
+                            AbstractCommand.method_5673(icommandlistener, vanillaCommand, 1, commandexception.getMessage(), commandexception.method_4844());
                         } finally {
                             lastSender = oldSender;
                         }
@@ -115,18 +121,18 @@ public final class VanillaCommandWrapper extends VanillaCommand {
                     j++;
                 }
             } else {
-                TranslatableText chatmessage = new TranslatableText("commands.generic.permission");
+                TranslatableText chatmessage = new TranslatableText("commands.generic.permission", new Object[0]);
                 chatmessage.getStyle().setColor(Formatting.RED);
                 icommandlistener.sendMessage(chatmessage);
             }
-        } catch (ExceptionUsage exceptionusage) {
-            TranslatableText chatmessage1 = new TranslatableText("commands.generic.usage", new TranslatableText(exceptionusage.getMessage(), exceptionusage.getArgs()));
+        } catch (class_1371 exceptionusage) {
+            TranslatableText chatmessage1 = new TranslatableText("commands.generic.usage", new Object[] { new TranslatableText(exceptionusage.getMessage(), exceptionusage.method_4844()) });
             chatmessage1.getStyle().setColor(Formatting.RED);
             icommandlistener.sendMessage(chatmessage1);
         } catch (CommandException commandexception) {
-            AbstractCommand.a(icommandlistener, vanillaCommand, 1, commandexception.getMessage(), commandexception.getArgs());
+            AbstractCommand.method_5673(icommandlistener, vanillaCommand, 1, commandexception.getMessage(), commandexception.method_4844());
         } catch (Throwable throwable) {
-            TranslatableText chatmessage3 = new TranslatableText("commands.generic.exception");
+            TranslatableText chatmessage3 = new TranslatableText("commands.generic.exception", new Object[0]);
             chatmessage3.getStyle().setColor(Formatting.RED);
             icommandlistener.sendMessage(chatmessage3);
             if (icommandlistener.getEntity() instanceof CommandBlockMinecartEntity) {
@@ -135,7 +141,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
                 CommandBlockExecutor listener = (CommandBlockExecutor) icommandlistener;
                 MinecraftServer.LOGGER.log(Level.WARN, String.format("CommandBlock at (%d,%d,%d) failed to handle command", listener.getBlockPos().getX(), listener.getBlockPos().getY(), listener.getBlockPos().getZ()), throwable);
             } else {
-                MinecraftServer.LOGGER.log(Level.WARN, "Unknown CommandBlock failed to handle command", throwable);
+                MinecraftServer.LOGGER.log(Level.WARN, String.format("Unknown CommandBlock failed to handle command"), throwable);
             }
         } finally {
             MinecraftServer.getServer().worlds = prev;
@@ -155,7 +161,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
             return ((CommandBlockMinecartEntity) ((CraftMinecartCommand) sender).getHandle()).getCommandExecutor();
         }
         if (sender instanceof RemoteConsoleCommandSender) {
-            return RemoteControlCommandListener.getInstance();
+            return Console.getInstance();
         }
         if (sender instanceof ConsoleCommandSender) {
             return ((CraftServer) sender.getServer()).getServer();
@@ -166,18 +172,20 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         throw new IllegalArgumentException("Cannot make " + sender + " a vanilla command listener");
     }
 
-    private int getPlayerListSize(String[] as) {
+    private int getPlayerListSize(String as[]) {
         for (int i = 0; i < as.length; i++) {
-            if (vanillaCommand.isListStart(as, i) && class_1712.isList(as[i])) {
+            if (vanillaCommand.method_5888(as, i) && class_1712.method_6690(as[i])) {
                 return i;
             }
         }
         return -1;
     }
 
-    public static String[] dropFirstArgument(String[] as) {
-        String[] as1 = new String[as.length - 1];
-        if (as.length - 1 >= 0) System.arraycopy(as, 1, as1, 0, as.length - 1);
+    public static String[] dropFirstArgument(String as[]) {
+        String as1[] = new String[as.length - 1];
+        for (int i = 1; i < as.length; i++) {
+            as1[i - 1] = as[i];
+        }
 
         return as1;
     }

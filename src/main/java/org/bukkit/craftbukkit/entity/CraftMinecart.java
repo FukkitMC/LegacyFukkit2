@@ -1,9 +1,9 @@
 package org.bukkit.craftbukkit.entity;
 
-import io.github.fukkitmc.legacy.extra.EntityMinecartAbstractExtra;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.entity.Minecart;
@@ -43,19 +43,19 @@ public abstract class CraftMinecart extends CraftVehicle implements Minecart {
     }
 
     public Vector getFlyingVelocityMod() {
-        return ((EntityMinecartAbstractExtra)getHandle()).getFlyingVelocityMod();
+        return getHandle().getFlyingVelocityMod();
     }
 
-    public void setFlyingVelocityMod(Vector flying){
-        ((EntityMinecartAbstractExtra)getHandle()).setFlyingVelocityMod(flying);
+    public void setFlyingVelocityMod(Vector flying) {
+        getHandle().setFlyingVelocityMod(flying);
     }
 
     public Vector getDerailedVelocityMod() {
-        return ((EntityMinecartAbstractExtra)getHandle()).getDerailedVelocityMod();
+        return getHandle().getDerailedVelocityMod();
     }
 
     public void setDerailedVelocityMod(Vector derailed) {
-        ((EntityMinecartAbstractExtra)getHandle()).setDerailedVelocityMod(derailed);
+        getHandle().setDerailedVelocityMod(derailed);
     }
 
     @Override
@@ -80,12 +80,12 @@ public abstract class CraftMinecart extends CraftVehicle implements Minecart {
         } else {
             // Set block to air (default) and set the flag to not have a display block.
             this.getHandle().setCustomBlock(Blocks.AIR.getDefaultState());
-            this.getHandle().a(false);
+            this.getHandle().method_7783(false);
         }
     }
 
     public MaterialData getDisplayBlock() {
-        BlockState blockData = getHandle().getDisplayBlock();
+        BlockState blockData = getHandle().method_7795();
         return CraftMagicNumbers.getMaterial(blockData.getBlock()).getNewData((byte) blockData.getBlock().getData(blockData));
     }
 
@@ -94,6 +94,6 @@ public abstract class CraftMinecart extends CraftVehicle implements Minecart {
     }
 
     public int getDisplayBlockOffset() {
-        return getHandle().getDisplayBlockOffset();
+        return getHandle().method_7797();
     }
 }

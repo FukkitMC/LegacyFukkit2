@@ -44,15 +44,15 @@ public final class CraftMapView implements MapView {
     }
 
     public Scale getScale() {
-        return Scale.valueOf(worldMap.scale);
+        return Scale.valueOf(worldMap.field_2319);
     }
 
     public void setScale(Scale scale) {
-        worldMap.scale = scale.getValue();
+        worldMap.field_2319 = scale.getValue();
     }
 
     public World getWorld() {
-        byte dimension = worldMap.map;
+        byte dimension = worldMap.field_2318;
         for (World world : Bukkit.getServer().getWorlds()) {
             if (((CraftWorld) world).getHandle().dimension == dimension) {
                 return world;
@@ -62,23 +62,23 @@ public final class CraftMapView implements MapView {
     }
 
     public void setWorld(World world) {
-        worldMap.map = (byte) ((CraftWorld) world).getHandle().dimension;
+        worldMap.field_2318 = (byte) ((CraftWorld) world).getHandle().dimension;
     }
 
     public int getCenterX() {
-        return worldMap.centerX;
+        return worldMap.field_2316;
     }
 
     public int getCenterZ() {
-        return worldMap.centerZ;
+        return worldMap.field_2317;
     }
 
     public void setCenterX(int x) {
-        worldMap.centerX = x;
+        worldMap.field_2316 = x;
     }
 
     public void setCenterZ(int z) {
-        worldMap.centerZ = z;
+        worldMap.field_2317 = z;
     }
 
     public List<MapRenderer> getRenderers() {
@@ -126,7 +126,7 @@ public final class CraftMapView implements MapView {
             renderCache.put(context ? player : null, render);
         }
 
-        if (context) {
+        if (context && renderCache.containsKey(null)) {
             renderCache.remove(null);
         }
 

@@ -18,7 +18,7 @@ public class CraftPainting extends CraftHanging implements Painting {
     }
 
     public Art getArt() {
-        Type art = getHandle().art;
+        Type art = getHandle().type;
         return CraftArt.NotchToBukkit(art);
     }
 
@@ -28,13 +28,13 @@ public class CraftPainting extends CraftHanging implements Painting {
 
     public boolean setArt(Art art, boolean force) {
         PaintingEntity painting = this.getHandle();
-        Type oldArt = painting.art;
-        painting.art = CraftArt.BukkitToNotch(art);
-        painting.setDirection(painting.direction);
-        if (!force && !painting.survives()) {
+        Type oldArt = painting.type;
+        painting.type = CraftArt.BukkitToNotch(art);
+        painting.method_7724(painting.direction);
+        if (!force && !painting.method_7726()) {
             // Revert painting since it doesn't fit
-            painting.art = oldArt;
-            painting.setDirection(painting.direction);
+            painting.type = oldArt;
+            painting.method_7724(painting.direction);
             return false;
         }
         this.update();
@@ -54,8 +54,8 @@ public class CraftPainting extends CraftHanging implements Painting {
         ServerWorld world = ((CraftWorld) getWorld()).getHandle();
         PaintingEntity painting = new PaintingEntity(world);
         painting.pos = getHandle().pos;
-        painting.art = getHandle().art;
-        painting.setDirection(getHandle().direction);
+        painting.type = getHandle().type;
+        painting.method_7724(getHandle().direction);
         getHandle().remove();
         getHandle().velocityModified = true; // because this occurs when the painting is broken, so it might be important
         world.spawnEntity(painting);

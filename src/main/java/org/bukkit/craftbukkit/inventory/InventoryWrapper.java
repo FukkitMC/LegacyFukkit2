@@ -5,14 +5,13 @@ import java.util.List;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import io.github.fukkitmc.legacy.extra.IInventoryExtra;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-public class InventoryWrapper implements net.minecraft.inventory.Inventory, IInventoryExtra {
+public class InventoryWrapper implements net.minecraft.inventory.Inventory {
 
     private final Inventory inventory;
     private final List<HumanEntity> viewers = new ArrayList<HumanEntity>();
@@ -101,21 +100,21 @@ public class InventoryWrapper implements net.minecraft.inventory.Inventory, IInv
     }
 
     @Override
-    public int getProperty(int i) {
+    public int method_6740(int i) {
         return 0;
     }
 
     @Override
-    public void b(int i, int j) {
+    public void setProperty(int i, int j) {
     }
 
     @Override
-    public int g() {
+    public int method_6746() {
         return 0;
     }
 
     @Override
-    public void l() {
+    public void clear() {
         inventory.clear();
     }
 
@@ -157,17 +156,17 @@ public class InventoryWrapper implements net.minecraft.inventory.Inventory, IInv
     }
 
     @Override
-    public String getName() {
+    public String getTranslationKey() {
         return inventory.getName();
     }
 
     @Override
     public boolean hasCustomName() {
-        return getName() != null;
+        return getTranslationKey() != null;
     }
 
     @Override
-    public Text getBossBarTitle() {
-        return CraftChatMessage.fromString(getName())[0];
+    public Text getName() {
+        return CraftChatMessage.fromString(getTranslationKey())[0];
     }
 }

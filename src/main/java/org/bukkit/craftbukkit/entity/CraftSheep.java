@@ -16,7 +16,7 @@ public class CraftSheep extends CraftAnimals implements Sheep {
     }
 
     public void setColor(DyeColor color) {
-        getHandle().setColor(net.minecraft.util.DyeColor.fromColorIndex(color.getWoolData()));
+        getHandle().setColor(net.minecraft.util.DyeColor.getColorById(color.getWoolData()));
     }
 
     public boolean isSheared() {

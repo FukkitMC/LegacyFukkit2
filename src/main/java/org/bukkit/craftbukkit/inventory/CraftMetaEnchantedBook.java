@@ -57,7 +57,12 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
 
     @Override
     boolean applicableTo(Material type) {
-        return type == Material.ENCHANTED_BOOK;
+        switch (type) {
+            case ENCHANTED_BOOK:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -132,7 +137,7 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
     }
 
     public Map<Enchantment, Integer> getStoredEnchants() {
-        return hasStoredEnchants() ? ImmutableMap.copyOf(enchantments) : ImmutableMap.of();
+        return hasStoredEnchants() ? ImmutableMap.copyOf(enchantments) : ImmutableMap.<Enchantment, Integer>of();
     }
 
     public boolean addStoredEnchant(Enchantment ench, int level, boolean ignoreRestrictions) {

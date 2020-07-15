@@ -18,7 +18,7 @@ public class CraftPotionBrewer implements PotionBrewer {
         if (cache.containsKey(damage))
             return cache.get(damage);
 
-        List<?> mcEffects = net.minecraft.server.PotionBrewer.getEffects(damage, false);
+        List<?> mcEffects = net.minecraft.effect.StatusEffectStrings.method_41(damage, false);
         List<PotionEffect> effects = new ArrayList<PotionEffect>();
         if (mcEffects == null)
             return effects;
@@ -27,7 +27,7 @@ public class CraftPotionBrewer implements PotionBrewer {
             if (raw == null || !(raw instanceof StatusEffectInstance))
                 continue;
             StatusEffectInstance mcEffect = (StatusEffectInstance) raw;
-            PotionEffect effect = new PotionEffect(PotionEffectType.getById(mcEffect.getEffectId()),
+            PotionEffect effect = new PotionEffect(PotionEffectType.getById(mcEffect.method_6872()),
                     mcEffect.getDuration(), mcEffect.getAmplifier());
             // Minecraft PotionBrewer applies duration modifiers automatically.
             effects.add(effect);

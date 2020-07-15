@@ -26,7 +26,7 @@ public class CraftWorldBorder implements WorldBorder {
 
     @Override
     public double getSize() {
-        return this.handle.getSize();
+        return this.handle.method_1311();
     }
 
     @Override
@@ -41,9 +41,9 @@ public class CraftWorldBorder implements WorldBorder {
         time = Math.min(9223372036854775L, Math.max(0L, time));
 
         if (time > 0L) {
-            this.handle.transitionSizeBetween(this.handle.getSize(), newSize, time * 1000L);
+            this.handle.method_1292(this.handle.method_1311(), newSize, time * 1000L);
         } else {
-            this.handle.setSize(newSize); 
+            this.handle.method_1291(newSize); 
         }
     }
 
@@ -61,7 +61,7 @@ public class CraftWorldBorder implements WorldBorder {
         x = Math.min(3.0E7D, Math.max(-3.0E7D, x));
         z = Math.min(3.0E7D, Math.max(-3.0E7D, z));
 
-        this.handle.setCenter(x, z); 
+        this.handle.method_1305(x, z); 
     }
 
     @Override
@@ -71,22 +71,22 @@ public class CraftWorldBorder implements WorldBorder {
 
     @Override
     public double getDamageBuffer() {
-        return this.handle.getDamageBuffer();
+        return this.handle.method_1316();
     }
 
     @Override
     public void setDamageBuffer(double blocks) {
-        this.handle.setDamageBuffer(blocks);
+        this.handle.method_1300(blocks);
     }
 
     @Override
     public double getDamageAmount() {
-        return this.handle.getDamageAmount();
+        return this.handle.method_1317();
     }
 
     @Override
     public void setDamageAmount(double damage) {
-        this.handle.setDamageAmount(damage);
+        this.handle.method_1304(damage);
     }
 
     @Override

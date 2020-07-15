@@ -1,24 +1,22 @@
 package org.bukkit.craftbukkit.entity;
 
 import com.google.common.base.Preconditions;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
-import io.github.fukkitmc.legacy.extra.EntityArrowExtra;
-import io.github.fukkitmc.legacy.extra.EntityExtra;
-import io.github.fukkitmc.legacy.extra.WorldExtra;
 import net.minecraft.class_1760;
+import net.minecraft.class_1889;
 import net.minecraft.entity.EndCrystalEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.ExplodingTntEntity;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.FireworkEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LightningBoltEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
@@ -78,7 +76,7 @@ import net.minecraft.entity.thrown.ExperienceBottleEntity;
 import net.minecraft.entity.thrown.EyeOfEnderEntity;
 import net.minecraft.entity.thrown.PotionEntity;
 import net.minecraft.entity.thrown.SnowballEntity;
-import net.minecraft.entity.thrown.ThrownEntity;
+import net.minecraft.entity.thrown.ThrowableEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.entity.vehicle.ChestMinecartEntity;
@@ -216,13 +214,13 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         }
         else if (entity instanceof EnderDragonPart) {
             EnderDragonPart part = (EnderDragonPart) entity;
-            if (part.owner instanceof EnderDragonEntity) { return new CraftEnderDragonPart(server, (EnderDragonPart) entity); }
+            if (part.field_7994 instanceof EnderDragonEntity) { return new CraftEnderDragonPart(server, (EnderDragonPart) entity); }
             else { return new CraftComplexPart(server, (EnderDragonPart) entity); }
         }
         else if (entity instanceof ExperienceOrbEntity) { return new CraftExperienceOrb(server, (ExperienceOrbEntity) entity); }
         else if (entity instanceof ArrowEntity) { return new CraftArrow(server, (ArrowEntity) entity); }
         else if (entity instanceof BoatEntity) { return new CraftBoat(server, (BoatEntity) entity); }
-        else if (entity instanceof ThrownEntity) {
+        else if (entity instanceof ThrowableEntity) {
             if (entity instanceof EggEntity) { return new CraftEgg(server, (EggEntity) entity); }
             else if (entity instanceof SnowballEntity) { return new CraftSnowball(server, (SnowballEntity) entity); }
             else if (entity instanceof PotionEntity) { return new CraftThrownPotion(server, (PotionEntity) entity); }
@@ -240,9 +238,9 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         else if (entity instanceof EndCrystalEntity) { return new CraftEnderCrystal(server, (EndCrystalEntity) entity); }
         else if (entity instanceof FishingBobberEntity) { return new CraftFish(server, (FishingBobberEntity) entity); }
         else if (entity instanceof ItemEntity) { return new CraftItem(server, (ItemEntity) entity); }
-        else if (entity instanceof EntityWeather) {
+        else if (entity instanceof class_1889) {
             if (entity instanceof LightningBoltEntity) { return new CraftLightningStrike(server, (LightningBoltEntity) entity); }
-            else { return new CraftWeather(server, (EntityWeather) entity); }
+            else { return new CraftWeather(server, (class_1889) entity); }
         }
         else if (entity instanceof AbstractMinecartEntity) {
             if (entity instanceof FurnaceMinecartEntity) { return new CraftMinecartFurnace(server, (FurnaceMinecartEntity) entity); }
@@ -258,7 +256,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
             else if (entity instanceof LeadKnotEntity) { return new CraftLeash(server, (LeadKnotEntity) entity); }
             else { return new CraftHanging(server, (DecorationEntity) entity); }
         }
-        else if (entity instanceof TntEntity) { return new CraftTNTPrimed(server, (TntEntity) entity); }
+        else if (entity instanceof ExplodingTntEntity) { return new CraftTNTPrimed(server, (ExplodingTntEntity) entity); }
         else if (entity instanceof FireworkEntity) { return new CraftFirework(server, (FireworkEntity) entity); }
 
         throw new AssertionError("Unknown entity " + (entity == null ? null : entity.getClass()));
@@ -282,25 +280,25 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     }
 
     public Vector getVelocity() {
-        return new Vector(entity.motX, entity.motY, entity.motZ);
+        return new Vector(entity.velocityZ, entity.velocityY, entity.velocityX);
     }
 
     public void setVelocity(Vector vel) {
-        entity.motX = vel.getX();
-        entity.motY = vel.getY();
-        entity.motZ = vel.getZ();
+        entity.velocityZ = vel.getX();
+        entity.velocityY = vel.getY();
+        entity.velocityX = vel.getZ();
         entity.velocityModified = true;
     }
 
     public boolean isOnGround() {
         if (entity instanceof ArrowEntity) {
-            return ((EntityArrowExtra) entity).isInGround();
+            return ((ArrowEntity) entity).isInGround();
         }
         return entity.onGround;
     }
 
     public World getWorld() {
-        return ((WorldExtra)entity.world).getWorld();
+        return entity.world.getWorld();
     }
 
     public boolean teleport(Location location) {
@@ -308,14 +306,21 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     }
 
     public boolean teleport(Location location, TeleportCause cause) {
-        if (entity.passenger != null || entity.removed) {
+        if (entity.field_7391 != null || entity.removed) {
             return false;
         }
 
         // If this entity is riding another entity, we must dismount before teleporting.
-        entity.mount(null);
+        entity.startRiding(null);
 
-        entity.world = ((CraftWorld) location.getWorld()).getHandle();
+        // Spigot start
+        if (!location.getWorld().equals(getWorld())) {
+          entity.teleportTo(location, cause.equals(TeleportCause.NETHER_PORTAL));
+          return true;
+        }
+
+        // entity.world = ((CraftWorld) location.getWorld()).getHandle();
+        // Spigot end
         entity.updatePositionAndAngles(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
         // entity.setLocation() throws no event, and so cannot be cancelled
         return true;
@@ -334,7 +339,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
 
         for (Entity e : notchEntityList) {
-            bukkitEntityList.add(((EntityExtra)e).getBukkitEntity());
+            bukkitEntityList.add(e.getBukkitEntity());
         }
         return bukkitEntityList;
     }
@@ -348,7 +353,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     }
 
     public int getMaxFireTicks() {
-        return entity.maxFireTicks;
+        return entity.field_7355;
     }
 
     public void setFireTicks(int ticks) {
@@ -380,13 +385,13 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     }
 
     public org.bukkit.entity.Entity getPassenger() {
-        return isEmpty() ? null : ((EntityExtra)getHandle().passenger).getBukkitEntity();
+        return isEmpty() ? null : getHandle().field_7391.getBukkitEntity();
     }
 
     public boolean setPassenger(org.bukkit.entity.Entity passenger) {
         Preconditions.checkArgument(!this.equals(passenger), "Entity cannot ride itself.");
         if (passenger instanceof CraftEntity) {
-            ((CraftEntity) passenger).getHandle().mount(getHandle());
+            ((CraftEntity) passenger).getHandle().startRiding(getHandle());
             return true;
         } else {
             return false;
@@ -394,15 +399,15 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     }
 
     public boolean isEmpty() {
-        return getHandle().passenger == null;
+        return getHandle().field_7391 == null;
     }
 
     public boolean eject() {
-        if (getHandle().passenger == null) {
+        if (getHandle().field_7391 == null) {
             return false;
         }
 
-        getHandle().passenger.mount(null);
+        getHandle().field_7391.startRiding(null);
         return true;
     }
 
@@ -490,24 +495,24 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     }
 
     public boolean isInsideVehicle() {
-        return getHandle().vehicle != null;
+        return getHandle().hasVehicle != null;
     }
 
     public boolean leaveVehicle() {
-        if (getHandle().vehicle == null) {
+        if (getHandle().hasVehicle == null) {
             return false;
         }
 
-        getHandle().mount(null);
+        getHandle().startRiding(null);
         return true;
     }
 
     public org.bukkit.entity.Entity getVehicle() {
-        if (getHandle().vehicle == null) {
+        if (getHandle().hasVehicle == null) {
             return null;
         }
 
-        return ((EntityExtra)getHandle().vehicle).getBukkitEntity();
+        return getHandle().hasVehicle.getBukkitEntity();
     }
 
     @Override
@@ -516,12 +521,12 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
             name = "";
         }
 
-        getHandle().setCustomName(name);
+        getHandle().method_6934(name);
     }
 
     @Override
     public String getCustomName() {
-        String name = getHandle().getCustomName();
+        String name = getHandle().method_6959();
 
         if (name == null || name.length() == 0) {
             return null;
@@ -552,7 +557,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public String getName() {
-        return getHandle().getName();
+        return getHandle().getTranslationKey();
     }
 
     @Override
@@ -572,7 +577,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public boolean hasPermission(Permission perm) {
-        return CraftEntity.perm.hasPermission(perm);
+        return this.perm.hasPermission(perm);
     }
 
     @Override
@@ -620,8 +625,19 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         perm.setOp(value);
     }
 
-    public boolean canSee(CraftPlayer craftPlayer){
-        //TODO: fukkit: do something here
-        return true;
+    // Spigot start
+    private final Spigot spigot = new Spigot()
+    {
+        @Override
+        public boolean isInvulnerable()
+        {
+            return getHandle().isInvulnerableTo(net.minecraft.entity.damage.DamageSource.GENERIC);
+        }
+    };
+
+    public Spigot spigot()
+    {
+        return spigot;
     }
+    // Spigot end
 }

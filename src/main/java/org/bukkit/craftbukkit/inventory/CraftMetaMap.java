@@ -57,7 +57,12 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
 
     @Override
     boolean applicableTo(Material type) {
-        return type == Material.MAP;
+        switch (type) {
+            case MAP:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override

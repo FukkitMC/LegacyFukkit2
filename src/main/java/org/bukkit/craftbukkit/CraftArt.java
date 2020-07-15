@@ -11,7 +11,7 @@ public class CraftArt {
             case KEBAB: return Art.KEBAB;
             case AZTEC: return Art.AZTEC;
             case ALBAN: return Art.ALBAN;
-            case AZTEC_2: return Art.AZTEC2;
+            case AZTEC2: return Art.AZTEC2;
             case BOMB: return Art.BOMB;
             case PLANT: return Art.PLANT;
             case WASTELAND: return Art.WASTELAND;
@@ -44,7 +44,7 @@ public class CraftArt {
             case KEBAB: return Type.KEBAB;
             case AZTEC: return Type.AZTEC;
             case ALBAN: return Type.ALBAN;
-            case AZTEC2: return Type.AZTEC_2;
+            case AZTEC2: return Type.AZTEC2;
             case BOMB: return Type.BOMB;
             case PLANT: return Type.PLANT;
             case WASTELAND: return Type.WASTELAND;

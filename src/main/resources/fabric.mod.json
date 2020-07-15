@@ -1,30 +1,35 @@
 {
   "schemaVersion": 1,
-  "id": "legacyfukkit",
+  "id": "fukkit",
   "version": "${version}",
 
-  "name": "Legacy Fukkit",
-  "description": "This is cursed",
+  "name": "Tater Bukkit",
+  "description": "good implementation of CraftBukkit on fabric",
   "authors": [
+    "ramidzkh",
     "hydos",
-    "ramidzk"
+    "half"
   ],
+  "contact": {
+  },
 
-  "license": "CC0-1.0",
-  "icon": "assets/legacy/icon.png",
+  "license": "LGPL-3.0",
+  "icon": "assets/fukkit/icon.png",
 
-  "environment": "server",
+  "environment": "*",
   "entrypoints": {
-    "main": [
-      "io.github.fukkitmc.legacy.LegacyFukkit"
-    ]
   },
   "mixins": [
-    "legacy.mixins.json"
+    "fukkit.mixins.json"
   ],
 
+  "accessWidener": "craftbukkit.aw",
+
   "depends": {
-    "fabricloader": ">=0.7.4"
+    "fabricloader": ">=0.7.4",
+    "minecraft": "1.15.x"
   },
-  "accesswidener": "legacyfukkit.aw"
+  "suggests": {
+    "flamingo": "*"
+  }
 }

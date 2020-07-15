@@ -34,14 +34,14 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
         ItemFrameEntity old = this.getHandle();
 
         ServerWorld world = ((CraftWorld) getWorld()).getHandle();
-        BlockPos position = old.getBlockPosition();
-        Direction direction = old.getDirection();
-        ItemStack item = old.getItem() != null ? old.getItem().copy() : null;
+        BlockPos position = old.method_7729();
+        Direction direction = old.method_6962();
+        ItemStack item = old.method_7737() != null ? old.method_7737().copy() : null;
 
         old.remove();
 
         ItemFrameEntity frame = new ItemFrameEntity(world,position,direction);
-        frame.setItem(item);
+        frame.method_7734(item);
         world.spawnEntity(frame);
         this.entity = frame;
     }
@@ -49,18 +49,18 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
 
     public void setItem(org.bukkit.inventory.ItemStack item) {
         if (item == null || item.getTypeId() == 0) {
-            getHandle().setItem(null);
+            getHandle().method_7734(null);
         } else {
-            getHandle().setItem(CraftItemStack.asNMSCopy(item));
+            getHandle().method_7734(CraftItemStack.asNMSCopy(item));
         }
     }
 
     public org.bukkit.inventory.ItemStack getItem() {
-        return CraftItemStack.asBukkitCopy(getHandle().getItem());
+        return CraftItemStack.asBukkitCopy(getHandle().method_7737());
     }
 
     public Rotation getRotation() {
-        return toBukkitRotation(getHandle().getRotation());
+        return toBukkitRotation(getHandle().method_7738());
     }
 
     Rotation toBukkitRotation(int value) {
@@ -89,7 +89,7 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
 
     public void setRotation(Rotation rotation) {
         Validate.notNull(rotation, "Rotation cannot be null");
-        getHandle().setRotation(toInteger(rotation));
+        getHandle().method_7731(toInteger(rotation));
     }
 
     static int toInteger(Rotation rotation) {

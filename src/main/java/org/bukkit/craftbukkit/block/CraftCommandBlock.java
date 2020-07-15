@@ -17,14 +17,14 @@ public class CraftCommandBlock extends CraftBlockState implements CommandBlock {
         CraftWorld world = (CraftWorld) block.getWorld();
         commandBlock = (CommandBlockBlockEntity) world.getTileEntityAt(getX(), getY(), getZ());
         command = commandBlock.getCommandExecutor().getCommand();
-        name = commandBlock.getCommandExecutor().getName();
+        name = commandBlock.getCommandExecutor().getTranslationKey();
     }
 
     public CraftCommandBlock(final Material material, final CommandBlockBlockEntity te) {
         super(material);
         commandBlock = te;
         command = commandBlock.getCommandExecutor().getCommand();
-        name = commandBlock.getCommandExecutor().getName();
+        name = commandBlock.getCommandExecutor().getTranslationKey();
     }
 
     public String getCommand() {

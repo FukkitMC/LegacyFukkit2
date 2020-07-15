@@ -1,7 +1,7 @@
 package org.bukkit.craftbukkit.util;
 
-import io.github.fukkitmc.legacy.extra.MinecraftServerExtra;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.storage.WorldLoadException;
 
 public class ServerShutdownThread extends Thread {
     private final MinecraftServer server;
@@ -13,11 +13,13 @@ public class ServerShutdownThread extends Thread {
     @Override
     public void run() {
         try {
-            ((MinecraftServerExtra)server).stop();
+            server.stop();
+        } catch (WorldLoadException ex) {
+            ex.printStackTrace();
         } finally {
             try {
                 server.reader.getTerminal().restore();
-            } catch (Exception ignored) {
+            } catch (Exception e) {
             }
         }
     }

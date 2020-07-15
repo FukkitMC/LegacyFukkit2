@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import io.github.fukkitmc.legacy.extra.MinecraftServerExtra;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.packet.s2c.play.ScoreboardObjectiveUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.TeamS2CPacket;
@@ -42,6 +40,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
     }
 
     public CraftScoreboard getNewScoreboard() {
+        org.spigotmc.AsyncCatcher.catchOp( "scoreboard creation"); // Spigot
         CraftScoreboard scoreboard = new CraftScoreboard(new ServerScoreboard(server));
         scoreboards.add(scoreboard);
         return scoreboard;
@@ -50,7 +49,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
     // CraftBukkit method
     public CraftScoreboard getPlayerBoard(CraftPlayer player) {
         CraftScoreboard board = playerBoards.get(player);
-        return board == null ? getMainScoreboard() : board;
+        return (CraftScoreboard) (board == null ? getMainScoreboard() : board);
     }
 
     // CraftBukkit method
@@ -69,7 +68,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
         if (scoreboard == mainScoreboard) {
             playerBoards.remove(player);
         } else {
-            playerBoards.put(player, scoreboard);
+            playerBoards.put(player, (CraftScoreboard) scoreboard);
         }
 
         // Old objective tracking
@@ -77,7 +76,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
         for (int i = 0; i < 3; ++i) {
             ScoreboardObjective scoreboardobjective = oldboard.getObjectiveForSlot(i);
             if (scoreboardobjective != null && !removed.contains(scoreboardobjective)) {
-                entityplayer.playerConnection.sendPacket(new ScoreboardObjectiveUpdateS2CPacket(scoreboardobjective, 1));
+                entityplayer.networkHandler.sendPacket(new ScoreboardObjectiveUpdateS2CPacket(scoreboardobjective, 1));
                 removed.add(scoreboardobjective);
             }
         }
@@ -86,11 +85,11 @@ public final class CraftScoreboardManager implements ScoreboardManager {
         Iterator<?> iterator = oldboard.getTeams().iterator();
         while (iterator.hasNext()) {
             Team scoreboardteam = (Team) iterator.next();
-            entityplayer.playerConnection.sendPacket(new TeamS2CPacket(scoreboardteam, 1));
+            entityplayer.networkHandler.sendPacket(new TeamS2CPacket(scoreboardteam, 1));
         }
 
         // The above is the reverse of the below method.
-        ((MinecraftServerExtra)server).getPlayerList().sendScoreboard((ServerScoreboard) newboard, player.getHandle());
+        server.getPlayerList().sendScoreboard((ServerScoreboard) newboard, player.getHandle());
     }
 
     // CraftBukkit method
@@ -102,7 +101,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
     public Collection<ScoreboardPlayerScore> getScoreboardScores(ScoreboardCriterion criteria, String name, Collection<ScoreboardPlayerScore> collection) {
         for (CraftScoreboard scoreboard : scoreboards) {
             Scoreboard board = scoreboard.board;
-            for (ScoreboardObjective objective : board.getObjectivesForCriteria(criteria)) {
+            for (ScoreboardObjective objective : (Iterable<ScoreboardObjective>) board.method_2127(criteria)) {
                 collection.add(board.getPlayerScore(name, objective));
             }
         }
@@ -112,7 +111,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
     // CraftBukkit method
     public void updateAllScoresForList(ScoreboardCriterion criteria, String name, List<ServerPlayerEntity> of) {
         for (ScoreboardPlayerScore score : getScoreboardScores(criteria, name, new ArrayList<ScoreboardPlayerScore>())) {
-            score.updateForList((List) of);
+            score.method_2112((List) of);
         }
     }
 }

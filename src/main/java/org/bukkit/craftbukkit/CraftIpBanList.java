@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Date;
 import java.util.Set;
+import net.minecraft.server.BannedIpEntry;
+import net.minecraft.server.BannedIpList;
+import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.logging.Level;
-import net.minecraft.server.BannedIpEntry;
-import net.minecraft.server.BannedIpList;
 import org.bukkit.Bukkit;
 
 public class CraftIpBanList implements org.bukkit.BanList {
@@ -24,7 +25,7 @@ public class CraftIpBanList implements org.bukkit.BanList {
     public org.bukkit.BanEntry getBanEntry(String target) {
         Validate.notNull(target, "Target cannot be null");
 
-        BannedIpEntry entry = list.get(target);
+        BannedIpEntry entry = (BannedIpEntry) list.get(target);
         if (entry == null) {
             return null;
         }
@@ -55,7 +56,7 @@ public class CraftIpBanList implements org.bukkit.BanList {
     public Set<org.bukkit.BanEntry> getBanEntries() {
         ImmutableSet.Builder<org.bukkit.BanEntry> builder = ImmutableSet.builder();
         for (String target : list.getNames()) {
-            builder.add(new CraftIpBanEntry(target, list.get(target), list));
+            builder.add(new CraftIpBanEntry(target, (BannedIpEntry) list.get(target), list));
         }
 
         return builder.build();

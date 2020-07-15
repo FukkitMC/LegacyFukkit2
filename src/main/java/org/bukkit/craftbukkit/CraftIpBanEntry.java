@@ -1,11 +1,12 @@
 package org.bukkit.craftbukkit;
 
-import io.github.fukkitmc.legacy.extra.ExpirableListEntryExtra;
+import net.minecraft.server.BannedIpEntry;
+import net.minecraft.server.BannedIpList;
+import net.minecraft.server.MinecraftServer;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
-import net.minecraft.server.BannedIpEntry;
-import net.minecraft.server.BannedIpList;
 import org.bukkit.Bukkit;
 
 public final class CraftIpBanEntry implements org.bukkit.BanEntry {
@@ -19,8 +20,8 @@ public final class CraftIpBanEntry implements org.bukkit.BanEntry {
     public CraftIpBanEntry(String target, BannedIpEntry entry, BannedIpList list) {
         this.list = list;
         this.target = target;
-        this.created = ((ExpirableListEntryExtra)entry).getCreated() != null ? new Date(((ExpirableListEntryExtra)entry).getCreated().getTime()) : null;
-        this.source = ((ExpirableListEntryExtra)entry).getSource();
+        this.created = entry.getCreated() != null ? new Date(entry.getCreated().getTime()) : null;
+        this.source = entry.getSource();
         this.expiration = entry.getExpiryDate() != null ? new Date(entry.getExpiryDate().getTime()) : null;
         this.reason = entry.getReason();
     }

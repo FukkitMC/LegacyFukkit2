@@ -1,11 +1,5 @@
 package org.bukkit.craftbukkit;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.server.EntityTypes;
-import net.minecraft.server.EntityTypes.MonsterEggInfo;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Identifier;
 import org.bukkit.Achievement;
 import org.bukkit.Statistic;
 import org.bukkit.Material;
@@ -15,6 +9,11 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType.class_1747;
+import net.minecraft.item.Item;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.Identifier;
 
 public class CraftStatistic {
     private static final BiMap<String, org.bukkit.Statistic> statistics;
@@ -31,8 +30,8 @@ public class CraftStatistic {
                 .put("achievement.blazeRod", Achievement.GET_BLAZE_ROD)
                 .put("achievement.potion", Achievement.BREW_POTION)
                 .build();
-        ImmutableBiMap.Builder<String, org.bukkit.Statistic> statisticBuilder = ImmutableBiMap.builder();
-        ImmutableBiMap.Builder<String, org.bukkit.Achievement> achievementBuilder = ImmutableBiMap.builder();
+        ImmutableBiMap.Builder<String, org.bukkit.Statistic> statisticBuilder = ImmutableBiMap.<String, org.bukkit.Statistic>builder();
+        ImmutableBiMap.Builder<String, org.bukkit.Achievement> achievementBuilder = ImmutableBiMap.<String, org.bukkit.Achievement>builder();
         for (Statistic statistic : Statistic.values()) {
             if (statistic == Statistic.PLAY_ONE_TICK) {
                 statisticBuilder.put("stat.playOneMinute", statistic);
@@ -41,7 +40,7 @@ public class CraftStatistic {
             }
         }
         for (Achievement achievement : Achievement.values()) {
-            if (specialCases.containsValue(achievement)) {
+            if (specialCases.values().contains(achievement)) {
                 continue;
             }
             achievementBuilder.put("achievement." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, achievement.name()), achievement);
@@ -90,26 +89,26 @@ public class CraftStatistic {
     }
 
     public static net.minecraft.stat.Stat getNMSStatistic(org.bukkit.Statistic statistic) {
-        return Stats.getStatistic(statistics.inverse().get(statistic));
+        return Stats.method_6386(statistics.inverse().get(statistic));
     }
 
     public static net.minecraft.achievement.Achievement getNMSAchievement(org.bukkit.Achievement achievement) {
-        return (net.minecraft.achievement.Achievement) Stats.getStatistic(achievements.inverse().get(achievement));
+        return (net.minecraft.achievement.Achievement) Stats.method_6386(achievements.inverse().get(achievement));
     }
 
     public static net.minecraft.stat.Stat getMaterialStatistic(org.bukkit.Statistic stat, Material material) {
         try {
             if (stat == Statistic.MINE_BLOCK) {
-                return Stats.MINE_BLOCK_COUNT[material.getId()];
+                return Stats.BLOCK_STATS[material.getId()];
             }
             if (stat == Statistic.CRAFT_ITEM) {
-                return Stats.CRAFT_BLOCK_COUNT[material.getId()];
+                return Stats.CRAFTING_STATS[material.getId()];
             }
             if (stat == Statistic.USE_ITEM) {
-                return Stats.USE_ITEM_COUNT[material.getId()];
+                return Stats.USE_STATS[material.getId()];
             }
             if (stat == Statistic.BREAK_ITEM) {
-                return Stats.BREAK_ITEM_COUNT[material.getId()];
+                return Stats.BREAK_STATS[material.getId()];
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
@@ -118,10 +117,10 @@ public class CraftStatistic {
     }
 
     public static net.minecraft.stat.Stat getEntityStatistic(org.bukkit.Statistic stat, EntityType entity) {
-        MonsterEggInfo monsteregginfo = EntityTypes.eggInfo.get(Integer.valueOf(entity.getTypeId()));
+        class_1747 monsteregginfo = (class_1747) net.minecraft.entity.EntityType.field_7410.get(Integer.valueOf(entity.getTypeId()));
 
         if (monsteregginfo != null) {
-            return monsteregginfo.killEntityStatistic;
+            return monsteregginfo.field_7420;
         }
         return null;
     }
@@ -134,13 +133,13 @@ public class CraftStatistic {
     public static Material getMaterialFromStatistic(net.minecraft.stat.Stat statistic) {
         String statisticString = statistic.name;
         String val = statisticString.substring(statisticString.lastIndexOf(".") + 1);
-        Item item = Item.REGISTRY.get(new Identifier(val));
+        Item item = (Item) Item.REGISTRY.get(new Identifier(val));
         if (item != null) {
             return Material.getMaterial(Item.getRawId(item));
         }
-        Block block = Block.REGISTRY.get(new Identifier(val));
+        Block block = (Block) Block.REGISTRY.get(new Identifier(val));
         if (block != null) {
-            return Material.getMaterial(Block.getBlockId(block));
+            return Material.getMaterial(Block.getIdByBlock(block));
         }
         try {
             return Material.getMaterial(Integer.parseInt(val));

@@ -5,8 +5,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.World;
-import io.github.fukkitmc.legacy.extra.MinecraftServerExtra;
-import io.github.fukkitmc.legacy.extra.WorldExtra;
 import org.bukkit.BlockChangeDelegate;
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -17,7 +15,7 @@ public class StructureGrowDelegate implements BlockChangeDelegate {
     private final List<BlockState> blocks = new ArrayList<BlockState>();
 
     public StructureGrowDelegate(World world) {
-        this.world = ((WorldExtra)world).getWorld();
+        this.world = world.getWorld();
     }
 
     public boolean setRawTypeId(int x, int y, int z, int type) {
@@ -61,7 +59,7 @@ public class StructureGrowDelegate implements BlockChangeDelegate {
     public boolean isEmpty(int x, int y, int z) {
         for (BlockState state : blocks) {
             if (state.getX() == x && state.getY() == y && state.getZ() == z) {
-                return Block.byId(state.getTypeId()) == Blocks.AIR;
+                return Block.getById(state.getTypeId()) == Blocks.AIR;
             }
         }
 

@@ -1,23 +1,25 @@
 package org.bukkit.craftbukkit.inventory;
 
-import io.github.fukkitmc.legacy.extra.IInventoryExtra;
-import net.minecraft.block.entity.*;
-import net.minecraft.class_2004;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import net.minecraft.block.entity.BeaconBlockEntity;
+import net.minecraft.block.entity.BrewingStandBlockEntity;
+import net.minecraft.block.entity.DispenserBlockEntity;
+import net.minecraft.block.entity.DropperBlockEntity;
+import net.minecraft.block.entity.FurnaceBlockEntity;
 import net.minecraft.class_361;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.EnderChestInventory;
+import net.minecraft.village.TraderInventory;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
+import org.bukkit.Material;
 
 public class CraftInventory implements Inventory {
     protected final net.minecraft.inventory.Inventory inventory;
@@ -35,7 +37,7 @@ public class CraftInventory implements Inventory {
     }
 
     public String getName() {
-        return ((IInventoryExtra)getInventory()).getName();
+        return getInventory().getTranslationKey();
     }
 
     public ItemStack getItem(int index) {
@@ -45,7 +47,7 @@ public class CraftInventory implements Inventory {
 
     public ItemStack[] getContents() {
         ItemStack[] items = new ItemStack[getSize()];
-        net.minecraft.item.ItemStack[] mcItems = ((IInventoryExtra)getInventory()).getContents();
+        net.minecraft.item.ItemStack[] mcItems = getInventory().getContents();
 
         int size = Math.min(items.length, mcItems.length);
         for (int i = 0; i < size; i++) {
@@ -55,11 +57,11 @@ public class CraftInventory implements Inventory {
     }
 
     public void setContents(ItemStack[] items) {
-        if (((IInventoryExtra)getInventory()).getContents().length < items.length) {
-            throw new IllegalArgumentException("Invalid inventory size; expected " + ((IInventoryExtra)getInventory()).getContents().length + " or less");
+        if (getInventory().getContents().length < items.length) {
+            throw new IllegalArgumentException("Invalid inventory size; expected " + getInventory().getContents().length + " or less");
         }
 
-        net.minecraft.item.ItemStack[] mcItems = ((IInventoryExtra)getInventory()).getContents();
+        net.minecraft.item.ItemStack[] mcItems = getInventory().getContents();
 
         for (int i = 0; i < mcItems.length; i++) {
             if (i >= items.length) {
@@ -413,11 +415,11 @@ public class CraftInventory implements Inventory {
     }
 
     public List<HumanEntity> getViewers() {
-        return ((IInventoryExtra)this.inventory).getViewers();
+        return this.inventory.getViewers();
     }
 
     public String getTitle() {
-        return ((IInventoryExtra)inventory).getName();
+        return inventory.getTranslationKey();
     }
 
     public InventoryType getType() {
@@ -440,11 +442,13 @@ public class CraftInventory implements Inventory {
             return ((CraftInventoryCustom.MinecraftInventory) inventory).getType();
         } else if (inventory instanceof EnderChestInventory) {
             return InventoryType.ENDER_CHEST;
-        } else if (inventory instanceof class_2004) {//InventoryMerchant
+        } else if (inventory instanceof TraderInventory) {
             return InventoryType.MERCHANT;
+        } else if (inventory instanceof BeaconBlockEntity) {
+            return InventoryType.BEACON;
         } else if (this instanceof CraftInventoryAnvil) {
            return InventoryType.ANVIL;
-        } else if (inventory instanceof class_361) {//IHopper
+        } else if (inventory instanceof class_361) {
             return InventoryType.HOPPER;
         } else {
             return InventoryType.CHEST;
@@ -452,7 +456,7 @@ public class CraftInventory implements Inventory {
     }
 
     public InventoryHolder getHolder() {
-        return ((IInventoryExtra)inventory).getOwner();
+        return inventory.getOwner();
     }
 
     public int getMaxStackSize() {
@@ -460,7 +464,7 @@ public class CraftInventory implements Inventory {
     }
 
     public void setMaxStackSize(int size) {
-        ((IInventoryExtra)inventory).setMaxStackSize(size);
+        inventory.setMaxStackSize(size);
     }
 
     @Override

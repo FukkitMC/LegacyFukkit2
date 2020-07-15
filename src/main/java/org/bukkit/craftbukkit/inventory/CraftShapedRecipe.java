@@ -2,21 +2,21 @@ package org.bukkit.craftbukkit.inventory;
 
 import java.util.Map;
 import net.minecraft.recipe.Recipes;
-import net.minecraft.server.ShapedRecipes;
-
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
 public class CraftShapedRecipe extends ShapedRecipe implements CraftRecipe {
+    // TODO: Could eventually use this to add a matches() method or some such
+    private net.minecraft.recipe.ShapedRecipe recipe;
 
     public CraftShapedRecipe(ItemStack result) {
         super(result);
     }
 
-    public CraftShapedRecipe(ItemStack result, ShapedRecipes recipe) {
+    public CraftShapedRecipe(ItemStack result, net.minecraft.recipe.ShapedRecipe recipe) {
         this(result);
-        // TODO: Could eventually use this to add a matches() method or some such
+        this.recipe = recipe;
     }
 
     public static CraftShapedRecipe fromBukkitRecipe(ShapedRecipe recipe) {

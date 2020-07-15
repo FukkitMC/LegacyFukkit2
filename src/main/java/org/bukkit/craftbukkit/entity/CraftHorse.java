@@ -23,30 +23,30 @@ public class CraftHorse extends CraftAnimals implements Horse {
     }
 
     public Variant getVariant() {
-        return Variant.values()[getHandle().getType()];
+        return Variant.values()[getHandle().method_7549()];
     }
 
     public void setVariant(Variant variant) {
         Validate.notNull(variant, "Variant cannot be null");
-        getHandle().setType(variant.ordinal());
+        getHandle().method_7586(variant.ordinal());
     }
 
     public Color getColor() {
-        return Color.values()[getHandle().getVariant() & 0xFF];
+        return Color.values()[getHandle().method_7550() & 0xFF];
     }
 
     public void setColor(Color color) {
         Validate.notNull(color, "Color cannot be null");
-        getHandle().setVariant(color.ordinal() & 0xFF | getStyle().ordinal() << 8);
+        getHandle().method_7588(color.ordinal() & 0xFF | getStyle().ordinal() << 8);
     }
 
     public Style getStyle() {
-        return Style.values()[getHandle().getVariant() >>> 8];
+        return Style.values()[getHandle().method_7550() >>> 8];
     }
 
     public void setStyle(Style style) {
         Validate.notNull(style, "Style cannot be null");
-        getHandle().setVariant(getColor().ordinal() & 0xFF | style.ordinal() << 8);
+        getHandle().method_7588(getColor().ordinal() & 0xFF | style.ordinal() << 8);
     }
 
     public boolean isCarryingChest() {
@@ -55,8 +55,8 @@ public class CraftHorse extends CraftAnimals implements Horse {
 
     public void setCarryingChest(boolean chest) {
         if (chest == isCarryingChest()) return;
-        getHandle().setHasChest(chest);
-        getHandle().loadChest();
+        getHandle().method_7580(chest);
+        getHandle().method_7561();
     }
 
     public int getDomestication() {
@@ -84,7 +84,7 @@ public class CraftHorse extends CraftAnimals implements Horse {
 
     public void setJumpStrength(double strength) {
         Validate.isTrue(strength >= 0, "Jump strength cannot be less than zero");
-        getHandle().getAttributeInstance(HorseBaseEntity.attributeJumpStrength).setBaseValue(strength);
+        getHandle().method_7095(HorseBaseEntity.field_7916).setBaseValue(strength);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class CraftHorse extends CraftAnimals implements Horse {
     public void setOwner(AnimalTamer owner) {
         if (owner != null) {
             setTamed(true);
-            getHandle().setGoalTarget(null);
+            getHandle().setGoalTarget(null, null, false);
             setOwnerUUID(owner.getUniqueId());
         } else {
             setTamed(false);
@@ -117,7 +117,7 @@ public class CraftHorse extends CraftAnimals implements Horse {
 
     public UUID getOwnerUUID() {
         try {
-            return UUID.fromString(getHandle().getOwnerUUID());
+            return UUID.fromString(getHandle().method_7554());
         } catch (IllegalArgumentException ex) {
             return null;
         }
@@ -125,14 +125,14 @@ public class CraftHorse extends CraftAnimals implements Horse {
 
     public void setOwnerUUID(UUID uuid) {
         if (uuid == null) {
-            getHandle().setOwnerUUID("");
+            getHandle().method_7526("");
         } else {
-            getHandle().setOwnerUUID(uuid.toString());
+            getHandle().method_7526(uuid.toString());
         }
     }
 
     public HorseInventory getInventory() {
-        return new CraftInventoryHorse(getHandle().inventoryChest);
+        return new CraftInventoryHorse(getHandle().field_7897);
     }
 
     @Override

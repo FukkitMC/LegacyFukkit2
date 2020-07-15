@@ -80,82 +80,82 @@ public class CraftArmorStand extends CraftLivingEntity implements ArmorStand {
 
     @Override
     public EulerAngle getBodyPose() {
-        return fromNMS(getHandle().bodyPose);
+        return fromNMS(getHandle().field_8031);
     }
 
     @Override
     public void setBodyPose(EulerAngle pose) {
-        getHandle().setBodyPose(toNMS(pose));
+        getHandle().method_7700(toNMS(pose));
     }
 
     @Override
     public EulerAngle getLeftArmPose() {
-        return fromNMS(getHandle().leftArmPose);
+        return fromNMS(getHandle().field_8032);
     }
 
     @Override
     public void setLeftArmPose(EulerAngle pose) {
-        getHandle().setLeftArmPose(toNMS(pose));
+        getHandle().method_7701(toNMS(pose));
     }
 
     @Override
     public EulerAngle getRightArmPose() {
-        return fromNMS(getHandle().rightArmPose);
+        return fromNMS(getHandle().field_8033);
     }
 
     @Override
     public void setRightArmPose(EulerAngle pose) {
-        getHandle().setRightArmPose(toNMS(pose));
+        getHandle().method_7702(toNMS(pose));
     }
 
     @Override
     public EulerAngle getLeftLegPose() {
-        return fromNMS(getHandle().leftLegPose);
+        return fromNMS(getHandle().field_8034);
     }
 
     @Override
     public void setLeftLegPose(EulerAngle pose) {
-        getHandle().setLeftLegPose(toNMS(pose));
+        getHandle().method_7703(toNMS(pose));
     }
 
     @Override
     public EulerAngle getRightLegPose() {
-        return fromNMS(getHandle().rightLegPose);
+        return fromNMS(getHandle().field_8035);
     }
 
     @Override
     public void setRightLegPose(EulerAngle pose) {
-        getHandle().setRightLegPose(toNMS(pose));
+        getHandle().method_7704(toNMS(pose));
     }
 
     @Override
     public EulerAngle getHeadPose() {
-        return fromNMS(getHandle().headPose);
+        return fromNMS(getHandle().field_8030);
     }
 
     @Override
     public void setHeadPose(EulerAngle pose) {
-        getHandle().setHeadPose(toNMS(pose));
+        getHandle().method_7697(toNMS(pose));
     }
 
     @Override
     public boolean hasBasePlate() {
-        return !getHandle().hasBasePlate();
+        return !getHandle().method_7714();
     }
 
     @Override
     public void setBasePlate(boolean basePlate) {
-        getHandle().setBasePlate(!basePlate);
+        getHandle().method_7709(!basePlate);
     }
 
     @Override
     public boolean hasGravity() {
-        return !getHandle().hasGravity();
+        return !getHandle().method_7712();
     }
 
     @Override
     public void setGravity(boolean gravity) {
-        getHandle().setGravity(!gravity);
+        getHandle().method_7707(!gravity);
     }
 
     @Override
@@ -170,22 +170,22 @@ public class CraftArmorStand extends CraftLivingEntity implements ArmorStand {
 
     @Override
     public boolean hasArms() {
-        return getHandle().hasArms();
+        return getHandle().method_7713();
     }
 
     @Override
     public void setArms(boolean arms) {
-        getHandle().setArms(arms);
+        getHandle().method_7708(arms);
     }
 
     @Override
     public boolean isSmall() {
-        return getHandle().isSmall();
+        return getHandle().method_7710();
     }
 
     @Override
     public void setSmall(boolean small) {
-        getHandle().setSmall(small);
+        getHandle().method_7706(small);
     }
 
     private static EulerAngle fromNMS(net.minecraft.util.math.EulerAngle old) {
@@ -207,12 +207,12 @@ public class CraftArmorStand extends CraftLivingEntity implements ArmorStand {
     @Override
     public boolean isMarker() {
         // PAIL
-        return getHandle().s();
+        return getHandle().method_7715();
     }
 
     @Override
     public void setMarker(boolean marker) {
         // PAIL
-        getHandle().n(marker);
+        getHandle().method_7711(marker);
     }
 }

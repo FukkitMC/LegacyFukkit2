@@ -7,10 +7,8 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import io.github.fukkitmc.legacy.extra.IInventoryExtra;
 import org.apache.commons.lang.Validate;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
-import org.bukkit.craftbukkit.inventory.CraftInventoryCustom.MinecraftInventory;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryHolder;
@@ -34,7 +32,7 @@ public class CraftInventoryCustom extends CraftInventory {
 
     static class MinecraftInventory implements Inventory {
         private final ItemStack[] items;
-        private int maxStack = IInventoryExtra.MAX_STACK;
+        private int maxStack = MAX_STACK;
         private final List<HumanEntity> viewers;
         private final String title;
         private InventoryType type;
@@ -160,27 +158,27 @@ public class CraftInventoryCustom extends CraftInventory {
         }
 
         @Override
-        public int getProperty(int i) {
+        public int method_6740(int i) {
             return 0;
         }
 
         @Override
-        public void b(int i, int i1) {
+        public void setProperty(int i, int i1) {
 
         }
 
         @Override
-        public int g() {
+        public int method_6746() {
             return 0;
         }
 
         @Override
-        public void l() {
+        public void clear() {
 
         }
 
         @Override
-        public String getName() {
+        public String getTranslationKey() {
             return title;
         }
 
@@ -190,7 +188,7 @@ public class CraftInventoryCustom extends CraftInventory {
         }
 
         @Override
-        public Text getBossBarTitle() {
+        public Text getName() {
             return new LiteralText(title);
         }
     }

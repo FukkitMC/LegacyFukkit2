@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.text.Text;
-import net.minecraft.text.Text.class_1445;
+import net.minecraft.text.Text.Serializer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
@@ -19,6 +19,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap.Builder;
 import java.util.AbstractList;
 import org.bukkit.craftbukkit.util.CraftChatMessage;
+
+// Spigot start
+import static org.spigotmc.ValidateUtils.*;
+// Spigot end
 
 @DelegateDeserialization(SerializableMeta.class)
 public class CraftMetaBook extends CraftMetaItem implements BookMeta {
@@ -55,11 +59,11 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
         super(tag);
 
         if (tag.contains(BOOK_TITLE.NBT)) {
-            this.title = tag.getString(BOOK_TITLE.NBT);
+            this.title = limit( tag.getString(BOOK_TITLE.NBT), 1024 ); // Spigot
         }
 
         if (tag.contains(BOOK_AUTHOR.NBT)) {
-            this.author = tag.getString(BOOK_AUTHOR.NBT);
+            this.author = limit( tag.getString(BOOK_AUTHOR.NBT), 1024 ); // Spigot
         }
 
         boolean resolved = false;
@@ -78,13 +82,13 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
                 String page = pages.getString(i);
                 if (resolved) {
                     try {
-                        this.pages.add(class_1445.a(page));
+                        this.pages.add(Serializer.deserialize(page));
                         continue;
                     } catch (Exception e) {
                         // Ignore and treat as an old book
                     }
                 }
-                addPage(page);
+                addPage( limit( page, 2048 ) ); // Spigot
             }
         }
     }

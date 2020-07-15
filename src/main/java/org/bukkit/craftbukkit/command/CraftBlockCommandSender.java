@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.command;
 
-import io.github.fukkitmc.legacy.extra.WorldExtra;
 import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.world.CommandBlockExecutor;
@@ -20,7 +19,7 @@ public class CraftBlockCommandSender extends ServerCommandSender implements Bloc
     }
 
     public Block getBlock() {
-        return ((WorldExtra)commandBlock.getWorld()).getWorld().getBlockAt(commandBlock.getBlockPos().getX(), commandBlock.getBlockPos().getY(), commandBlock.getBlockPos().getZ());
+        return commandBlock.getWorld().getWorld().getBlockAt(commandBlock.getBlockPos().getX(), commandBlock.getBlockPos().getY(), commandBlock.getBlockPos().getZ());
     }
 
     public void sendMessage(String message) {
@@ -36,7 +35,7 @@ public class CraftBlockCommandSender extends ServerCommandSender implements Bloc
     }
 
     public String getName() {
-        return commandBlock.getName();
+        return commandBlock.getTranslationKey();
     }
 
     public boolean isOp() {

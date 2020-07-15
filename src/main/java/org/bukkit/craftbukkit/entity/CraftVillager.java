@@ -29,16 +29,16 @@ public class CraftVillager extends CraftAgeable implements Villager, InventoryHo
     }
 
     public Profession getProfession() {
-        return Profession.getProfession(getHandle().getProfession());
+        return Profession.getProfession(getHandle().method_7919());
     }
 
     public void setProfession(Profession profession) {
         Validate.notNull(profession);
-        getHandle().setProfession(profession.getId());
+        getHandle().method_7935(profession.getId());
     }
 
     @Override
     public Inventory getInventory() {
-        return new CraftInventory(getHandle().inventory);
+        return new CraftInventory(getHandle().field_8281);
     }
 }

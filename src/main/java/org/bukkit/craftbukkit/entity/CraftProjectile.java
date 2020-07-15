@@ -1,7 +1,6 @@
 package org.bukkit.craftbukkit.entity;
 
-import io.github.fukkitmc.legacy.extra.EntityExtra;
-import net.minecraft.entity.thrown.ThrownEntity;
+import net.minecraft.entity.thrown.ThrowableEntity;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
@@ -18,20 +17,20 @@ public abstract class CraftProjectile extends AbstractProjectile implements Proj
 
     public void setShooter(ProjectileSource shooter) {
         if (shooter instanceof CraftLivingEntity) {
-            getHandle().shooter = (net.minecraft.entity.LivingEntity) ((CraftLivingEntity) shooter).entity;
+            getHandle().field_8425 = (net.minecraft.entity.LivingEntity) ((CraftLivingEntity) shooter).entity;
             if (shooter instanceof CraftHumanEntity) {
-                getHandle().shooterName = ((CraftHumanEntity) shooter).getName();
+                getHandle().field_8426 = ((CraftHumanEntity) shooter).getName();
             }
         } else {
-            getHandle().shooter = null;
-            getHandle().shooterName = null;
+            getHandle().field_8425 = null;
+            getHandle().field_8426 = null;
         }
         getHandle().projectileSource = shooter;
     }
 
     @Override
-    public ThrownEntity getHandle() {
-        return (ThrownEntity) entity;
+    public ThrowableEntity getHandle() {
+        return (ThrowableEntity) entity;
     }
 
     @Override
@@ -42,10 +41,10 @@ public abstract class CraftProjectile extends AbstractProjectile implements Proj
 
     @Deprecated
     public LivingEntity _INVALID_getShooter() {
-        if (getHandle().shooter == null) {
+        if (getHandle().field_8425 == null) {
             return null;
         }
-        return (LivingEntity) ((EntityExtra)getHandle().shooter).getBukkitEntity();
+        return (LivingEntity) getHandle().field_8425.getBukkitEntity();
     }
 
     @Deprecated
@@ -53,9 +52,9 @@ public abstract class CraftProjectile extends AbstractProjectile implements Proj
         if (shooter == null) {
             return;
         }
-        getHandle().shooter = ((CraftLivingEntity) shooter).getHandle();
+        getHandle().field_8425 = ((CraftLivingEntity) shooter).getHandle();
         if (shooter instanceof CraftHumanEntity) {
-            getHandle().shooterName = shooter.getName();
+            getHandle().field_8426 = ((CraftHumanEntity) shooter).getName();
         }
     }
 }

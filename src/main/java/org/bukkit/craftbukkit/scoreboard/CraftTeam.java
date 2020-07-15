@@ -2,7 +2,6 @@ package org.bukkit.craftbukkit.scoreboard;
 
 import java.util.Set;
 import net.minecraft.scoreboard.AbstractTeam.VisibilityRule;
-import io.github.fukkitmc.legacy.extra.ScoreboardTeamExtra;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -28,7 +27,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
     public String getDisplayName() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getDisplayName();
+        return team.method_2104();
     }
 
     public void setDisplayName(String displayName) throws IllegalStateException {
@@ -42,7 +41,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
     public String getPrefix() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getPrefix();
+        return team.method_2106();
     }
 
     public void setPrefix(String prefix) throws IllegalStateException, IllegalArgumentException {
@@ -50,13 +49,13 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.isTrue(prefix.length() <= 32, "Prefix '" + prefix + "' is longer than the limit of 32 characters");
         CraftScoreboard scoreboard = checkState();
 
-        team.setPrefix(prefix);
+        team.setColor(prefix);
     }
 
     public String getSuffix() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getSuffix();
+        return team.method_2107();
     }
 
     public void setSuffix(String suffix) throws IllegalStateException, IllegalArgumentException {
@@ -64,7 +63,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.isTrue(suffix.length() <= 32, "Suffix '" + suffix + "' is longer than the limit of 32 characters");
         CraftScoreboard scoreboard = checkState();
 
-        team.setSuffix(suffix);
+        team.method_2105(suffix);
     }
 
     public boolean allowFriendlyFire() throws IllegalStateException {
@@ -82,7 +81,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
     public boolean canSeeFriendlyInvisibles() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return ((ScoreboardTeamExtra)team).canSeeFriendlyInvisibles();
+        return team.canSeeFriendlyInvisibles();
     }
 
     public void setCanSeeFriendlyInvisibles(boolean enabled) throws IllegalStateException {
@@ -94,7 +93,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
     public NameTagVisibility getNameTagVisibility() throws IllegalArgumentException {
         CraftScoreboard scoreboard = checkState();
 
-        return notchToBukkit(((ScoreboardTeamExtra)team).getNameTagVisibility());
+        return notchToBukkit(team.getNameTagVisibility());
     }
 
     public void setNameTagVisibility(NameTagVisibility visibility) throws IllegalArgumentException {

@@ -18,15 +18,21 @@ public class CraftSign extends CraftBlockState implements Sign {
 
         CraftWorld world = (CraftWorld) block.getWorld();
         sign = (SignBlockEntity) world.getTileEntityAt(getX(), getY(), getZ());
-        lines = new String[sign.lines.length];
-        System.arraycopy(revertComponents(sign.lines), 0, lines, 0, lines.length);
+        // Spigot start
+        if (sign == null) {
+            lines = new String[]{"", "", "", ""};
+            return;
+        }
+        // Spigot end
+        lines = new String[sign.field_1460.length];
+        System.arraycopy(revertComponents(sign.field_1460), 0, lines, 0, lines.length);
     }
 
     public CraftSign(final Material material, final SignBlockEntity te) {
         super(material);
         sign = te;
-        lines = new String[sign.lines.length];
-        System.arraycopy(revertComponents(sign.lines), 0, lines, 0, lines.length);
+        lines = new String[sign.field_1460.length];
+        System.arraycopy(revertComponents(sign.field_1460), 0, lines, 0, lines.length);
     }
 
     public String[] getLines() {
@@ -47,7 +53,7 @@ public class CraftSign extends CraftBlockState implements Sign {
 
         if (result) {
             Text[] newLines = sanitizeLines(lines);
-            System.arraycopy(newLines, 0, sign.lines, 0, 4);
+            System.arraycopy(newLines, 0, sign.field_1460, 0, 4);
             sign.markDirty();
         }
 

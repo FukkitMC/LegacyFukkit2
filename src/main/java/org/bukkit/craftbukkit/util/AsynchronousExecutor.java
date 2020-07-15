@@ -29,7 +29,7 @@ import org.bukkit.craftbukkit.util.AsynchronousExecutor.Task;
  */
 public final class AsynchronousExecutor<P, T, C, E extends Throwable> {
 
-    public interface CallBackProvider<P, T, C, E extends Throwable> extends ThreadFactory {
+    public static interface CallBackProvider<P, T, C, E extends Throwable> extends ThreadFactory {
 
         /**
          * Normally an asynchronous call, but can be synchronous

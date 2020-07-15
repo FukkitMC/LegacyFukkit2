@@ -26,7 +26,7 @@ public class CraftZombie extends CraftMonster implements Zombie {
     }
 
     public boolean isBaby() {
-        return getHandle().isBaby();
+        return getHandle().method_7163();
     }
 
     public void setBaby(boolean flag) {
@@ -34,10 +34,10 @@ public class CraftZombie extends CraftMonster implements Zombie {
     }
 
     public boolean isVillager() {
-        return getHandle().isVillager();
+        return getHandle().method_7908();
     }
 
     public void setVillager(boolean flag) {
-        getHandle().setVillager(flag);
+        getHandle().method_7913(flag);
     }
 }

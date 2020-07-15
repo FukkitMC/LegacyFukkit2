@@ -1,16 +1,13 @@
 package org.bukkit.craftbukkit.chunkio;
 
 import java.io.IOException;
-
-import io.github.fukkitmc.legacy.extra.ChunkExtra;
-import io.github.fukkitmc.legacy.extra.ChunkProviderServerExtra;
-import io.github.fukkitmc.legacy.extra.ChunkRegionLoaderExtra;
-import io.github.fukkitmc.legacy.extra.WorldExtra;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.util.AsynchronousExecutor;
 import org.bukkit.craftbukkit.util.LongHash;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ThreadedAnvilChunkStorage;
@@ -22,7 +19,7 @@ class ChunkIOProvider implements AsynchronousExecutor.CallBackProvider<QueuedChu
     public Chunk callStage1(QueuedChunk queuedChunk) throws RuntimeException {
         try {
             ThreadedAnvilChunkStorage loader = queuedChunk.loader;
-            Object[] data = ((ChunkRegionLoaderExtra)loader).loadChunk(queuedChunk.world, queuedChunk.x, queuedChunk.z);
+            Object[] data = loader.loadChunk(queuedChunk.world, queuedChunk.x, queuedChunk.z);
             
             if (data != null) {
                 queuedChunk.compound = (CompoundTag) data[1];
@@ -39,20 +36,22 @@ class ChunkIOProvider implements AsynchronousExecutor.CallBackProvider<QueuedChu
     public void callStage2(QueuedChunk queuedChunk, Chunk chunk) throws RuntimeException {
         if (chunk == null) {
             // If the chunk loading failed just do it synchronously (may generate)
-            ((ChunkProviderServerExtra)queuedChunk.provider).originalGetChunkAt(queuedChunk.x, queuedChunk.z);
+            queuedChunk.provider.originalGetChunkAt(queuedChunk.x, queuedChunk.z);
             return;
         }
 
-        ((ChunkRegionLoaderExtra)queuedChunk.loader).loadEntities(chunk, queuedChunk.compound.getCompound("Level"), queuedChunk.world);
-        chunk.setLastSaved(queuedChunk.provider.world.getTime());
-        queuedChunk.provider.chunks.set(LongHash.toLong(queuedChunk.x, queuedChunk.z), chunk);
-        chunk.addEntities();
+        queuedChunk.loader.loadEntities(chunk, queuedChunk.compound.getCompound("Level"), queuedChunk.world);
+        chunk.method_1370(queuedChunk.provider.world.getTime());
+        queuedChunk.provider.chunks.put(LongHash.toLong(queuedChunk.x, queuedChunk.z), chunk);
+        chunk.method_1374();
 
-        if (queuedChunk.provider.chunkProvider != null) {
-            queuedChunk.provider.chunkProvider.recreateStructures(chunk, queuedChunk.x, queuedChunk.z);
+        if (queuedChunk.provider.field_6615 != null) {
+            queuedChunk.provider.world.timings.syncChunkLoadStructuresTimer.startTiming(); // Spigot
+            queuedChunk.provider.field_6615.method_1325(chunk, queuedChunk.x, queuedChunk.z);
+            queuedChunk.provider.world.timings.syncChunkLoadStructuresTimer.stopTiming(); // Spigot
         }
 
-        Server server = ((WorldExtra)queuedChunk.provider.world).getServer();
+        Server server = queuedChunk.provider.world.getServer();
         if (server != null) {
             server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkLoadEvent(chunk.bukkitChunk, false));
         }
@@ -64,15 +63,15 @@ class ChunkIOProvider implements AsynchronousExecutor.CallBackProvider<QueuedChu
                     continue;
                 }
 
-                Chunk neighbor = ((ChunkProviderServerExtra)queuedChunk.provider).getChunkIfLoaded(chunk.locX + x, chunk.locZ + z);
+                Chunk neighbor = queuedChunk.provider.getChunkIfLoaded(chunk.field_1562 + x, chunk.field_1563 + z);
                 if (neighbor != null) {
-                    ((ChunkExtra)neighbor).setNeighborLoaded(-x, -z);
-                    ((ChunkExtra)chunk).setNeighborLoaded(x, z);
+                    neighbor.setNeighborLoaded(-x, -z);
+                    chunk.setNeighborLoaded(x, z);
                 }
             }
         }
 
-        chunk.loadNearby(queuedChunk.provider, queuedChunk.provider, queuedChunk.x, queuedChunk.z);
+        chunk.method_1351(queuedChunk.provider, queuedChunk.provider, queuedChunk.x, queuedChunk.z);
     }
 
     public void callStage3(QueuedChunk queuedChunk, Chunk chunk, Runnable runnable) throws RuntimeException {

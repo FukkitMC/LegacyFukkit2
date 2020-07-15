@@ -14,10 +14,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import net.minecraft.util.LongObjectStorage;
 
 @SuppressWarnings("unchecked")
-public class LongObjectHashMap<V> extends LongObjectStorage<V> implements Cloneable, Serializable {
+public class LongObjectHashMap<V> implements Cloneable, Serializable {
     static final long serialVersionUID = 2841537710170573815L;
 
     private static final long EMPTY_KEY = Long.MIN_VALUE;
@@ -76,7 +75,7 @@ public class LongObjectHashMap<V> extends LongObjectStorage<V> implements Clonea
         return null;
     }
 
-    public V putObject(long key, V value) {
+    public V put(long key, V value) {
         int index = (int) (keyIndex(key) & (BUCKET_SIZE - 1));
         long[] innerKeys = keys[index];
         V[] innerValues = values[index];
@@ -160,7 +159,7 @@ public class LongObjectHashMap<V> extends LongObjectStorage<V> implements Clonea
 
     public void putAll(Map<? extends Long, ? extends V> map) {
         for (Map.Entry entry : map.entrySet()) {
-            putObject((Long) entry.getKey(), (V) entry.getValue());
+            put((Long) entry.getKey(), (V) entry.getValue());
         }
     }
 
@@ -195,7 +194,7 @@ public class LongObjectHashMap<V> extends LongObjectStorage<V> implements Clonea
     public Set<Map.Entry<Long, V>> entrySet() {
         HashSet<Map.Entry<Long, V>> set = new HashSet<Map.Entry<Long, V>>();
         for (long key : keySet()) {
-            set.add(new org.bukkit.craftbukkit.util.LongObjectHashMap.Entry(key, get(key)));
+            set.add(new Entry(key, get(key)));
         }
 
         return set;
@@ -211,7 +210,7 @@ public class LongObjectHashMap<V> extends LongObjectStorage<V> implements Clonea
         // Iterate through the data normally to do a safe clone
         for (long key : keySet()) {
             final V value = get(key);
-            clone.putObject(key, value);
+            clone.put(key, value);
         }
 
         return clone;
@@ -255,7 +254,7 @@ public class LongObjectHashMap<V> extends LongObjectStorage<V> implements Clonea
                 break;
             }
 
-            putObject(key, value);
+            put(key, value);
         }
     }
 
@@ -416,7 +415,7 @@ public class LongObjectHashMap<V> extends LongObjectStorage<V> implements Clonea
         public V setValue(V v) {
             V old = value;
             value = v;
-            putObject(key, v);
+            put(key, v);
             return old;
         }
     }

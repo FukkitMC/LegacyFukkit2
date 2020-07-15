@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.collect.ImmutableMap;
+import org.bukkit.craftbukkit.util.CraftChatMessage;
 
 @DelegateDeserialization(ItemStack.class)
 public final class CraftItemStack extends ItemStack {
@@ -188,7 +189,7 @@ public final class CraftItemStack extends ItemStack {
         int size = list.size();
 
         for (int i = 0; i < size; i++) {
-            CompoundTag tag = list.getCompound(i);
+            CompoundTag tag = (CompoundTag) list.getCompound(i);
             short id = tag.getShort(ENCHANTMENTS_ID.NBT);
             if (id == ench.getId()) {
                 tag.putShort(ENCHANTMENTS_LVL.NBT, (short) level);
@@ -224,7 +225,7 @@ public final class CraftItemStack extends ItemStack {
         if (handle == null) {
             return 0;
         }
-        return EnchantmentHelper.getEnchantmentLevel(ench.getId(), handle);
+        return EnchantmentHelper.method_97(ench.getId(), handle);
     }
 
     @Override
@@ -240,7 +241,7 @@ public final class CraftItemStack extends ItemStack {
         int size = list.size();
 
         for (int i = 0; i < size; i++) {
-            CompoundTag enchantment = list.getCompound(i);
+            CompoundTag enchantment = (CompoundTag) list.getCompound(i);
             int id = 0xffff & enchantment.getShort(ENCHANTMENTS_ID.NBT);
             if (id == ench.getId()) {
                 index = i;
@@ -287,8 +288,8 @@ public final class CraftItemStack extends ItemStack {
         ImmutableMap.Builder<Enchantment, Integer> result = ImmutableMap.builder();
 
         for (int i = 0; i < list.size(); i++) {
-            int id = 0xffff & list.getCompound(i).getShort(ENCHANTMENTS_ID.NBT);
-            int level = 0xffff & list.getCompound(i).getShort(ENCHANTMENTS_LVL.NBT);
+            int id = 0xffff & ((CompoundTag) list.getCompound(i)).getShort(ENCHANTMENTS_ID.NBT);
+            int level = 0xffff & ((CompoundTag) list.getCompound(i)).getShort(ENCHANTMENTS_LVL.NBT);
 
             result.put(Enchantment.getById(id), level);
         }

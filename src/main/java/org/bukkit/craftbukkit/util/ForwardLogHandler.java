@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 public class ForwardLogHandler extends ConsoleHandler {
-    private final Map<String, Logger> cachedLoggers = new ConcurrentHashMap<String, Logger>();
+    private Map<String, Logger> cachedLoggers = new ConcurrentHashMap<String, Logger>();
 
     private Logger getLogger(String name) {
         Logger logger = cachedLoggers.get(name);

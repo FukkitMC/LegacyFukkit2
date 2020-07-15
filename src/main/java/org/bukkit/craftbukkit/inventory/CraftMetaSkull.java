@@ -3,10 +3,9 @@ package org.bukkit.craftbukkit.inventory;
 import java.util.Map;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtTag;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
-import org.bukkit.craftbukkit.inventory.CraftMetaItem.ItemMetaKey;
 import org.bukkit.craftbukkit.inventory.CraftMetaItem.SerializableMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -58,7 +57,7 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
     }
 
     @Override
-    void serializeInternal(final Map<String, Tag> internalTags) {
+    void serializeInternal(final Map<String, NbtTag> internalTags) {
         if (profile != null) {
             CompoundTag nbtData = new CompoundTag();
             NbtHelper.fromGameProfile(nbtData, profile);
@@ -67,13 +66,27 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
     }
 
     @Override
-    void applyToItem(CompoundTag tag) {
+    void applyToItem(final CompoundTag tag) { // Spigot - make final
         super.applyToItem(tag);
 
         if (profile != null) {
             CompoundTag owner = new CompoundTag();
             NbtHelper.fromGameProfile(owner, profile);
-            tag.put(SKULL_OWNER.NBT, owner);
+            tag.put( SKULL_OWNER.NBT, owner );
+            // Spigot start - do an async lookup of the profile. 
+            // Unfortunately there is not way to refresh the holding
+            // inventory, so that responsibility is left to the user.
+            net.minecraft.block.entity.SkullBlockEntity.b(profile, new com.google.common.base.Predicate<GameProfile>() {
+
+                @Override
+                public boolean apply(GameProfile input) {
+                    CompoundTag owner = new CompoundTag();
+                    NbtHelper.fromGameProfile( owner, input );
+                    tag.put( SKULL_OWNER.NBT, owner );
+                    return false;
+                }
+            });
+            // Spigot end
         }
     }
 
@@ -88,7 +101,12 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 
     @Override
     boolean applicableTo(Material type) {
-        return type == Material.SKULL_ITEM;
+        switch(type) {
+            case SKULL_ITEM:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override

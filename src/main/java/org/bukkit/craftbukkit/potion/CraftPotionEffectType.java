@@ -13,7 +13,7 @@ public class CraftPotionEffectType extends PotionEffectType {
 
     @Override
     public double getDurationModifier() {
-        return handle.getDurationModifier();
+        return handle.method_6868();
     }
 
     public StatusEffect getHandle() {

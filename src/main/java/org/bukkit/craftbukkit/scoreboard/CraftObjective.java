@@ -31,7 +31,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
     public String getDisplayName() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return objective.getDisplayName();
+        return objective.method_2093();
     }
 
     public void setDisplayName(String displayName) throws IllegalStateException, IllegalArgumentException {
@@ -39,7 +39,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
         Validate.isTrue(displayName.length() <= 32, "Display name '" + displayName + "' is longer than the limit of 32 characters");
         CraftScoreboard scoreboard = checkState();
 
-        objective.setDisplayName(displayName);
+        objective.method_2090(displayName);
     }
 
     public String getCriteria() throws IllegalStateException {
@@ -51,7 +51,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
     public boolean isModifiable() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return !criteria.criteria.isReadOnly();
+        return !criteria.criteria.method_2180();
     }
 
     public void setDisplaySlot(DisplaySlot slot) throws IllegalStateException {
@@ -92,6 +92,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
 
     public Score getScore(String entry) throws IllegalArgumentException, IllegalStateException {
         Validate.notNull(entry, "Entry cannot be null");
+        if (entry.length() > 40) throw new IllegalArgumentException("Entry cannot be longer than 40 characters!"); // Spigot
         CraftScoreboard scoreboard = checkState();
 
         return new CraftScore(this, entry);

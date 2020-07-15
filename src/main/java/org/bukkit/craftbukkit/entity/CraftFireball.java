@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.entity;
 
-import io.github.fukkitmc.legacy.extra.EntityExtra;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang.Validate;
@@ -38,15 +37,15 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
 
     public void setShooter(ProjectileSource shooter) {
         if (shooter instanceof CraftLivingEntity) {
-            getHandle().shooter = ((CraftLivingEntity) shooter).getHandle();
+            getHandle().field_8404 = ((CraftLivingEntity) shooter).getHandle();
         } else {
-            getHandle().shooter = null;
+            getHandle().field_8404 = null;
         }
         getHandle().projectileSource = shooter;
     }
 
     public Vector getDirection() {
-        return new Vector(getHandle().dirX, getHandle().dirY, getHandle().dirZ);
+        return new Vector(getHandle().field_8407, getHandle().field_8408, getHandle().field_8409);
     }
 
     public void setDirection(Vector direction) {
@@ -54,10 +53,10 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
         double x = direction.getX();
         double y = direction.getY();
         double z = direction.getZ();
-        double magnitude = MathHelper.sqrt(x * x + y * y + z * z);
-        getHandle().dirX = x / magnitude;
-        getHandle().dirY = y / magnitude;
-        getHandle().dirZ = z / magnitude;
+        double magnitude = (double) MathHelper.sqrt(x * x + y * y + z * z);
+        getHandle().field_8407 = x / magnitude;
+        getHandle().field_8408 = y / magnitude;
+        getHandle().field_8409 = z / magnitude;
     }
 
     @Override
@@ -81,8 +80,8 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
 
     @Deprecated
     public LivingEntity _INVALID_getShooter() {
-        if (getHandle().shooter != null) {
-            return (LivingEntity) ((EntityExtra)getHandle().shooter).getBukkitEntity();
+        if (getHandle().field_8404 != null) {
+            return (LivingEntity) getHandle().field_8404.getBukkitEntity();
         }
         return null;
     }

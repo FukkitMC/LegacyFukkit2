@@ -33,7 +33,7 @@ public class BlockMetadataStore extends MetadataStoreBase<Block> implements Meta
      */
     @Override
     protected String disambiguate(Block block, String metadataKey) {
-        return block.getX() + ":" + block.getY() + ":"  + block.getZ() + ":"  + metadataKey;
+        return Integer.toString(block.getX()) + ":" + Integer.toString(block.getY()) + ":"  + Integer.toString(block.getZ()) + ":"  + metadataKey;
     }
 
     /**

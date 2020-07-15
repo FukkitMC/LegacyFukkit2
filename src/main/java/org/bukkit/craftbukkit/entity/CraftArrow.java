@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.entity;
 
-import io.github.fukkitmc.legacy.extra.EntityExtra;
 import net.minecraft.entity.projectile.ArrowEntity;
 import org.apache.commons.lang.Validate;
 import org.bukkit.craftbukkit.CraftServer;
@@ -17,19 +16,19 @@ public class CraftArrow extends AbstractProjectile implements Arrow {
 
     public void setKnockbackStrength(int knockbackStrength) {
         Validate.isTrue(knockbackStrength >= 0, "Knockback cannot be negative");
-        getHandle().setKnockbackStrength(knockbackStrength);
+        getHandle().method_8059(knockbackStrength);
     }
 
     public int getKnockbackStrength() {
-        return getHandle().knockbackStrength;
+        return getHandle().field_8390;
     }
 
     public boolean isCritical() {
-        return getHandle().isCritical();
+        return getHandle().method_8063();
     }
 
     public void setCritical(boolean critical) {
-        getHandle().setCritical(critical);
+        getHandle().method_8060(critical);
     }
 
     public ProjectileSource getShooter() {
@@ -38,9 +37,9 @@ public class CraftArrow extends AbstractProjectile implements Arrow {
 
     public void setShooter(ProjectileSource shooter) {
         if (shooter instanceof LivingEntity) {
-            getHandle().shooter = ((CraftLivingEntity) shooter).getHandle();
+            getHandle().field_8392 = ((CraftLivingEntity) shooter).getHandle();
         } else {
-            getHandle().shooter = null;
+            getHandle().field_8392 = null;
         }
         getHandle().projectileSource = shooter;
     }
@@ -61,14 +60,36 @@ public class CraftArrow extends AbstractProjectile implements Arrow {
 
     @Deprecated
     public LivingEntity _INVALID_getShooter() {
-        if (getHandle().shooter == null) {
+        if (getHandle().field_8392 == null) {
             return null;
         }
-        return (LivingEntity) ((EntityExtra)getHandle().shooter).getBukkitEntity();
+        return (LivingEntity) getHandle().field_8392.getBukkitEntity();
     }
 
     @Deprecated
     public void _INVALID_setShooter(LivingEntity shooter) {
-        getHandle().shooter = ((CraftLivingEntity) shooter).getHandle();
+        getHandle().field_8392 = ((CraftLivingEntity) shooter).getHandle();
     }
+
+    // Spigot start
+    private final Arrow.Spigot spigot = new Arrow.Spigot()
+    {
+        @Override
+        public double getDamage()
+        {
+            return getHandle().method_8062();
+        }
+
+        @Override
+        public void setDamage(double damage)
+        {
+            getHandle().method_8061( damage );
+        }
+    };
+
+    public Arrow.Spigot spigot()
+    {
+        return spigot;
+    }
+    // Spigot end
 }

@@ -12,11 +12,11 @@ public class CraftWolf extends CraftTameableAnimal implements Wolf {
     }
 
     public boolean isAngry() {
-        return getHandle().isAngry();
+        return getHandle().method_7657();
     }
 
     public void setAngry(boolean angry) {
-        getHandle().setAngry(angry);
+        getHandle().method_7661(angry);
     }
 
     @Override
@@ -30,10 +30,10 @@ public class CraftWolf extends CraftTameableAnimal implements Wolf {
     }
 
     public DyeColor getCollarColor() {
-        return DyeColor.getByWoolData((byte) getHandle().getCollarColor().getId());
+        return DyeColor.getByWoolData((byte) getHandle().method_7658().getId());
     }
 
     public void setCollarColor(DyeColor color) {
-        getHandle().setCollarColor(net.minecraft.util.DyeColor.fromColorIndex(color.getWoolData()));
+        getHandle().method_7653(net.minecraft.util.DyeColor.getColorById(color.getWoolData()));
     }
 }

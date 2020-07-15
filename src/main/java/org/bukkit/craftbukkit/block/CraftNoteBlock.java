@@ -28,26 +28,26 @@ public class CraftNoteBlock extends CraftBlockState implements NoteBlock {
     }
 
     public Note getNote() {
-        return new Note(note.note);
+        return new Note(note.field_1458);
     }
 
     public byte getRawNote() {
-        return note.note;
+        return note.field_1458;
     }
 
     public void setNote(Note n) {
-        note.note = n.getId();
+        note.field_1458 = n.getId();
     }
 
     public void setRawNote(byte n) {
-        note.note = n;
+        note.field_1458 = n;
     }
 
     public boolean play() {
         Block block = getBlock();
 
         if (block.getType() == Material.NOTE_BLOCK) {
-            note.play(world.getHandle(), new BlockPos(getX(), getY(), getZ()));
+            note.method_1175(world.getHandle(), new BlockPos(getX(), getY(), getZ()));
             return true;
         } else {
             return false;

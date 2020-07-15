@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.entity;
 
-import io.github.fukkitmc.legacy.extra.EntityExtra;
 import net.minecraft.class_1760;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Creature;
@@ -14,16 +13,16 @@ public class CraftCreature extends CraftLivingEntity implements Creature {
     public void setTarget(LivingEntity target) {
         class_1760 entity = getHandle();
         if (target == null) {
-            entity.setGoalTarget(null);
+            entity.setGoalTarget(null, null, false);
         } else if (target instanceof CraftLivingEntity) {
-            entity.setGoalTarget(((CraftLivingEntity) target).getHandle());
+            entity.setGoalTarget(((CraftLivingEntity) target).getHandle(), null, false);
         }
     }
 
     public CraftLivingEntity getTarget() {
-        if (getHandle().getGoalTarget() == null) return null;
+        if (getHandle().method_7226() == null) return null;
 
-        return (CraftLivingEntity) ((EntityExtra)getHandle().getGoalTarget()).getBukkitEntity();
+        return (CraftLivingEntity) getHandle().method_7226().getBukkitEntity();
     }
 
     @Override

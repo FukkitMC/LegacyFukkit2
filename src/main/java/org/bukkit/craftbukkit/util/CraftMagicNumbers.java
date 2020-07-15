@@ -4,13 +4,15 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.class_1421;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringNbtReader;
-import net.minecraft.server.MojangsonParseException;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import org.bukkit.Achievement;
@@ -41,16 +43,17 @@ public final class CraftMagicNumbers implements UnsafeValues {
     @Deprecated
     // A bad method for bad magic.
     public static int getId(Block block) {
-        return Block.getBlockId(block);
+        return Block.getIdByBlock(block);
     }
 
     public static Material getMaterial(Block block) {
-        return Material.getMaterial(Block.getBlockId(block));
+        return Material.getMaterial(Block.getIdByBlock(block));
     }
 
     public static Item getItem(Material material) {
         // TODO: Don't use ID
-        return Item.byRawId(material.getId());
+        Item item = Item.byRawId(material.getId());
+        return item;
     }
 
     @Deprecated
@@ -78,7 +81,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
 
     public static Block getBlock(Material material) {
         // TODO: Don't use ID
-        Block block = Block.byId(material.getId());
+        Block block = Block.getById(material.getId());
 
         if (block == null) {
             return Blocks.AIR;
@@ -89,13 +92,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
 
     @Override
     public Material getMaterialFromInternalName(String name) {
-        return getMaterial(Item.REGISTRY.get(new Identifier(name)));
+        return getMaterial((Item) Item.REGISTRY.get(new Identifier(name)));
     }
 
     @Override
     public List<String> tabCompleteInternalMaterialName(String token, List<String> completions) {
         ArrayList<String> results = Lists.newArrayList();
-        for (Identifier key : Item.REGISTRY.keySet()) {
+        for (Identifier key : (Set<Identifier>)Item.REGISTRY.keySet()) {
             results.add(key.toString());
         }
         return StringUtil.copyPartialMatches(token, results, completions);
@@ -106,8 +109,8 @@ public final class CraftMagicNumbers implements UnsafeValues {
         net.minecraft.item.ItemStack nmsStack = CraftItemStack.asNMSCopy(stack);
 
         try {
-            nmsStack.setTag(StringNbtReader.parse(arguments));
-        } catch (MojangsonParseException ex) {
+            nmsStack.setTag((CompoundTag) StringNbtReader.parse(arguments));
+        } catch (class_1421 ex) {
             Logger.getLogger(CraftMagicNumbers.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -129,7 +132,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
     @Override
     public List<String> tabCompleteInternalStatisticOrAchievementName(String token, List<String> completions) {
         List<String> matches = new ArrayList<String>();
-        Iterator iterator = Stats.stats.iterator();
+        Iterator iterator = Stats.ALL.iterator();
         while (iterator.hasNext()) {
             String statistic = ((net.minecraft.stat.Stat) iterator.next()).name;
             if (statistic.startsWith(token)) {

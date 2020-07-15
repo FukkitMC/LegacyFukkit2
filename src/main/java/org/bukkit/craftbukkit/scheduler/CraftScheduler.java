@@ -32,7 +32,7 @@ import org.bukkit.scheduler.BukkitWorker;
  * <li>Changing the period on a task is delicate.
  *     Any future task needs to notify waiting threads.
  *     Async tasks must be synchronized to make sure that any thread that's finishing will remove itself from {@link #runners}.
- *     Another utility method is provided for this, </li>
+ *     Another utility method is provided for this, {@link #cancelTask(CraftTask)}</li>
  * <li>{@link #runners} provides a moderately up-to-date view of active tasks.
  *     If the linked head to tail set is read, all remaining tasks that were active at the time execution started will be located in runners.</li>
  * <li>Async tasks are responsible for removing themselves from runners</li>
@@ -47,7 +47,7 @@ public class CraftScheduler implements BukkitScheduler {
      */
     private final AtomicInteger ids = new AtomicInteger(1);
     /**
-     * Current head of linked-list. This reference is always stale,  is the live reference.
+     * Current head of linked-list. This reference is always stale, {@link CraftTask#next} is the live reference.
      */
     private volatile CraftTask head = new CraftTask();
     /**
@@ -72,7 +72,7 @@ public class CraftScheduler implements BukkitScheduler {
      */
     private final ConcurrentHashMap<Integer, CraftTask> runners = new ConcurrentHashMap<Integer, CraftTask>();
     private volatile int currentTick = -1;
-    private final Executor executor = Executors.newCachedThreadPool();
+    private final Executor executor = Executors.newCachedThreadPool(new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("Craft Scheduler Thread - %1$d").build()); // Spigot
     private CraftAsyncDebugger debugHead = new CraftAsyncDebugger(-1, null, null) {@Override StringBuilder debugTo(StringBuilder string) {return string;}};
     private CraftAsyncDebugger debugTail = debugHead;
     private static final int RECENT_TICKS;
@@ -346,7 +346,9 @@ public class CraftScheduler implements BukkitScheduler {
             }
             if (task.isSync()) {
                 try {
+                    task.timings.startTiming(); // Spigot
                     task.run();
+                    task.timings.stopTiming(); // Spigot
                 } catch (final Throwable throwable) {
                     task.getOwner().getLogger().log(
                             Level.WARNING,

@@ -48,7 +48,7 @@ public class ColouredConsoleSender extends CraftConsoleCommandSender {
     @Override
     public void sendMessage(String message) {
         if (terminal.isAnsiSupported()) {
-            if (conversationTracker.isConversingModaly()) {
+            if (!conversationTracker.isConversingModaly()) {
                 String result = message;
                 for (ChatColor color : colors) {
                     if (replacements.containsKey(color)) {

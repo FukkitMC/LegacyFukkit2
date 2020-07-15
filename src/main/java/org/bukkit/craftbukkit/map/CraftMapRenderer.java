@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.map;
 
+import java.util.UUID;
 import net.minecraft.item.map.MapIcon;
 import net.minecraft.item.map.MapState;
 import org.bukkit.Bukkit;
@@ -33,15 +34,14 @@ public class CraftMapRenderer extends MapRenderer {
             cursors.removeCursor(cursors.getCursor(0));
         }
 
-        for (Object key : worldMap.icons.keySet()) {
+        for (UUID key : worldMap.icons.keySet()) { // Spigot string -> uuid.
             // If this cursor is for a player check visibility with vanish system
-            Player other = Bukkit.getPlayer((String) key);
+            Player other = Bukkit.getPlayer(key); // Spigot
             if (other != null && !player.canSee(other)) {
                 continue;
             }
-
       
-            MapIcon decoration = worldMap.icons.get(key);
+            MapIcon decoration = (MapIcon) worldMap.icons.get(key);
             cursors.addCursor(decoration.getX(), decoration.getY(), (byte) (decoration.getRotation() & 15), decoration.getTypeId());
         }
     }

@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.entity;
 
 import net.minecraft.entity.decoration.DecorationEntity;
 import net.minecraft.util.math.Direction;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.EntityType;
@@ -26,21 +27,21 @@ public class CraftHanging extends CraftEntity implements Hanging {
         switch (face) {
             case SOUTH:
             default:
-                getHandle().setDirection(Direction.SOUTH);
+                getHandle().method_7724(Direction.SOUTH);
                 break;
             case WEST:
-                getHandle().setDirection(Direction.WEST);
+                getHandle().method_7724(Direction.WEST);
                 break;
             case NORTH:
-                getHandle().setDirection(Direction.NORTH);
+                getHandle().method_7724(Direction.NORTH);
                 break;
             case EAST:
-                getHandle().setDirection(Direction.EAST);
+                getHandle().method_7724(Direction.EAST);
                 break;
         }
-        if (!force && !hanging.survives()) {
+        if (!force && !hanging.method_7726()) {
             // Revert since it doesn't fit
-            hanging.setDirection(dir);
+            hanging.method_7724(dir);
             return false;
         }
         return true;

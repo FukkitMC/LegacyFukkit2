@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.UUID;
 import net.minecraft.class_632;
 import net.minecraft.nbt.CompoundTag;
-import io.github.fukkitmc.legacy.extra.WorldNBTStorageExtra;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,7 +28,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     protected CraftOfflinePlayer(CraftServer server, GameProfile profile) {
         this.server = server;
         this.profile = profile;
-        this.storage = (class_632) (server.console.worlds.get(0).getDataManager());
+        this.storage = (class_632) (server.console.worlds.get(0).getSaveHandler());
 
     }
 
@@ -113,9 +112,9 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 
     public void setWhitelisted(boolean value) {
         if (value) {
-            server.getHandle().addWhitelist(profile);
+            server.getHandle().removeFromWhitelist(profile);
         } else {
-            server.getHandle().removeWhitelist(profile);
+            server.getHandle().addToWhitelist(profile);
         }
     }
 
@@ -167,7 +166,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     }
 
     private CompoundTag getData() {
-        return ((WorldNBTStorageExtra)storage).getPlayerData(getUniqueId().toString());
+        return storage.getPlayerData(getUniqueId().toString());
     }
 
     private CompoundTag getBukkitData() {
@@ -184,7 +183,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     }
 
     private File getDataFile() {
-        return new File(((WorldNBTStorageExtra)storage).getPlayerDir(), getUniqueId() + ".dat");
+        return new File(storage.getPlayerDir(), getUniqueId() + ".dat");
     }
 
     public long getFirstPlayed() {

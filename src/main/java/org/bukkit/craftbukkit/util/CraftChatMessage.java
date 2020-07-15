@@ -17,10 +17,10 @@ import com.google.common.collect.ImmutableMap.Builder;
 
 public final class CraftChatMessage {
     
-    private static final Pattern LINK_PATTERN = Pattern.compile("((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + org.bukkit.ChatColor.COLOR_CHAR + " \\n]|$))))");
+    private static final Pattern LINK_PATTERN = Pattern.compile("((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " \\n]|$))))");
     private static class StringMessage {
         private static final Map<Character, Formatting> formatMap;
-        private static final Pattern INCREMENTAL_PATTERN = Pattern.compile("(" + org.bukkit.ChatColor.COLOR_CHAR + "[0-9a-fk-or])|(\\n)|((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + org.bukkit.ChatColor.COLOR_CHAR + " \\n]|$))))", Pattern.CASE_INSENSITIVE);
+        private static final Pattern INCREMENTAL_PATTERN = Pattern.compile("(" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + "[0-9a-fk-or])|(\\n)|((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " \\n]|$))))", Pattern.CASE_INSENSITIVE);
 
         static {
             Builder<Character, Formatting> builder = ImmutableMap.builder();
@@ -95,7 +95,7 @@ public final class CraftChatMessage {
                     }
                     modifier.setClickEvent(new ClickEvent(Action.OPEN_URL, match));
                     appendNewComponent(matcher.end(groupId));
-                    modifier.setClickEvent(null);
+                    modifier.setClickEvent((ClickEvent) null);
                 }
                 currentIndex = matcher.end(groupId);
             }
@@ -104,7 +104,7 @@ public final class CraftChatMessage {
                 appendNewComponent(message.length());
             }
 
-            output = list.toArray(new Text[0]);
+            output = list.toArray(new Text[list.size()]);
         }
 
         private void appendNewComponent(int index) {
@@ -142,7 +142,7 @@ public final class CraftChatMessage {
         if (component == null) return "";
         StringBuilder out = new StringBuilder();
         
-        for (Text c : component) {
+        for (Text c : (Iterable<Text>) component) {
             Style modi = c.getStyle();
             out.append(modi.getColor() == null ? defaultColor : modi.getColor());
             if (modi.isBold()) {
@@ -180,7 +180,7 @@ public final class CraftChatMessage {
                 Style modifier = text.getStyle() != null ?
                         text.getStyle() : new Style();
                 List<Text> extras = new ArrayList<Text>();
-                List<Text> extrasOld = new ArrayList<Text>(text.a());
+                List<Text> extrasOld = new ArrayList<Text>(text.getSiblings());
                 component = text = new LiteralText("");
 
                 int pos = 0;
@@ -215,7 +215,7 @@ public final class CraftChatMessage {
             }
         }
 
-        List extras = component.a();
+        List extras = component.getSiblings();
         for (int i = 0; i < extras.size(); i++) {
             Text comp = (Text) extras.get(i);
             if (comp.getStyle() != null && comp.getStyle().getClickEvent() == null) {

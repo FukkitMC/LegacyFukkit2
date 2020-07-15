@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import io.github.fukkitmc.legacy.CursedOptionLoader;
 import jline.console.ConsoleReader;
 import com.mojang.util.QueueLogAppender;
+import org.bukkit.craftbukkit.Main;
 
 public class TerminalConsoleWriterThread implements Runnable {
     final private ConsoleReader reader;
@@ -29,7 +28,7 @@ public class TerminalConsoleWriterThread implements Runnable {
             }
 
             try {
-                if (CursedOptionLoader.useJline) {
+                if (Main.useJline) {
                     reader.print(ConsoleReader.RESET_LINE + "");
                     reader.flush();
                     output.write(message.getBytes());

@@ -1,8 +1,7 @@
 package org.bukkit.craftbukkit.inventory;
 
-import io.github.fukkitmc.legacy.extra.RecipesFurnaceExtra;
-import net.minecraft.server.RecipesFurnace;
-
+import net.minecraft.recipes.SmeltingRecipes;
+import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,6 +21,6 @@ public class CraftFurnaceRecipe extends FurnaceRecipe implements CraftRecipe {
     public void addToCraftingManager() {
         ItemStack result = this.getResult();
         ItemStack input = this.getInput();
-        ((RecipesFurnaceExtra)RecipesFurnace.getInstance()).registerRecipe(CraftItemStack.asNMSCopy(input), CraftItemStack.asNMSCopy(result));
+        SmeltingRecipes.getInstance().registerRecipe(CraftItemStack.asNMSCopy(input), CraftItemStack.asNMSCopy(result));
     }
 }

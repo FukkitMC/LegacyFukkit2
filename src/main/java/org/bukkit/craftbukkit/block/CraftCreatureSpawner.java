@@ -25,16 +25,16 @@ public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpa
 
     @Deprecated
     public CreatureType getCreatureType() {
-        return CreatureType.fromName(spawner.getSpawner().getMobName());
+        return CreatureType.fromName(spawner.method_1174().method_185());
     }
 
     public EntityType getSpawnedType() {
-        return EntityType.fromName(spawner.getSpawner().getMobName());
+        return EntityType.fromName(spawner.method_1174().method_185());
     }
 
     @Deprecated
     public void setCreatureType(CreatureType creatureType) {
-        spawner.getSpawner().setMobName(creatureType.getName());
+        spawner.method_1174().method_177(creatureType.getName());
     }
 
     public void setSpawnedType(EntityType entityType) {
@@ -42,12 +42,12 @@ public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpa
             throw new IllegalArgumentException("Can't spawn EntityType " + entityType + " from mobspawners!");
         }
 
-        spawner.getSpawner().setMobName(entityType.getName());
+        spawner.method_1174().method_177(entityType.getName());
     }
 
     @Deprecated
     public String getCreatureTypeId() {
-        return spawner.getSpawner().getMobName();
+        return spawner.method_1174().method_185();
     }
 
     @Deprecated
@@ -56,7 +56,7 @@ public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpa
     }
 
     public String getCreatureTypeName() {
-        return spawner.getSpawner().getMobName();
+        return spawner.method_1174().method_185();
     }
 
     public void setCreatureTypeByName(String creatureType) {
@@ -69,11 +69,11 @@ public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpa
     }
 
     public int getDelay() {
-        return spawner.getSpawner().spawnDelay;
+        return spawner.method_1174().field_198;
     }
 
     public void setDelay(int delay) {
-        spawner.getSpawner().spawnDelay = delay;
+        spawner.method_1174().field_198 = delay;
     }
 
     @Override

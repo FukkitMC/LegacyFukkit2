@@ -1,9 +1,7 @@
 package org.bukkit.craftbukkit.entity;
 
-import io.github.fukkitmc.legacy.extra.EntityExtra;
-import io.github.fukkitmc.legacy.extra.EntityRabbitExtra;
+import net.minecraft.entity.ai.AIGoals;
 import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.server.PathfinderGoalSelector;
 import net.minecraft.world.World;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.EntityType;
@@ -43,12 +41,12 @@ public class CraftRabbit extends CraftAnimals implements Rabbit {
         if (getRabbitType() == Type.THE_KILLER_BUNNY) {
             // Reset goals and target finders.
             World world = ((CraftWorld) this.getWorld()).getHandle();
-            entity.goalSelector = new PathfinderGoalSelector(world != null && world.profiler != null ? world.profiler : null);
-            entity.targetSelector = new PathfinderGoalSelector(world != null && world.profiler != null ? world.profiler : null);
-            ((EntityRabbitExtra)entity).initializePathFinderGoals();
+            entity.goals = new AIGoals(world != null && world.profiler != null ? world.profiler : null);
+            entity.field_7496 = new AIGoals(world != null && world.profiler != null ? world.profiler : null);
+            entity.initializePathFinderGoals();
         }
 
-        entity.setRabbitType(CraftMagicMapping.toMagic(type)); 
+        entity.method_7623(CraftMagicMapping.toMagic(type)); 
     }
 
     private static class CraftMagicMapping {

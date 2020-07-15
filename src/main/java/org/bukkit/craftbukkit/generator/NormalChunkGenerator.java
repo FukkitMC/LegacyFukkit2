@@ -18,7 +18,7 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
     private final ChunkProvider provider;
 
     public NormalChunkGenerator(World world, long seed) {
-        provider = world.dimension.getChunkProvider();
+        provider = world.dimension.method_1476();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
 
     @Override
     public boolean canSpawn(org.bukkit.World world, int x, int z) {
-        return ((CraftWorld) world).getHandle().dimension.canSpawn(x, z);
+        return ((CraftWorld) world).getHandle().dimension.method_1469(x, z);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public boolean isChunkLoaded(int i, int i1) {
-        return provider.isChunkLoaded(i, i1);
+    public boolean method_1321(int i, int i1) {
+        return provider.method_1321(i, i1);
     }
 
     @Override
@@ -47,54 +47,54 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public Chunk getChunkAt(BlockPos blockPosition) {
-        return provider.getChunkAt(blockPosition);
+    public Chunk method_1326(BlockPos blockPosition) {
+        return provider.method_1326(blockPosition);
     }
 
     @Override
-    public void getChunkAt(ChunkProvider icp, int i, int i1) {
-        provider.getChunkAt(icp, i, i1);
+    public void method_1323(ChunkProvider icp, int i, int i1) {
+        provider.method_1323(icp, i, i1);
     }
 
     @Override
-    public boolean a(ChunkProvider iChunkProvider, Chunk chunk, int i, int i1) {
-        return provider.a(provider, chunk, i, i1);
+    public boolean method_1324(ChunkProvider iChunkProvider, Chunk chunk, int i, int i1) {
+        return provider.method_1324(provider, chunk, i, i1);
     }
 
     @Override
-    public boolean saveChunks(boolean bln, ProgressListener ipu) {
-        return provider.saveChunks(bln, ipu);
+    public boolean method_1328(boolean bln, ProgressListener ipu) {
+        return provider.method_1328(bln, ipu);
     }
 
     @Override
-    public boolean unloadChunks() {
-        return provider.unloadChunks();
+    public boolean method_1330() {
+        return provider.method_1330();
     }
 
     @Override
-    public boolean canSave() {
-        return provider.canSave();
+    public boolean method_1332() {
+        return provider.method_1332();
     }
 
     @Override
-    public List<Biome.SpawnEntry> getMobsFor(EntityCategory ect, BlockPos position) {
-        return provider.getMobsFor(ect, position);
+    public List<Biome.SpawnEntry> method_1327(EntityCategory ect, BlockPos position) {
+        return provider.method_1327(ect, position);
     }
 
     @Override
-    public BlockPos findNearestMapFeature(World world, String string, BlockPos position) {
-        return provider.findNearestMapFeature(world, string, position);
+    public BlockPos method_1322(World world, String string, BlockPos position) {
+        return provider.method_1322(world, string, position);
     }
 
     // n.m.s implementations always return 0. (The true implementation is in ChunkProviderServer)
     @Override
-    public int getLoadedChunks() {
+    public int method_1334() {
         return 0;
     }
 
     @Override
-    public void recreateStructures(Chunk chunk, int i, int i1) {
-        provider.recreateStructures(chunk, i, i1);
+    public void method_1325(Chunk chunk, int i, int i1) {
+        provider.method_1325(chunk, i, i1);
     }
 
     @Override
@@ -103,5 +103,5 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public void c() {}
+    public void method_1329() {}
 }

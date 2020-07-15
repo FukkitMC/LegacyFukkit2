@@ -50,7 +50,7 @@ public class CraftMinecartCommand extends CraftMinecart implements CommandMineca
 
     @Override
     public String getName() {
-        return ((CommandBlockMinecartEntity) getHandle()).getCommandExecutor().getName();
+        return ((CommandBlockMinecartEntity) getHandle()).getCommandExecutor().getTranslationKey();
     }
 
     @Override

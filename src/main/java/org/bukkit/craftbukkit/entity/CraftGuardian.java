@@ -24,7 +24,7 @@ public class CraftGuardian extends CraftMonster implements Guardian {
 
     @Override
     public boolean isElder() {
-        return ((GuardianEntity)entity).isElder();
+        return ((GuardianEntity)entity).method_7860();
     }
 
     @Override
@@ -32,23 +32,25 @@ public class CraftGuardian extends CraftMonster implements Guardian {
         GuardianEntity entityGuardian = (GuardianEntity) entity;
 
         if (!isElder() && shouldBeElder) {
-            entityGuardian.setElder(true);
+            entityGuardian.method_7857(true);
         } else if (isElder() && !shouldBeElder) {
-            entityGuardian.setElder(false);
+            entityGuardian.method_7857(false);
 
             // Since minecraft does not reset the elder Guardian to a guardian we have to do that
-            entity.setSize(0.85F, 0.85F);
+            entity.method_6923(0.85F, 0.85F);
 
             // Since aW() calls its supers it will try to re register attributes which is invalid
             // check these on update
-            entityGuardian.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-            entityGuardian.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
-            entityGuardian.getAttributeInstance(EntityAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
-            entityGuardian.getAttributeInstance(EntityAttributes.maxHealth).setBaseValue(30.0D);
+            entityGuardian.method_7095(EntityAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+            entityGuardian.method_7095(EntityAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+            entityGuardian.method_7095(EntityAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
+            entityGuardian.method_7095(EntityAttributes.MAX_HEALTH).setBaseValue(30.0D);
 
             // Update pathfinding (random stroll back to 80)
-            entityGuardian.goalRandomStroll.setChance(80);
+            entityGuardian.field_8219.method_7385(80);
 
+            // Tell minecraft that we need persistence since the guardian changed
+            entityGuardian.method_7097();
         }
     }
 }

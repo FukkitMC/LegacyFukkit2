@@ -64,16 +64,21 @@ class CraftMetaCharge extends CraftMetaItem implements FireworkEffectMeta {
 
     @Override
     boolean applicableTo(Material type) {
-        return type == Material.FIREWORK_CHARGE;
+        switch (type) {
+            case FIREWORK_CHARGE:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
     boolean isEmpty() {
-        return super.isEmpty() && hasChargeMeta();
+        return super.isEmpty() && !hasChargeMeta();
     }
 
     boolean hasChargeMeta() {
-        return !hasEffect();
+        return hasEffect();
     }
 
     @Override
@@ -91,7 +96,7 @@ class CraftMetaCharge extends CraftMetaItem implements FireworkEffectMeta {
 
     @Override
     boolean notUncommon(CraftMetaItem meta) {
-        return super.notUncommon(meta) && (meta instanceof CraftMetaCharge || hasChargeMeta());
+        return super.notUncommon(meta) && (meta instanceof CraftMetaCharge || !hasChargeMeta());
     }
 
     @Override

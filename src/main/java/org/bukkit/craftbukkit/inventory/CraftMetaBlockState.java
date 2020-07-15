@@ -9,7 +9,6 @@ import net.minecraft.block.entity.BeaconBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.block.entity.CommandBlockBlockEntity;
 import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.block.entity.DropperBlockEntity;
 import net.minecraft.block.entity.FurnaceBlockEntity;
@@ -18,8 +17,9 @@ import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.block.entity.NoteBlockBlockEntity;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.block.entity.SkullBlockEntity;
+import net.minecraft.CommandBlockBlockEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtTag;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -105,7 +105,7 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
     }
 
     @Override
-    void serializeInternal(final Map<String, Tag> internalTags) {
+    void serializeInternal(final Map<String, NbtTag> internalTags) {
         if (blockEntityTag != null) {
             internalTags.put(BLOCK_ENTITY_TAG.NBT, blockEntityTag);
         }
@@ -234,9 +234,9 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
             return new CraftNoteBlock(material, (NoteBlockBlockEntity) te);
         case JUKEBOX:
             if (te == null) {
-                te = new JukeboxBlock.TileEntityRecordPlayer();
+                te = new JukeboxBlock.JukeboxBlockEntity();
             }
-            return new CraftJukebox(material, (JukeboxBlock.TileEntityRecordPlayer) te);
+            return new CraftJukebox(material, (JukeboxBlock.JukeboxBlockEntity) te);
         case BREWING_STAND:
             if (te == null) {
                 te = new BrewingStandBlockEntity();
@@ -306,7 +306,7 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
             valid = te instanceof NoteBlockBlockEntity;
             break;
         case JUKEBOX:
-            valid = te instanceof JukeboxBlock.TileEntityRecordPlayer;
+            valid = te instanceof JukeboxBlock.JukeboxBlockEntity;
             break;
         case BREWING_STAND:
             valid = te instanceof BrewingStandBlockEntity;

@@ -1,13 +1,13 @@
 package org.bukkit.craftbukkit;
 
 import com.mojang.authlib.GameProfile;
-import io.github.fukkitmc.legacy.extra.EntityExtra;
-import io.github.fukkitmc.legacy.extra.ExpirableListEntryExtra;
+import net.minecraft.server.BannedPlayerEntry;
+import net.minecraft.server.BannedPlayerList;
+import net.minecraft.server.MinecraftServer;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
-import net.minecraft.server.BannedPlayerEntry;
-import net.minecraft.server.BannedPlayerList;
 import org.bukkit.Bukkit;
 
 public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
@@ -21,8 +21,8 @@ public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
     public CraftProfileBanEntry(GameProfile profile, BannedPlayerEntry entry, BannedPlayerList list) {
         this.list = list;
         this.profile = profile;
-        this.created = ((ExpirableListEntryExtra)entry).getCreated() != null ? new Date(((ExpirableListEntryExtra)entry).getCreated().getTime()) : null;
-        this.source = ((ExpirableListEntryExtra)entry).getSource();
+        this.created = entry.getCreated() != null ? new Date(entry.getCreated().getTime()) : null;
+        this.source = entry.getSource();
         this.expiration = entry.getExpiryDate() != null ? new Date(entry.getExpiryDate().getTime()) : null;
         this.reason = entry.getReason();
     }

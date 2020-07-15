@@ -10,11 +10,11 @@ public class CraftAgeable extends CraftCreature implements Ageable {
     }
 
     public int getAge() {
-        return getHandle().getAge();
+        return getHandle().method_6893();
     }
 
     public void setAge(int age) {
-        getHandle().setAgeRaw(age);
+        getHandle().method_6892(age);
     }
 
     public void setAgeLock(boolean lock) {

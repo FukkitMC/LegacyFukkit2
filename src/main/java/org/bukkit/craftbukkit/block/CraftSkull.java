@@ -1,7 +1,6 @@
 package org.bukkit.craftbukkit.block;
 
 import com.mojang.authlib.GameProfile;
-import io.github.fukkitmc.legacy.extra.MinecraftServerExtra;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.server.MinecraftServer;
 import org.bukkit.Material;
@@ -25,16 +24,16 @@ public class CraftSkull extends CraftBlockState implements Skull {
         CraftWorld world = (CraftWorld) block.getWorld();
         skull = (SkullBlockEntity) world.getTileEntityAt(getX(), getY(), getZ());
         profile = skull.getOwner();
-        skullType = getSkullType(skull.getSkullType());
-        rotation = (byte) skull.rotation;
+        skullType = getSkullType(skull.method_1189());
+        rotation = (byte) skull.getRotation();
     }
 
     public CraftSkull(final Material material, final SkullBlockEntity te) {
         super(material);
         skull = te;
         profile = skull.getOwner();
-        skullType = getSkullType(skull.getSkullType());
-        rotation = (byte) skull.rotation;
+        skullType = getSkullType(skull.method_1189());
+        rotation = (byte) skull.getRotation();
     }
 
     static SkullType getSkullType(int id) {
@@ -160,7 +159,7 @@ public class CraftSkull extends CraftBlockState implements Skull {
             return false;
         }
 
-        GameProfile profile = ((MinecraftServerExtra)MinecraftServer.getServer()).getUserCache().findByName(name);
+        GameProfile profile = MinecraftServer.getServer().getUserCache().findByName(name);
         if (profile == null) {
             return false;
         }
@@ -201,10 +200,10 @@ public class CraftSkull extends CraftBlockState implements Skull {
             if (skullType == SkullType.PLAYER) {
                 skull.setOwnerAndType(profile);
             } else {
-                skull.setSkullType(getSkullType(skullType));
+                skull.method_1184(getSkullType(skullType));
             }
 
-            skull.setRotation(rotation);
+            skull.method_1187(rotation);
             skull.markDirty();
         }
 

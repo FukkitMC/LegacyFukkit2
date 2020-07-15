@@ -38,19 +38,19 @@ public class CraftFurnace extends CraftBlockState implements Furnace {
     }
 
     public short getBurnTime() {
-        return (short) furnace.burnTime;
+        return (short) furnace.field_1447;
     }
 
     public void setBurnTime(short burnTime) {
-        furnace.burnTime = burnTime;
+        furnace.field_1447 = burnTime;
     }
 
     public short getCookTime() {
-        return (short) furnace.cookTime;
+        return (short) furnace.field_1449;
     }
 
     public void setCookTime(short cookTime) {
-        furnace.cookTime = cookTime;
+        furnace.field_1449 = cookTime;
     }
 
     @Override

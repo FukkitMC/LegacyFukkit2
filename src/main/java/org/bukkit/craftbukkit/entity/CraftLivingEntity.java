@@ -26,7 +26,6 @@ import net.minecraft.entity.thrown.EnderPearlEntity;
 import net.minecraft.entity.thrown.ExperienceBottleEntity;
 import net.minecraft.entity.thrown.PotionEntity;
 import net.minecraft.entity.thrown.SnowballEntity;
-import io.github.fukkitmc.legacy.extra.EntityExtra;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -81,20 +80,20 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         }
 
         if (entity instanceof ServerPlayerEntity && health == 0) {
-            ((ServerPlayerEntity) entity).die(DamageSource.GENERIC);
+            ((ServerPlayerEntity) entity).method_7089(DamageSource.GENERIC);
         }
 
         getHandle().setHealth((float) health);
     }
 
     public double getMaxHealth() {
-        return getHandle().getMaxHealth();
+        return getHandle().method_7143();
     }
 
     public void setMaxHealth(double amount) {
         Validate.isTrue(amount > 0, "Max health must be greater than 0");
 
-        getHandle().getAttributeInstance(EntityAttributes.maxHealth).setBaseValue(amount);
+        getHandle().method_7095(EntityAttributes.MAX_HEALTH).setBaseValue(amount);
 
         if (getHealth() > amount) {
             setHealth(amount);
@@ -102,7 +101,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     }
 
     public void resetMaxHealth() {
-        setMaxHealth(getHandle().getMaxHealth());
+        setMaxHealth(getHandle().method_7143());
     }
 
     @Deprecated
@@ -116,7 +115,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     }
 
     public double getEyeHeight() {
-        return getHandle().getHeadHeight();
+        return getHandle().method_6965();
     }
 
     public double getEyeHeight(boolean ignoreSneaking) {
@@ -253,19 +252,19 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     }
 
     public double getLastDamage() {
-        return getHandle().lastDamage;
+        return getHandle().field_7458;
     }
 
     public void setLastDamage(double damage) {
-        getHandle().lastDamage = (float) damage;
+        getHandle().field_7458 = (float) damage;
     }
 
     public int getNoDamageTicks() {
-        return getHandle().noDamageTicks;
+        return getHandle().field_7357;
     }
 
     public void setNoDamageTicks(int ticks) {
-        getHandle().noDamageTicks = ticks;
+        getHandle().field_7357 = ticks;
     }
 
     @Override
@@ -283,7 +282,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     }
 
     public Player getKiller() {
-        return getHandle().player == null ? null : (Player) ((EntityExtra)getHandle().player).getBukkitEntity();
+        return getHandle().player == null ? null : (Player) getHandle().player.getBukkitEntity();
     }
 
     public boolean addPotionEffect(PotionEffect effect) {
@@ -297,7 +296,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
             }
             removePotionEffect(effect.getType());
         }
-        getHandle().addEffect(new StatusEffectInstance(effect.getType().getId(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles()));
+        getHandle().addStatusEffect(new StatusEffectInstance(effect.getType().getId(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles()));
         return true;
     }
 
@@ -310,20 +309,20 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     }
 
     public boolean hasPotionEffect(PotionEffectType type) {
-        return getHandle().hasEffect(StatusEffect.byId[type.getId()]);
+        return getHandle().method_7090(StatusEffect.STATUS_EFFECTS[type.getId()]);
     }
 
     public void removePotionEffect(PotionEffectType type) {
-        getHandle().removeEffect(type.getId());
+        getHandle().method_7171(type.getId());
     }
 
     public Collection<PotionEffect> getActivePotionEffects() {
         List<PotionEffect> effects = new ArrayList<PotionEffect>();
-        for (Object raw : getHandle().effects.values()) {
+        for (Object raw : getHandle().field_7488.values()) {
             if (!(raw instanceof StatusEffectInstance))
                 continue;
             StatusEffectInstance handle = (StatusEffectInstance) raw;
-            effects.add(new PotionEffect(PotionEffectType.getById(handle.getEffectId()), handle.getDuration(), handle.getAmplifier(), handle.isAmbient(), handle.shouldShowParticles()));
+            effects.add(new PotionEffect(PotionEffectType.getById(handle.method_6872()), handle.getDuration(), handle.getAmplifier(), handle.isAmbient(), handle.shouldShowParticles()));
         }
         return effects;
     }
@@ -370,11 +369,11 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         Validate.notNull(launch, "Projectile not supported");
 
         if (velocity != null) {
-            ((T) ((EntityExtra)launch).getBukkitEntity()).setVelocity(velocity);
+            ((T) launch.getBukkitEntity()).setVelocity(velocity);
         }
 
         world.spawnEntity(launch);
-        return (T) ((EntityExtra)launch).getBukkitEntity();
+        return (T) launch.getBukkitEntity();
     }
 
     public EntityType getType() {
@@ -382,7 +381,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     }
 
     public boolean hasLineOfSight(Entity other) {
-        return getHandle().hasLineOfSight(((CraftEntity) other).getHandle());
+        return getHandle().method_7181(((CraftEntity) other).getHandle());
     }
 
     public boolean getRemoveWhenFarAway() {
@@ -422,14 +421,14 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         if (!(getHandle() instanceof MobEntity)) {
             return false;
         }
-        return ((MobEntity) getHandle()).getLeashHolder() != null;
+        return ((MobEntity) getHandle()).method_7214() != null;
     }
 
     public Entity getLeashHolder() throws IllegalStateException {
         if (!isLeashed()) {
             throw new IllegalStateException("Entity not leashed");
         }
-        return ((EntityExtra)((MobEntity) getHandle()).getLeashHolder()).getBukkitEntity();
+        return ((MobEntity) getHandle()).method_7214().getBukkitEntity();
     }
 
     private boolean unleash() {

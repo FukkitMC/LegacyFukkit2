@@ -1,19 +1,17 @@
 package org.bukkit.craftbukkit.inventory;
 
-import io.github.fukkitmc.legacy.extra.ContainerExtra;
 import net.minecraft.class_1484;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
-import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
-public class CraftContainer extends Container implements ContainerExtra {
+public class CraftContainer extends Container {
     private final InventoryView view;
     private InventoryType cachedType;
     private String cachedTitle;
@@ -60,11 +58,6 @@ public class CraftContainer extends Container implements ContainerExtra {
         return view;
     }
 
-    @Override
-    public void transferTo(Container other, CraftHumanEntity player) {
-
-    }
-
     private int getSize() {
         return view.getTopInventory().getSize();
     }
@@ -85,13 +78,13 @@ public class CraftContainer extends Container implements ContainerExtra {
             String type = getNotchInventoryType(cachedType);
             net.minecraft.inventory.Inventory top = ((CraftInventory)view.getTopInventory()).getInventory();
             net.minecraft.inventory.Inventory bottom = ((CraftInventory)view.getBottomInventory()).getInventory();
-            this.b.clear();
+            this.trackedStacks.clear();
             this.slots.clear();
             if (typeChanged) {
                 setupSlots(top, bottom);
             }
             int size = getSize();
-            player.getHandle().playerConnection.sendPacket(new class_1484(this.syncId, type, new LiteralText(cachedTitle), size));
+            player.getHandle().networkHandler.sendPacket(new class_1484(this.syncId, type, new LiteralText(cachedTitle), size));
             player.updateInventory();
         }
         return true;

@@ -2,21 +2,21 @@ package org.bukkit.craftbukkit.inventory;
 
 import java.util.List;
 import net.minecraft.recipe.Recipes;
-import net.minecraft.server.ShapelessRecipes;
-
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 
 public class CraftShapelessRecipe extends ShapelessRecipe implements CraftRecipe {
+    // TODO: Could eventually use this to add a matches() method or some such
+    private net.minecraft.recipe.ShapelessRecipe recipe;
 
     public CraftShapelessRecipe(ItemStack result) {
         super(result);
     }
 
-    public CraftShapelessRecipe(ItemStack result, ShapelessRecipes recipe) {
+    public CraftShapelessRecipe(ItemStack result, net.minecraft.recipe.ShapelessRecipe recipe) {
         this(result);
-        // TODO: Could eventually use this to add a matches() method or some such
+        this.recipe = recipe;
     }
 
     public static CraftShapelessRecipe fromBukkitRecipe(ShapelessRecipe recipe) {
@@ -40,6 +40,6 @@ public class CraftShapelessRecipe extends ShapelessRecipe implements CraftRecipe
             data[i] = new net.minecraft.item.ItemStack(CraftMagicNumbers.getItem(id), 1, dmg);
             i++;
         }
-        Recipes.getRecipes().registerShapeless(CraftItemStack.asNMSCopy(this.getResult()), data);
+        Recipes.getRecipes().registerShapelessRecipe(CraftItemStack.asNMSCopy(this.getResult()), data);
     }
 }

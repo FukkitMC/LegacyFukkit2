@@ -15,7 +15,7 @@ public class CraftPig extends CraftAnimals implements Pig {
     }
 
     public void setSaddle(boolean saddled) {
-        getHandle().setSaddle(saddled);
+        getHandle().method_7603(saddled);
     }
 
     public PigEntity getHandle() {

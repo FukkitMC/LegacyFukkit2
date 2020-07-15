@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.block;
 
-import io.github.fukkitmc.legacy.extra.WorldExtra;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.Chunk;
@@ -55,11 +54,11 @@ public class CraftBlockState implements BlockState {
     }
 
     public static CraftBlockState getBlockState(net.minecraft.world.World world, int x, int y, int z) {
-        return new CraftBlockState(((WorldExtra)world).getWorld().getBlockAt(x, y, z));
+        return new CraftBlockState(world.getWorld().getBlockAt(x, y, z));
     }
 
     public static CraftBlockState getBlockState(net.minecraft.world.World world, int x, int y, int z, int flag) {
-        return new CraftBlockState(((WorldExtra)world).getWorld().getBlockAt(x, y, z), flag);
+        return new CraftBlockState(world.getWorld().getBlockAt(x, y, z), flag);
     }
 
     public World getWorld() {
@@ -160,7 +159,7 @@ public class CraftBlockState implements BlockState {
         }
 
         block.setTypeIdAndData(getTypeId(), getRawData(), applyPhysics);
-        world.getHandle().notify(new BlockPos(x, y, z));
+        world.getHandle().method_411(new BlockPos(x, y, z));
 
         return true;
     }
@@ -223,7 +222,10 @@ public class CraftBlockState implements BlockState {
         if (this.type != other.type) {
             return false;
         }
-        return this.data == other.data || (this.data != null && this.data.equals(other.data));
+        if (this.data != other.data && (this.data == null || !this.data.equals(other.data))) {
+            return false;
+        }
+        return true;
     }
 
     @Override

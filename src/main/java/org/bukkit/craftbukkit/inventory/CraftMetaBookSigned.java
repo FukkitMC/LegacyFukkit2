@@ -1,17 +1,20 @@
 package org.bukkit.craftbukkit.inventory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.text.Text;
-import net.minecraft.text.Text.class_1445;
+import net.minecraft.text.Text.Serializer;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
 import org.bukkit.craftbukkit.inventory.CraftMetaItem.SerializableMeta;
 import org.bukkit.inventory.meta.BookMeta;
 
 import com.google.common.collect.ImmutableMap.Builder;
+import org.bukkit.craftbukkit.util.CraftChatMessage;
 
 @DelegateDeserialization(SerializableMeta.class)
 class CraftMetaBookSigned extends CraftMetaBook implements BookMeta {
@@ -35,7 +38,7 @@ class CraftMetaBookSigned extends CraftMetaBook implements BookMeta {
                 String page = pages.getString(i);
                 if (resolved) {
                     try {
-                        this.pages.add(class_1445.a(page));
+                        this.pages.add(Serializer.deserialize(page));
                         continue;
                     } catch (Exception e) {
                         // Ignore and treat as an old book
@@ -70,7 +73,7 @@ class CraftMetaBookSigned extends CraftMetaBook implements BookMeta {
             ListTag list = new ListTag();
             for (Text page : pages) {
                 list.add(new StringTag(
-                    class_1445.a(page)
+                    Serializer.serialize(page)
                 ));
             }
             itemData.put(BOOK_PAGES.NBT, list);
@@ -102,7 +105,8 @@ class CraftMetaBookSigned extends CraftMetaBook implements BookMeta {
 
     @Override
     public CraftMetaBookSigned clone() {
-        return (CraftMetaBookSigned) super.clone();
+        CraftMetaBookSigned meta = (CraftMetaBookSigned) super.clone();
+        return meta;
     }
 
     @Override

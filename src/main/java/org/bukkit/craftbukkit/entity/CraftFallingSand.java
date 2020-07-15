@@ -32,11 +32,11 @@ public class CraftFallingSand extends CraftEntity implements FallingSand {
     }
 
     public int getBlockId() {
-        return CraftMagicNumbers.getId(getHandle().getBlock().getBlock());
+        return CraftMagicNumbers.getId(getHandle().method_7758().getBlock());
     }
 
     public byte getBlockData() {
-        return (byte) getHandle().getBlock().getBlock().getData(getHandle().getBlock());
+        return (byte) getHandle().method_7758().getBlock().getData(getHandle().method_7758());
     }
 
     public boolean getDropItem() {

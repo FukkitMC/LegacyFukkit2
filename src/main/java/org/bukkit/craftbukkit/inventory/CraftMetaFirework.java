@@ -90,7 +90,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
         List<FireworkEffect> effects = this.effects = new ArrayList<FireworkEffect>(fireworkEffects.size());
 
         for (int i = 0; i < fireworkEffects.size(); i++) {
-            effects.add(getEffect(fireworkEffects.getCompound(i)));
+            effects.add(getEffect((CompoundTag) fireworkEffects.getCompound(i)));
         }
     }
 
@@ -143,7 +143,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
             case BURST:
                 return 4;
             default:
-                throw new AssertionError(type);
+                throw new IllegalStateException(type.toString()); // Spigot
         }
     }
 
@@ -160,7 +160,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
             case 4:
                 return Type.BURST;
             default:
-                throw new AssertionError(nbt);
+                throw new IllegalStateException(Integer.toString(nbt)); // Spigot
         }
     }
 
@@ -241,7 +241,12 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
 
     @Override
     boolean applicableTo(Material type) {
-        return type == Material.FIREWORK;
+        switch(type) {
+            case FIREWORK:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -348,7 +353,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
     }
 
     public List<FireworkEffect> getEffects() {
-        return this.effects == null ? ImmutableList.of() : ImmutableList.copyOf(this.effects);
+        return this.effects == null ? ImmutableList.<FireworkEffect>of() : ImmutableList.copyOf(this.effects);
     }
 
     public int getEffectsSize() {

@@ -43,19 +43,4 @@ public abstract class Waitable<T> implements Runnable {
         }
         return value;
     }
-
-    public static class Wrapper extends Waitable<Object> {
-
-        private final Runnable yes;
-
-        public Wrapper(Runnable yes) {
-            this.yes = yes;
-        }
-
-        @Override
-        protected Object evaluate() {
-            yes.run();
-            return null;
-        }
-    }
 }

@@ -1,13 +1,12 @@
 package org.bukkit.craftbukkit;
 
-import io.github.fukkitmc.legacy.extra.PortalTravelAgentExtra;
-import net.minecraft.server.PortalTravelAgent;
+import net.minecraft.class_108;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import org.bukkit.Location;
 import org.bukkit.TravelAgent;
 
-public class CraftTravelAgent extends PortalTravelAgent implements TravelAgent {
+public class CraftTravelAgent extends class_108 implements TravelAgent {
 
     public static TravelAgent DEFAULT = null;
 
@@ -25,8 +24,8 @@ public class CraftTravelAgent extends PortalTravelAgent implements TravelAgent {
     @Override
     public Location findOrCreate(Location target) {
         ServerWorld worldServer = ((CraftWorld) target.getWorld()).getHandle();
-        boolean before = worldServer.chunkProviderServer.forceChunkLoad;
-        worldServer.chunkProviderServer.forceChunkLoad = true;
+        boolean before = worldServer.field_6635.field_6611;
+        worldServer.field_6635.field_6611 = true;
 
         Location found = this.findPortal(target);
         if (found == null) {
@@ -37,21 +36,21 @@ public class CraftTravelAgent extends PortalTravelAgent implements TravelAgent {
             }
         }
 
-        worldServer.chunkProviderServer.forceChunkLoad = before;
+        worldServer.field_6635.field_6611 = before;
         return found;
     }
 
     @Override
     public Location findPortal(Location location) {
-        PortalTravelAgent pta = ((CraftWorld) location.getWorld()).getHandle().getTravelAgent();
-        BlockPos found = ((PortalTravelAgentExtra)pta).findPortal(location.getX(), location.getY(), location.getZ(), this.getSearchRadius());
+        class_108 pta = ((CraftWorld) location.getWorld()).getHandle().method_6058();
+        BlockPos found = pta.findPortal(location.getX(), location.getY(), location.getZ(), this.getSearchRadius());
         return found != null ? new Location(location.getWorld(), found.getX(), found.getY(), found.getZ(), location.getYaw(), location.getPitch()) : null;
     }
 
     @Override
     public boolean createPortal(Location location) {
-        PortalTravelAgent pta = ((CraftWorld) location.getWorld()).getHandle().getTravelAgent();
-        return ((PortalTravelAgentExtra)pta).createPortal(location.getX(), location.getY(), location.getZ(), this.getCreationRadius());
+        class_108 pta = ((CraftWorld) location.getWorld()).getHandle().method_6058();
+        return pta.createPortal(location.getX(), location.getY(), location.getZ(), this.getCreationRadius());
     }
 
     @Override

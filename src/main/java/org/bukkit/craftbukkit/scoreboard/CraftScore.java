@@ -57,4 +57,13 @@ final class CraftScore implements Score {
     public CraftScoreboard getScoreboard() {
         return objective.getScoreboard();
     }
+
+    // Spigot start
+    @Override
+    public boolean isScoreSet() throws IllegalStateException {
+        Scoreboard board = objective.checkState().board;
+
+        return board.getKnownPlayers().contains(entry) && board.getPlayerObjectives(entry).containsKey(objective.getHandle());
+    }
+    // Spigot end
 }

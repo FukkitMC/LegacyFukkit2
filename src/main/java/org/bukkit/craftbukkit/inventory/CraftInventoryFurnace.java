@@ -1,7 +1,5 @@
 package org.bukkit.craftbukkit.inventory;
 
-import io.github.fukkitmc.legacy.extra.ContainerExtra;
-import io.github.fukkitmc.legacy.extra.IInventoryExtra;
 import net.minecraft.block.entity.FurnaceBlockEntity;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.FurnaceInventory;
@@ -38,6 +36,6 @@ public class CraftInventoryFurnace extends CraftInventory implements FurnaceInve
 
     @Override
     public Furnace getHolder() {
-        return (Furnace) ((IInventoryExtra)inventory).getOwner();
+        return (Furnace) inventory.getOwner();
     }
 }
