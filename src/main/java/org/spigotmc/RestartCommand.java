@@ -53,7 +53,7 @@ public class RestartCommand extends Command
                 WatchdogThread.doStop();
 
                 // Kick all players
-                for ( ServerPlayerEntity p : (List< ServerPlayerEntity>) MinecraftServer.getServer().getPlayerList().players )
+                for ( ServerPlayerEntity p : (List< ServerPlayerEntity>) MinecraftServer.getServer().getPlayerManager().players )
                 {
                     p.networkHandler.disconnect(SpigotConfig.restartMessage);
                 }
@@ -78,8 +78,8 @@ public class RestartCommand extends Command
                 // Actually shutdown
                 try
                 {
-                    MinecraftServer.getServer().stop();
-                } catch ( Throwable t )
+                    MinecraftServer.getServer().stopRunning();
+                } catch ( Throwable ignored)
                 {
                 }
 

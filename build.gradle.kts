@@ -22,6 +22,7 @@ minecraft {
 }
 
 repositories {
+    mavenCentral()
     maven {
         name = "SpigotMC"
         url = uri("https://hub.spigotmc.org/nexus/content/groups/public/")
@@ -39,6 +40,8 @@ dependencies {
     modCompile("net.fabricmc", "fabric-loader-1.8.9", "0.8.2+build.202004131640"){
         exclude("com.google", "guava")
     }
+    modImplementation("it.unimi.dsi:fastutil:8.2.2")
+    modImplementation("net.sf.trove4j:trove4j:3.0.3")
     compileOnly("com.google.code.findbugs", "jsr305", "3.0.2")
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("commons-lang:commons-lang:2.6")
