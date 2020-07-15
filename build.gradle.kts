@@ -47,7 +47,7 @@ dependencies {
     implementation("commons-lang:commons-lang:2.6")
     implementation("jline:jline:2.12.1")
     implementation("mysql:mysql-connector-java:5.1.48")
-    implementation("org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT")
+    implementation("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     implementation("org.xerial:sqlite-jdbc:3.30.1")
     implementation("org.yaml:snakeyaml:1.25")
     include("com.googlecode.json-simple:json-simple:1.1.1")
