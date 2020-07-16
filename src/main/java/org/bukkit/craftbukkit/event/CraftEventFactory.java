@@ -100,7 +100,7 @@ public class CraftEventFactory {
         ServerWorld worldServer = world.getHandle();
         int spawnSize = Bukkit.getServer().getSpawnRadius();
 
-        if (world.getHandle().dimension != 0) return true;
+        if (world.getHandle().dimension.getType() != 0) return true;
         if (spawnSize <= 0) return true;
         if (((CraftServer) Bukkit.getServer()).getHandle().getOpList().isEmpty()) return true;
         if (player.isOp()) return true;
@@ -120,7 +120,7 @@ public class CraftEventFactory {
      * Block place methods
      */
     public static BlockMultiPlaceEvent callBlockMultiPlaceEvent(World world, PlayerEntity who, List<BlockState> blockStates, int clickedX, int clickedY, int clickedZ) {
-        CraftWorld craftWorld = ((io.github.fukkitmc.fukkit.mixins.extras.WorldExtra)world).getCraftWorld();
+        CraftWorld craftWorld = (world).getCraftWorld();
         CraftServer craftServer = world.getServer();
         Player player = (who == null) ? null : (Player) who.getBukkitEntity();
 
@@ -595,7 +595,7 @@ public class CraftEventFactory {
         Map<DamageModifier, Function<? super Double, Double>> modifierFunctions = new EnumMap<DamageModifier, Function<? super Double, Double>>(DamageModifier.class);
         modifiers.put(DamageModifier.BASE, rawDamage);
         modifierFunctions.put(DamageModifier.BASE, ZERO);
-        if (source == DamageSource.field_7260 || source == DamageSource.field_7259) {
+        if (source == DamageSource.FALLING_BLOCK || source == DamageSource.ANVIL) {
             modifiers.put(DamageModifier.HARD_HAT, hardHatModifier);
             modifierFunctions.put(DamageModifier.HARD_HAT, hardHat);
         }

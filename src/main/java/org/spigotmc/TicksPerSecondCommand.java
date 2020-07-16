@@ -27,12 +27,14 @@ public class TicksPerSecondCommand extends Command
         }
 
         StringBuilder sb = new StringBuilder( ChatColor.GOLD + "TPS from last 1m, 5m, 15m: " );
-        for ( double tps : MinecraftServer.getServer().recentTps )
-        {
-            sb.append( format( tps ) );
-            sb.append( ", " );
-        }
+        //Fukkit: No
+//        for ( double tps : MinecraftServer.getServer().recentTps )
+//        {
+//            sb.append( format( tps ) );
+//            sb.append( ", " );
+//        }
         sender.sendMessage( sb.substring( 0, sb.length() - 2 ) );
+        sender.sendMessage("Fukkit not implemented TPS cmd");
 
         return true;
     }

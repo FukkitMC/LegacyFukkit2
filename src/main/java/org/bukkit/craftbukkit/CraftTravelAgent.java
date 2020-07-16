@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit;
 
+import jdk.nashorn.internal.ir.Block;
 import net.minecraft.class_108;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -42,15 +43,18 @@ public class CraftTravelAgent extends class_108 implements TravelAgent {
 
     @Override
     public Location findPortal(Location location) {
+        //FIXME: i think this is important
         class_108 pta = ((CraftWorld) location.getWorld()).getHandle().method_6058();
-        BlockPos found = pta.findPortal(location.getX(), location.getY(), location.getZ(), this.getSearchRadius());
-        return found != null ? new Location(location.getWorld(), found.getX(), found.getY(), found.getZ(), location.getYaw(), location.getPitch()) : null;
+//        BlockPos found = pta.findPortal(location.getX(), location.getY(), location.getZ(), this.getSearchRadius());
+//        return found != null ? new Location(location.getWorld(), found.getX(), found.getY(), found.getZ(), location.getYaw(), location.getPitch()) : null;
+        return location;
     }
 
     @Override
     public boolean createPortal(Location location) {
         class_108 pta = ((CraftWorld) location.getWorld()).getHandle().method_6058();
-        return pta.createPortal(location.getX(), location.getY(), location.getZ(), this.getCreationRadius());
+//        return pta.createPortal(location.getX(), location.getY(), location.getZ(), this.getCreationRadius());
+        return true;
     }
 
     @Override

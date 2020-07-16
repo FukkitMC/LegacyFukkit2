@@ -213,7 +213,7 @@ public class AntiXray
 
     private static boolean hasTransparentBlockAdjacent(World world, BlockPos position, int radius)
     {
-        return !isSolidBlock(world.getType(position, false).getBlock()) /* isSolidBlock */
+        return !isSolidBlock(world.getBlockAt(position)) /* isSolidBlock */
                 || ( radius > 0
                 && ( hasTransparentBlockAdjacent( world, position.east(), radius - 1 )
                 || hasTransparentBlockAdjacent( world, position.west(), radius - 1 )

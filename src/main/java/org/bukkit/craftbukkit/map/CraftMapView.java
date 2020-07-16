@@ -54,7 +54,7 @@ public final class CraftMapView implements MapView {
     public World getWorld() {
         byte dimension = worldMap.field_2318;
         for (World world : Bukkit.getServer().getWorlds()) {
-            if (((CraftWorld) world).getHandle().dimension == dimension) {
+            if (((CraftWorld) world).getHandle().dimension.getType() == dimension) {
                 return world;
             }
         }
@@ -62,7 +62,7 @@ public final class CraftMapView implements MapView {
     }
 
     public void setWorld(World world) {
-        worldMap.field_2318 = (byte) ((CraftWorld) world).getHandle().dimension;
+        worldMap.field_2318 = (byte) ((CraftWorld) world).getHandle().dimension.getType();
     }
 
     public int getCenterX() {

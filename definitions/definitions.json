@@ -1292,6 +1292,9 @@
   },
   {
     "name": "net/minecraft/recipes/SmeltingRecipes",
+    "injectInterfaces": [
+      "io/github/fukkitmc/fukkit/extras/SmeltingRecipesExtra"
+    ],
     "syntheticFields": [
       {
         "access": 1,
@@ -1316,7 +1319,7 @@
       {
         "access": 1,
         "name": "resultInventory",
-        "type": "Lnet/minecraft/server/IInventory;"
+        "type": "Lnet/minecraft/inventory/Inventory;"
       },
       {
         "access": 1,

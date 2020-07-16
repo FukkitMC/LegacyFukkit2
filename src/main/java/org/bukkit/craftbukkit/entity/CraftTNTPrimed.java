@@ -14,19 +14,21 @@ public class CraftTNTPrimed extends CraftEntity implements TNTPrimed {
     }
 
     public float getYield() {
-        return getHandle().yield;
+        return 4;
+//        return getHandle().yield;
     }
 
     public boolean isIncendiary() {
-        return getHandle().isIncendiary;
+//        return getHandle().isIncendiary;
+        return false;
     }
 
     public void setIsIncendiary(boolean isIncendiary) {
-        getHandle().isIncendiary = isIncendiary;
+//        getHandle().isIncendiary = isIncendiary;
     }
 
     public void setYield(float yield) {
-        getHandle().yield = yield;
+//        getHandle().yield = yield;
     }
 
     public int getFuseTicks() {

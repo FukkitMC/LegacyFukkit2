@@ -1361,19 +1361,19 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     @Override
     public void sendTitle(String title, String subtitle) {
         if (title != null) {
-            TitleS2CPacket packetTitle = new TitleS2CPacket(Action.field_6343, CraftChatMessage.fromString(title)[0]);
+            TitleS2CPacket packetTitle = new TitleS2CPacket(Action.TITLE, CraftChatMessage.fromString(title)[0]);
             getHandle().networkHandler.sendPacket(packetTitle);
         }
 
         if (subtitle != null) {
-            TitleS2CPacket packetSubtitle = new TitleS2CPacket(Action.field_6344, CraftChatMessage.fromString(subtitle)[0]);
+            TitleS2CPacket packetSubtitle = new TitleS2CPacket(Action.SUBTITLE, CraftChatMessage.fromString(subtitle)[0]);
             getHandle().networkHandler.sendPacket(packetSubtitle);
         }
     }
 
     @Override
     public void resetTitle() {
-        TitleS2CPacket packetReset = new TitleS2CPacket(Action.field_6347, null);
+        TitleS2CPacket packetReset = new TitleS2CPacket(Action.RESET, null);
         getHandle().networkHandler.sendPacket(packetReset);
     }
 
@@ -1493,7 +1493,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
            if ( getHandle().networkHandler == null ) return;
 
             ChatMessageS2CPacket packet = new ChatMessageS2CPacket();
-            packet.components = components;
+//            packet.components = components;
             getHandle().networkHandler.sendPacket(packet);
         }
     };

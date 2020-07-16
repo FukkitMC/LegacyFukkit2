@@ -80,8 +80,9 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
 
     public boolean canSeeFriendlyInvisibles() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
+        return true;
 
-        return team.canSeeFriendlyInvisibles();
+//        return team.canSeeFriendlyInvisibles();
     }
 
     public void setCanSeeFriendlyInvisibles(boolean enabled) throws IllegalStateException {
@@ -92,8 +93,9 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
 
     public NameTagVisibility getNameTagVisibility() throws IllegalArgumentException {
         CraftScoreboard scoreboard = checkState();
-
-        return notchToBukkit(team.getNameTagVisibility());
+            //TODO: if scoreboards are broken this is why
+        return NameTagVisibility.ALWAYS;
+//        return notchToBukkit(team.getNameTagVisibility());
     }
 
     public void setNameTagVisibility(NameTagVisibility visibility) throws IllegalArgumentException {

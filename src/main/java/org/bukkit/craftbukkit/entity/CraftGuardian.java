@@ -47,7 +47,7 @@ public class CraftGuardian extends CraftMonster implements Guardian {
             entityGuardian.method_7095(EntityAttributes.MAX_HEALTH).setBaseValue(30.0D);
 
             // Update pathfinding (random stroll back to 80)
-            entityGuardian.field_8219.method_7385(80);
+            entityGuardian.field_8219.setChance(80);
 
             // Tell minecraft that we need persistence since the guardian changed
             entityGuardian.method_7097();

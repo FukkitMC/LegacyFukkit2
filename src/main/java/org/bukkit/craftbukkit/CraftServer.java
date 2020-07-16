@@ -883,6 +883,9 @@ public final class CraftServer implements Server {
 
                 public void method_6677(String s) {}
 
+                @Override
+                public void method_6678(String string) {}
+
                 public void progressStagePercentage(int i) {
                     if (System.currentTimeMillis() - this.b >= 1000L) {
                         this.b = System.currentTimeMillis();
@@ -890,6 +893,9 @@ public final class CraftServer implements Server {
                     }
 
                 }
+
+                @Override
+                public void setDone() {}
 
                 public void method_6679(String s) {}
             });
@@ -899,7 +905,7 @@ public final class CraftServer implements Server {
         boolean used = false;
         do {
             for (ServerWorld server : console.worlds) {
-                used = server.dimension == dimension;
+                used = server.dimension.getType() == dimension;
                 if (used) {
                     dimension++;
                     break;
@@ -916,7 +922,7 @@ public final class CraftServer implements Server {
             worlddata = new LevelProperties(worldSettings, name);
         }
         worlddata.checkName(name); // CraftBukkit - Migration did not rewrite the level.dat; This forces 1.8 to take the last loaded world as respawn (in this case the end)
-        ServerWorld internal = (ServerWorld) new ServerWorld(console, sdm, worlddata, dimension, console.methodProfiler, creator.environment(), generator).getCraftWorld();
+        ServerWorld internal = (ServerWorld) new ServerWorld(console, sdm, worlddata, dimension, MinecraftServer.getServer().profiler).getWorld();
 
         if (!(worlds.containsKey(name.toLowerCase()))) {
             return null;
@@ -928,8 +934,8 @@ public final class CraftServer implements Server {
         internal.method_278(new ServerWorldManager(console, internal));
         internal.levelProperties.setDifficulty(Difficulty.EASY);
         internal.method_341(true, true);
-        console.worlds.add(internal);
-
+//        console.worlds.add(internal);
+        //FIXME: very important Fukkit need replacement
         if (generator != null) {
             internal.getCraftWorld().getPopulators().addAll(generator.getDefaultPopulators(internal.getCraftWorld()));
         }
@@ -1072,7 +1078,9 @@ public final class CraftServer implements Server {
     }
 
     public ConsoleReader getReader() {
-        return console.reader;
+        throw new RuntimeException("getReader not implemented in craftServer");
+        //Fukkit FIXME
+//        return console.reader;
     }
 
     @Override
@@ -1165,8 +1173,9 @@ public final class CraftServer implements Server {
 
     @Override
     public void resetRecipes() {
-        Recipes.getRecipes().recipes = new Recipes().recipes;
-        SmeltingRecipes.getInstance().ORIGINAL_PRODUCT_MAP = new SmeltingRecipes().ORIGINAL_PRODUCT_MAP;
+//        Recipes.getRecipes().recipes = new Recipes().recipes;
+        //Fukkit FIXME: accesswiden constructor
+//        SmeltingRecipes.getInstance().ORIGINAL_PRODUCT_MAP = new SmeltingRecipes().ORIGINAL_PRODUCT_MAP;
         SmeltingRecipes.getInstance().customRecipes.clear();
     }
 
@@ -1461,7 +1470,8 @@ public final class CraftServer implements Server {
 
     @Override
     public ConsoleCommandSender getConsoleSender() {
-        return console.console;
+        throw new RuntimeException("getConsoleSender not implemented");
+//        return console.console;
     }
 
     public EntityMetadataStore getEntityMetadata() {
@@ -1478,9 +1488,10 @@ public final class CraftServer implements Server {
 
     @Override
     public File getWorldContainer() {
-        if (this.getServer().universe != null) {
-            return this.getServer().universe;
-        }
+        //fukkit FIXME: fix
+//        if (this.getServer().universe != null) {
+//            return this.getServer().universe;
+//        }
 
         if (container == null) {
             container = new File(configuration.getString("settings.world-container", "."));
