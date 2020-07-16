@@ -7,6 +7,8 @@ public interface EntityExtra {
 
     org.bukkit.craftbukkit.entity.CraftEntity getBukkitEntity();
 
+    org.bukkit.craftbukkit.entity.CraftEntity internalGetBukkitEntity();
+
     void teleportTo(org.bukkit.Location var0, boolean var1);
 
     void burn(float var0);

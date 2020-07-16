@@ -160,7 +160,7 @@ public final class CraftServer implements Server {
     private final String serverName = "TaterBukkit";
     private final String serverVersion;
     private final String bukkitVersion = Versioning.getBukkitVersion();
-    private final Logger logger = Logger.getLogger("Minecraft");
+    private Logger logger = Logger.getLogger("Minecraft");
     private final ServicesManager servicesManager = new SimpleServicesManager();
     private final CraftScheduler scheduler = new CraftScheduler();
     private final SimpleCommandMap commandMap = new SimpleCommandMap(this);
@@ -1074,6 +1074,9 @@ public final class CraftServer implements Server {
 
     @Override
     public Logger getLogger() {
+        if(logger == null){
+            logger = Logger.getLogger("Minecraft");
+        }
         return logger;
     }
 

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftServerMixin {
 
     @Inject(method = "main", at = @At("HEAD"))
-    private static void mainMethod(String[] args, CallbackInfo ci){
+    private static void mainMethod(String[] args, CallbackInfo ci) {
         Main.main(args);
     }
 

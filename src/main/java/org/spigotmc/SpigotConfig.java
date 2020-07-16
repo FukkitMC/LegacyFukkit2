@@ -60,7 +60,7 @@ public class SpigotConfig
         {
         } catch ( InvalidConfigurationException ex )
         {
-            Bukkit.getLogger().log( Level.SEVERE, "Could not load spigot.yml, please correct your syntax errors", ex );
+            MinecraftServer.LOGGER.fatal("Could not load spigot.yml, please correct your syntax errors", ex );
             throw Throwables.propagate( ex );
         }
 
@@ -111,7 +111,7 @@ public class SpigotConfig
                         throw Throwables.propagate( ex.getCause() );
                     } catch ( Exception ex )
                     {
-                        Bukkit.getLogger().log( Level.SEVERE, "Error invoking " + method, ex );
+                        MinecraftServer.LOGGER.fatal("Error invoking " + method, ex );
                     }
                 }
             }
@@ -122,7 +122,7 @@ public class SpigotConfig
             config.save( CONFIG_FILE );
         } catch ( IOException ex )
         {
-            Bukkit.getLogger().log( Level.SEVERE, "Could not save " + CONFIG_FILE, ex );
+            MinecraftServer.LOGGER.fatal( "Could not save " + CONFIG_FILE, ex );
         }
     }
 
@@ -236,7 +236,7 @@ public class SpigotConfig
     {
         int count = getInt( "settings.netty-threads", 4 );
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString( count ) );
-        Bukkit.getLogger().log( Level.INFO, "Using {0} threads for Netty based IO", count );
+        MinecraftServer.LOGGER.info("Using " + count + " threads for Netty based IO");
     }
 
     public static boolean lateBind;
@@ -265,7 +265,7 @@ public class SpigotConfig
 
         if ( disableStatSaving && section.getInt( "achievement.openInventory", 0 ) < 1 )
         {
-            Bukkit.getLogger().warning( "*** WARNING *** stats.disable-saving is true but stats.forced-stats.achievement.openInventory" +
+            MinecraftServer.LOGGER.warn( "*** WARNING *** stats.disable-saving is true but stats.forced-stats.achievement.openInventory" +
                     " isn't set to 1. Disabling stat saving without forcing the achievement may cause it to get stuck on the player's " +
                     "screen." );
         }
@@ -381,10 +381,10 @@ public class SpigotConfig
 
         if ( LogManager.getRootLogger().isTraceEnabled() )
         {
-            Bukkit.getLogger().info( "Debug logging is enabled" );
+            MinecraftServer.LOGGER.info( "Debug logging is enabled" );
         } else
         {
-            Bukkit.getLogger().info( "Debug logging is disabled" );
+            MinecraftServer.LOGGER.info( "Debug logging is disabled" );
         }
     }
 }

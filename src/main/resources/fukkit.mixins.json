@@ -5,8 +5,13 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "extras.ContainerExtraMixin",
+    "net.minecraft.entity.EntityMixin",
+    "net.minecraft.entity.player.ServerPlayerEntityMixin",
+    "net.minecraft.network.ServerPlayNetworkHandlerMixin",
     "net.minecraft.server.MinecraftServerMixin",
-    "net.minecraft.server.PlayerManagerMixin"
+    "net.minecraft.server.PlayerManagerMixin",
+    "net.minecraft.server.dedicated.DedicatedServerMixin",
+    "net.minecraft.world.WorldMixin"
   ],
   "client": [
   ],

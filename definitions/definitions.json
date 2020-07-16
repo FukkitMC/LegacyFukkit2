@@ -83,6 +83,11 @@
     "syntheticFields": [
       {
         "access": 1,
+        "name": "bukkitEntity",
+        "type": "Lorg/bukkit/craftbukkit/entity/CraftEntity;"
+      },
+      {
+        "access": 1,
         "name": "valid",
         "type": "Z"
       },
@@ -100,11 +105,6 @@
         "access": 9,
         "name": "CURRENT_LEVEL",
         "type": "I"
-      },
-      {
-        "access": 1,
-        "name": "bukkitEntity",
-        "type": "Lorg/bukkit/craftbukkit/entity/CraftEntity;"
       }
     ],
     "syntheticMethods": []

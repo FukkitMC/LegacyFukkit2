@@ -3,7 +3,7 @@ package io.github.fukkitmc.fukkit.extras;
 /**
  * Extra for {@link net.minecraft.entity.player.ServerPlayerEntity}
  */
-public interface ServerPlayerEntityExtra {
+public interface ServerPlayerEntityExtra extends LivingEntityExtra{
 
     void spawnIn(net.minecraft.world.World var0);
 
