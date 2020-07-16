@@ -1291,6 +1291,18 @@
     "syntheticMethods": []
   },
   {
+    "name": "net/minecraft/recipes/SmeltingRecipes",
+    "syntheticFields": [
+      {
+        "access": 1,
+        "name": "customRecipes",
+        "type": "Ljava/util/Map;"
+      }
+    ],
+    "syntheticMethods": []
+
+  },
+  {
     "name": "net/minecraft/inventory/CraftingInventory",
     "injectInterfaces": [
       "io/github/fukkitmc/fukkit/extras/CraftingInventoryExtra"
@@ -1299,7 +1311,7 @@
       {
         "access": 1,
         "name": "currentRecipe",
-        "type": "Lnet/minecraft/server/IRecipe;"
+        "type": "Lnet/minecraft/recipe/Recipe;"
       },
       {
         "access": 1,
@@ -1521,6 +1533,11 @@
         "access": 1,
         "name": "server",
         "type": "Lorg/bukkit/craftbukkit/CraftServer;"
+      },
+      {
+        "access": 1,
+        "name": "autosavePeriod",
+        "type": "I"
       }
     ]
   },
@@ -1668,6 +1685,11 @@
         "access": 1,
         "name": "oldLevel",
         "type": "I"
+      },
+      {
+        "access": 1,
+        "name": "collidesWithEntities",
+        "type": "Z"
       },
       {
         "access": 1,

@@ -1384,19 +1384,18 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         @Override
         public InetSocketAddress getRawAddress()
         {
-            return (InetSocketAddress) getHandle().networkHandler.connection.getRawAddress();
+            return (InetSocketAddress) getHandle().networkHandler.connection.getAddress();
         }
 
         @Override
         public boolean getCollidesWithEntities()
         {
-            return getHandle().collidesWithEntities;
+            return getHandle().field_7390;
         }
 
         @Override
         public void setCollidesWithEntities(boolean collides)
         {
-            getHandle().collidesWithEntities = collides;
             getHandle().field_7390 = collides; // First boolean of Entity
         }
 
@@ -1405,7 +1404,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         {
             if ( getHealth() <= 0 && isOnline() )
             {
-                server.getServer().getPlayerList().respawnPlayer( getHandle(), 0, false );
+                server.getServer().getPlayerManager().respawnPlayer( getHandle(), 0, false );
             }
         }
 

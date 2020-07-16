@@ -1,9 +1,13 @@
 package org.bukkit.craftbukkit.inventory;
 
 import java.util.Map;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtTag;
+import net.minecraft.server.MinecraftServer;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
 import org.bukkit.craftbukkit.inventory.CraftMetaItem.SerializableMeta;
@@ -76,16 +80,12 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
             // Spigot start - do an async lookup of the profile. 
             // Unfortunately there is not way to refresh the holding
             // inventory, so that responsibility is left to the user.
-            net.minecraft.block.entity.SkullBlockEntity.b(profile, new com.google.common.base.Predicate<GameProfile>() {
-
-                @Override
-                public boolean apply(GameProfile input) {
-                    CompoundTag owner = new CompoundTag();
-                    NbtHelper.fromGameProfile( owner, input );
-                    tag.put( SKULL_OWNER.NBT, owner );
-                    return false;
-                }
-            });
+            net.minecraft.block.entity.SkullBlockEntity.method_1188(profile);//, (Predicate<GameProfile>) input -> {
+//                CompoundTag owner1 = new CompoundTag();
+//                NbtHelper.fromGameProfile(owner1, input );
+//                tag.put( SKULL_OWNER.NBT, owner1);
+//                return false;
+//            });
             // Spigot end
         }
     }
@@ -172,4 +172,5 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
         }
         return builder;
     }
+
 }

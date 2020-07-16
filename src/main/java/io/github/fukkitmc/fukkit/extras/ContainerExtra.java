@@ -9,5 +9,7 @@ public interface ContainerExtra {
         throw new RuntimeException("Transferto not implemented in " + this.getClass().getSimpleName());
     }
 
-    org.bukkit.inventory.InventoryView getBukkitView();
+    default org.bukkit.inventory.InventoryView getBukkitView(){
+        throw new RuntimeException("getBukkitView not implemented in " + this.getClass().getSimpleName());
+    }
 }
