@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
+
+import io.github.fukkitmc.fukkit.config.FukkitPropertiesHandler;
 import net.minecraft.class_407;
 import net.minecraft.class_409;
 import net.minecraft.class_629;
@@ -155,7 +157,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 
 public final class CraftServer implements Server {
     private static final Player[] EMPTY_PLAYER_ARRAY = new Player[0];
-    private final String serverName = "CraftBukkit";
+    private final String serverName = "TaterBukkit";
     private final String serverVersion;
     private final String bukkitVersion = Versioning.getBukkitVersion();
     private final Logger logger = Logger.getLogger("Minecraft");
@@ -165,7 +167,7 @@ public final class CraftServer implements Server {
     private final SimpleHelpMap helpMap = new SimpleHelpMap(this);
     private final StandardMessenger messenger = new StandardMessenger();
     private final PluginManager pluginManager = new SimplePluginManager(this, commandMap);
-    protected final MinecraftServer console;
+    protected final DedicatedServer console;
     protected final DedicatedPlayerManager playerList;
     private final Map<String, World> worlds = new LinkedHashMap<String, World>();
     private YamlConfiguration configuration;
@@ -203,7 +205,7 @@ public final class CraftServer implements Server {
         CraftItemFactory.instance();
     }
 
-    public CraftServer(MinecraftServer console, PlayerManager playerList) {
+    public CraftServer(DedicatedServer console, PlayerManager playerList) {
         this.console = console;
         this.playerList = (DedicatedPlayerManager) playerList;
         this.playerView = Collections.unmodifiableList(Lists.transform(playerList.players, new Function<ServerPlayerEntity, CraftPlayer>() {
@@ -213,7 +215,7 @@ public final class CraftServer implements Server {
             }
         }));
         this.serverVersion = CraftServer.class.getPackage().getImplementationVersion();
-        online.value = console.getPropertyManager().getBooleanOrDefault("online-mode", true);
+        online.value = console.abstractPropertiesHandler.getBooleanOrDefault("online-mode", true);
 
         Bukkit.setServer(this);
 
@@ -573,15 +575,15 @@ public final class CraftServer implements Server {
 
     // NOTE: Temporary calls through to server.properies until its replaced
     private String getConfigString(String variable, String defaultValue) {
-        return this.console.getPropertyManager().getOrDefault(variable, defaultValue);
+        return this.console.abstractPropertiesHandler.getOrDefault(variable, defaultValue);
     }
 
     private int getConfigInt(String variable, int defaultValue) {
-        return this.console.getPropertyManager().getIntOrDefault(variable, defaultValue);
+        return this.console.abstractPropertiesHandler.getIntOrDefault(variable, defaultValue);
     }
 
     private boolean getConfigBoolean(String variable, boolean defaultValue) {
-        return this.console.getPropertyManager().getBooleanOrDefault(variable, defaultValue);
+        return this.console.abstractPropertiesHandler.getBooleanOrDefault(variable, defaultValue);
     }
 
     // End Temporary calls
@@ -593,7 +595,7 @@ public final class CraftServer implements Server {
 
     @Override
     public File getUpdateFolderFile() {
-        return new File((File) console.options.valueOf("plugins"), this.configuration.getString("settings.update-folder", "update"));
+        return new File((File) Main.options.valueOf("plugins"), this.configuration.getString("settings.update-folder", "update"));
     }
 
     @Override
@@ -681,18 +683,18 @@ public final class CraftServer implements Server {
         reloadCount++;
         configuration = YamlConfiguration.loadConfiguration(getConfigFile());
         commandsConfiguration = YamlConfiguration.loadConfiguration(getCommandsConfigFile());
-        AbstractPropertiesHandler config = new AbstractPropertiesHandler(console.options);
+        AbstractPropertiesHandler config = new FukkitPropertiesHandler();
 
         ((DedicatedServer) console).abstractPropertiesHandler = config;
 
-        boolean animals = config.getBooleanOrDefault("spawn-animals", console.getSpawnAnimals());
-        boolean monsters = config.getBooleanOrDefault("spawn-monsters", console.worlds.get(0).getGlobalDifficulty() != Difficulty.PEACEFUL);
-        Difficulty difficulty = Difficulty.byOrdinal(config.getIntOrDefault("difficulty", console.worlds.get(0).getGlobalDifficulty().ordinal()));
+        boolean animals = config.getBooleanOrDefault("spawn-animals", console.shouldSpawnAnimals());
+        boolean monsters = config.getBooleanOrDefault("spawn-monsters", console.worlds[0].getGlobalDifficulty() != Difficulty.PEACEFUL);
+        Difficulty difficulty = Difficulty.byOrdinal(config.getIntOrDefault("difficulty", console.worlds[0].getGlobalDifficulty().ordinal()));
 
-        online.value = config.getBooleanOrDefault("online-mode", console.getOnlineMode());
-        console.setSpawnAnimals(config.getBooleanOrDefault("spawn-animals", console.getSpawnAnimals()));
-        console.setPVP(config.getBooleanOrDefault("pvp", console.getPVP()));
-        console.setAllowFlight(config.getBooleanOrDefault("allow-flight", console.getAllowFlight()));
+        online.value = config.getBooleanOrDefault("online-mode", console.isOnlineMode());
+        console.setSpawnAnimals(config.getBooleanOrDefault("spawn-animals", console.shouldSpawnAnimals()));
+        console.setPvpEnabled(config.getBooleanOrDefault("pvp", console.isPvpEnabled()));
+        console.setFlightEnabled(config.getBooleanOrDefault("allow-flight", console.isFlightEnabled()));
         console.setMotd(config.getOrDefault("motd", console.getMotd()));
         monsterSpawn = configuration.getInt("spawn-limits.monsters");
         animalSpawn = configuration.getInt("spawn-limits.animals");
@@ -716,7 +718,7 @@ public final class CraftServer implements Server {
             logger.log(Level.WARNING, "Failed to load banned-players.json, " + ex.getMessage());
         }
 
-        org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
+        org.spigotmc.SpigotConfig.init((File) Main.options.valueOf("spigot-settings")); // Spigot
         for (ServerWorld world : console.worlds) {
             world.levelProperties.setDifficulty(difficulty);
             world.method_341(monsters, animals);
@@ -893,7 +895,7 @@ public final class CraftServer implements Server {
             });
         }
 
-        int dimension = CraftWorld.CUSTOM_DIMENSION_OFFSET + console.worlds.size();
+        int dimension = CraftWorld.CUSTOM_DIMENSION_OFFSET + console.worlds.length;
         boolean used = false;
         do {
             for (ServerWorld server : console.worlds) {
@@ -933,7 +935,7 @@ public final class CraftServer implements Server {
         }
 
         pluginManager.callEvent(new WorldInitEvent(internal.getCraftWorld()));
-        System.out.print("Preparing start region for level " + (console.worlds.size() - 1) + " (Seed: " + internal.method_247() + ")");
+        System.out.print("Preparing start region for level " + (console.worlds.length - 1) + " (Seed: " + internal.method_247() + ")");
 
         if (internal.getCraftWorld().getKeepSpawnInMemory()) {
             short short1 = 196;
@@ -976,11 +978,11 @@ public final class CraftServer implements Server {
 
         ServerWorld handle = ((CraftWorld) world).getHandle();
 
-        if (!(console.worlds.contains(handle))) {
-            return false;
-        }
+//        if (!(console.worlds.contains(handle))) {//FIXME: need an array version of this
+//            return false;
+//        }
 
-        if (!(handle.dimension > 1)) {
+        if (!(handle.dimension.getType() > 1)) {
             return false;
         }
 
@@ -1005,7 +1007,7 @@ public final class CraftServer implements Server {
         }
 
         worlds.remove(world.getName().toLowerCase());
-        console.worlds.remove(console.worlds.indexOf(handle));
+        //console.worlds.remove(console.worlds.indexOf(handle)); //FIXME: need an array version of this
 
         File parentFolder = world.getWorldFolder().getAbsoluteFile();
 
@@ -1222,7 +1224,7 @@ public final class CraftServer implements Server {
 
     @Override
     public boolean getAllowFlight() {
-        return console.getAllowFlight();
+        return console.isFlightEnabled();
     }
 
     @Override
@@ -1274,7 +1276,7 @@ public final class CraftServer implements Server {
     @Override
     @Deprecated
     public CraftMapView getMap(short id) {
-        class_643 collection = console.worlds.get(0).field_288;
+        class_643 collection = console.worlds[0].field_288;
         MapState worldmap = (MapState) collection.method_2045(MapState.class, "map_" + id);
         if (worldmap == null) {
             return null;
@@ -1293,7 +1295,7 @@ public final class CraftServer implements Server {
 
     @Override
     public void shutdown() {
-        console.safeShutdown();
+        console.shutdown();
     }
 
     @Override
@@ -1323,7 +1325,7 @@ public final class CraftServer implements Server {
             // Spigot Start
             GameProfile profile = null;
             // Only fetch an online UUID in online mode
-            if ( MinecraftServer.getServer().getOnlineMode() || org.spigotmc.SpigotConfig.bungee )
+            if ( MinecraftServer.getServer().isOnlineMode() || org.spigotmc.SpigotConfig.bungee )
             {
                 profile = MinecraftServer.getServer().getUserCache().findByName( name );
             }
@@ -1413,7 +1415,7 @@ public final class CraftServer implements Server {
     @Override
     public void setWhitelist(boolean value) {
         playerList.setWhitelistEnabled(value);
-        console.getPropertyManager().set("white-list", value);
+        console.abstractPropertiesHandler.set("white-list", value);
     }
 
     @Override
@@ -1445,7 +1447,7 @@ public final class CraftServer implements Server {
 
     @Override
     public GameMode getDefaultGameMode() {
-        return GameMode.getByValue(console.worlds.get(0).getLevelProperties().getGameMode().getId());
+        return GameMode.getByValue(console.worlds[0].getLevelProperties().getGameMode().getId());
     }
 
     @Override
@@ -1489,7 +1491,7 @@ public final class CraftServer implements Server {
 
     @Override
     public OfflinePlayer[] getOfflinePlayers() {
-        class_632 storage = (class_632) console.worlds.get(0).getSaveHandler();
+        class_632 storage = (class_632) console.worlds[0].getSaveHandler();
         String[] files = storage.getPlayerDir().list(new DatFileFilter());
         Set<OfflinePlayer> players = new HashSet<OfflinePlayer>();
 
@@ -1585,7 +1587,7 @@ public final class CraftServer implements Server {
 
     @Override
     public boolean isPrimaryThread() {
-        return Thread.currentThread().equals(console.primaryThread);
+        return Thread.currentThread().equals(console.serverThread);
     }
 
     @Override
@@ -1708,12 +1710,12 @@ public final class CraftServer implements Server {
 
     @Override
     public void setIdleTimeout(int threshold) {
-        console.setIdleTimeout(threshold);
+        console.setPlayerIdleTimeout(threshold);
     }
 
     @Override
     public int getIdleTimeout() {
-        return console.getIdleTimeout();
+        return console.getPlayerIdleTimeout();
     }
 
     @Override

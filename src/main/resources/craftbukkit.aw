@@ -8,6 +8,7 @@ accessible field net/minecraft/util/Formatting name Ljava/lang/String;
 mutable field net/minecraft/util/Formatting name Ljava/lang/String;
 accessible field net/minecraft/util/Formatting code C
 mutable field net/minecraft/util/Formatting code C
+mutable field net/minecraft/world/World dimension Lnet/minecraft/world/dimension/Dimension;
 accessible field net/minecraft/util/Formatting modifier Z
 mutable field net/minecraft/util/Formatting modifier Z
 accessible field net/minecraft/util/Formatting stringValue Ljava/lang/String;

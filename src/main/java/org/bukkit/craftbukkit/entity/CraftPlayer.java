@@ -211,7 +211,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         getHandle().listName = name.equals(getName()) ? null : CraftChatMessage.fromString(name)[0];
         for (ServerPlayerEntity player : (List<ServerPlayerEntity>)server.getHandle().players) {
             if (player.getBukkitEntity().canSee(this)) {
-                player.networkHandler.sendPacket(new PlayerListS2CPacket(PlayerListS2CPacket.Action.field_6255, getHandle()));
+                player.networkHandler.sendPacket(new PlayerListS2CPacket(PlayerListS2CPacket.Action.UPDATE_DISPLAY_NAME, getHandle()));
             }
         }
     }
@@ -495,7 +495,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         if (fromWorld == toWorld) {
             entity.networkHandler.teleport(to);
         } else {
-            server.getHandle().moveToWorld(entity, toWorld.dimension, true, to, true);
+            server.getHandle().moveToWorld(entity, toWorld.dimension.getType(), true, to, true);
         }
         return true;
     }
@@ -912,7 +912,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         }
 
         //remove the hidden player from this player user list
-        getHandle().networkHandler.sendPacket(new PlayerListS2CPacket(PlayerListS2CPacket.Action.field_6256, other));
+        getHandle().networkHandler.sendPacket(new PlayerListS2CPacket(PlayerListS2CPacket.Action.REMOVE_PLAYER, other));
     }
 
     @Override
@@ -926,7 +926,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         EntityTracker tracker = ((ServerWorld) entity.world).field_6621;
         ServerPlayerEntity other = ((CraftPlayer) player).getHandle();
 
-        getHandle().networkHandler.sendPacket(new PlayerListS2CPacket(PlayerListS2CPacket.Action.field_6252, other));
+        getHandle().networkHandler.sendPacket(new PlayerListS2CPacket(PlayerListS2CPacket.Action.ADD_PLAYER, other));
 
         class_1639 entry = (class_1639) tracker.field_6589.get(other.getEntityId());
         if (entry != null && !entry.field_6688.contains(getHandle())) {

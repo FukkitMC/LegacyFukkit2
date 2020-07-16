@@ -477,7 +477,7 @@ public class CraftWorld implements World {
     }
 
     public LightningStrike strikeLightningEffect(Location loc) {
-        LightningBoltEntity lightning = new LightningBoltEntity(world, loc.getX(), loc.getY(), loc.getZ(), true);
+        LightningBoltEntity lightning = new LightningBoltEntity(world, loc.getX(), loc.getY(), loc.getZ());
         world.method_387(lightning);
         return new CraftLightningStrike(server, lightning);
     }
@@ -509,12 +509,12 @@ public class CraftWorld implements World {
             break;
         case COCOA_TREE:
             iblockdata1 = Blocks.LOG.getDefaultState().with(Log1Block.VARIANT, PlanksBlock.WoodType.JUNGLE);
-            iblockdata2 = Blocks.LEAVES.getDefaultState().with(Leaves1Block.VARIANT, PlanksBlock.WoodType.JUNGLE).with(LeavesBlock.CHECK_DECAY, Boolean.valueOf(false));
+            iblockdata2 = Blocks.LEAVES.getDefaultState().with(Leaves1Block.VARIANT, PlanksBlock.WoodType.JUNGLE).with(LeavesBlock.CHECK_DECAY, Boolean.FALSE);
             gen = new JungleTreeFeature(true, 4 + rand.nextInt(7), iblockdata1, iblockdata2, true);
             break;
         case JUNGLE_BUSH:
             iblockdata1 = Blocks.LOG.getDefaultState().with(Log1Block.VARIANT, PlanksBlock.WoodType.JUNGLE);
-            iblockdata2 = Blocks.LEAVES.getDefaultState().with(Leaves1Block.VARIANT, PlanksBlock.WoodType.OAK).with(LeavesBlock.CHECK_DECAY, Boolean.valueOf(false));
+            iblockdata2 = Blocks.LEAVES.getDefaultState().with(Leaves1Block.VARIANT, PlanksBlock.WoodType.OAK).with(LeavesBlock.CHECK_DECAY, Boolean.FALSE);
             gen = new JungleBushFeature(iblockdata1, iblockdata2);
             break;
         case RED_MUSHROOM:
@@ -589,7 +589,8 @@ public class CraftWorld implements World {
     }
 
     public UUID getUID() {
-        return world.getSaveHandler().getUUID();
+        throw new RuntimeException("Fukkit has not implemented getUid in CraftWorld");
+//        return world.getSaveHandler().getUUID();
     }
 
     @Override
@@ -689,7 +690,7 @@ public class CraftWorld implements World {
     }
 
     public Biome getBiome(int x, int z) {
-        return CraftBlock.biomeBaseToBiome(this.world.getBiome(new BlockPos(x, 0, z)));
+        return CraftBlock.biomeBaseToBiome(this.world.getBiomeAt(new BlockPos(x, 0, z)));
     }
 
     public void setBiome(int x, int z, Biome bio) {
@@ -705,11 +706,11 @@ public class CraftWorld implements World {
     }
 
     public double getTemperature(int x, int z) {
-        return this.world.getBiome(new BlockPos(x, 0, z)).temperature;
+        return this.world.getBiomeAt(new BlockPos(x, 0, z)).temperature;
     }
 
     public double getHumidity(int x, int z) {
-        return this.world.getBiome(new BlockPos(x, 0, z)).downfall;
+        return this.world.getBiomeAt(new BlockPos(x, 0, z)).downfall;
     }
 
     public List<Entity> getEntities() {
@@ -1198,12 +1199,6 @@ public class CraftWorld implements World {
         }
 
         if (entity != null) {
-            // Spigot start
-            if (entity instanceof OcelotEntity)
-            {
-                ( (OcelotEntity) entity ).spawnBonus = false;
-            }
-            // Spigot end
             return entity;
         }
 
@@ -1549,7 +1544,7 @@ public class CraftWorld implements World {
         @Override
         public LightningStrike strikeLightning(Location loc, boolean isSilent)
         {
-            LightningBoltEntity lightning = new LightningBoltEntity( world, loc.getX(), loc.getY(), loc.getZ(), false, isSilent );
+            LightningBoltEntity lightning = new LightningBoltEntity( world, loc.getX(), loc.getY(), loc.getZ());
             world.method_387( lightning );
             return new CraftLightningStrike( server, lightning );
         }
@@ -1557,7 +1552,7 @@ public class CraftWorld implements World {
         @Override
         public LightningStrike strikeLightningEffect(Location loc, boolean isSilent)
         {
-            LightningBoltEntity lightning = new LightningBoltEntity( world, loc.getX(), loc.getY(), loc.getZ(), true, isSilent );
+            LightningBoltEntity lightning = new LightningBoltEntity( world, loc.getX(), loc.getY(), loc.getZ());
             world.method_387( lightning );
             return new CraftLightningStrike( server, lightning );
         }

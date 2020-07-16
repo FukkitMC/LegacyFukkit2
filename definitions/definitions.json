@@ -65,6 +65,12 @@
         "access": 1,
         "name": "bukkitChunk",
         "type": "Lorg/bukkit/Chunk;"
+      },
+      {
+        "access": 1,
+        "name": "entitySlices",
+        "type": "[Ljava/util/List",
+        "signature": "[Ljava/util/List<Lnet/minecraft/entity/Entity;>;"
       }
     ],
     "syntheticMethods": []
@@ -133,7 +139,8 @@
       {
         "access": 1,
         "name": "chunks",
-        "type": "Lorg/bukkit/craftbukkit/util/LongObjectHashMap;"
+        "type": "Lorg/bukkit/craftbukkit/util/LongObjectHashMap;",
+        "signature": "Lorg/bukkit/craftbukkit/util/LongObjectHashMap<Lnet/minecraft/world/chunk/Chunk;>;"
       },
       {
         "access": 1,
@@ -1502,6 +1509,22 @@
     "syntheticMethods": []
   },
   {
+    "name": "net/minecraft/server/MinecraftServer",
+    "syntheticFields": [
+      {
+        "access": 1,
+        "name": "processQueue",
+        "type": "Ljava/util/Queue;",
+        "signature": "Ljava/util/Queue<Ljava/lang/Runnable;>;"
+      },
+      {
+        "access": 1,
+        "name": "server",
+        "type": "Lorg/bukkit/craftbukkit/CraftServer;"
+      }
+    ]
+  },
+  {
     "name": "net/minecraft/server/MethodProfiler/ProfilerInfo",
     "injectInterfaces": [
       "io/github/fukkitmc/fukkit/extras/ProfilerInfoExtra"
@@ -1742,7 +1765,8 @@
       {
         "access": 1,
         "name": "capturedBlockStates",
-        "type": "Ljava/util/ArrayList;"
+        "type": "Ljava/util/ArrayList;",
+        "signature": "Ljava/util/ArrayList<Lorg/bukkit/block/BlockState;>;"
       },
       {
         "access": 1,
@@ -1768,6 +1792,11 @@
         "access": 1,
         "name": "timings",
         "type": "Lorg/bukkit/craftbukkit/SpigotTimings$WorldTimingsHandler;"
+      },
+      {
+        "access": 1,
+        "name": "spigotConfig",
+        "type": "Lorg/spigotmc/SpigotWorldConfig;"
       }
     ],
     "syntheticMethods": []

@@ -16,9 +16,11 @@ public class Main {
     public static boolean useJline = true;
     public static boolean useConsole = true;
     public static OptionSet options;
+    public static File propertyFile;
 
     public static void main(String[] args) {
         // Todo: Installation script
+        propertyFile = new File("server.properties");
         OptionParser parser = new OptionParser() {
             {
                 acceptsAll(asList("?", "help"), "Show the help");
@@ -26,7 +28,7 @@ public class Main {
                 acceptsAll(asList("c", "config"), "Properties file to use")
                         .withRequiredArg()
                         .ofType(File.class)
-                        .defaultsTo(new File("server.properties"))
+                        .defaultsTo(propertyFile)
                         .describedAs("Properties file");
 
                 acceptsAll(asList("P", "plugins"), "Plugin directory to use")

@@ -74,11 +74,11 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         // so we must temporarily populate it with the world of the commandsender
         ServerWorld[] prev = MinecraftServer.getServer().worlds;
         MinecraftServer server = MinecraftServer.getServer();
-        server.worlds = new ServerWorld[server.worlds.size()];
+        server.worlds = new ServerWorld[server.worlds.length];
         server.worlds[0] = (ServerWorld) icommandlistener.getWorld();
         int bpos = 0;
         for (int pos = 1; pos < server.worlds.length; pos++) {
-            ServerWorld world = server.worlds.get(bpos++);
+            ServerWorld world = server.worlds[bpos++];
             if (server.worlds[0] == world) {
                 pos--;
                 continue;

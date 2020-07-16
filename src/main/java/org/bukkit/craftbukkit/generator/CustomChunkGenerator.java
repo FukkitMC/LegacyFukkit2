@@ -81,7 +81,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                 }
                 // Build chunk section
                 if (emptyTest != 0) {
-                    csect[sec] = new BlockStorage(sec << 4, true, section);
+                    csect[sec] = new BlockStorage(sec << 4, true);
                 }
             }
         }
@@ -106,7 +106,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                         secBlkID[i] = (char) Block.BLOCK_STATES.getId(b.getDefaultState());
                     }
                     // Build chunk section
-                    csect[sec] = new BlockStorage(sec << 4, true, secBlkID);
+                    csect[sec] = new BlockStorage(sec << 4, true);
                 }
             }
             else { // Else check for byte-per-block section data
@@ -128,7 +128,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                             Block b = Block.getById(btypes[sec][i] & 0xFF);
                             secBlkID[i] = (char) Block.BLOCK_STATES.getId(b.getDefaultState());
                         }
-                        csect[sec] = new BlockStorage(sec << 4, true, secBlkID);
+                        csect[sec] = new BlockStorage(sec << 4, true);
                     }
                 }
                 else { // Else, fall back to pre 1.2 method
@@ -242,7 +242,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
 
     @Override
     public List<net.minecraft.world.biome.Biome.SpawnEntry> method_1327(EntityCategory type, BlockPos position) {
-        net.minecraft.world.biome.Biome biomebase = world.getBiome(position);
+        net.minecraft.world.biome.Biome biomebase = world.getBiomeAt(position);
 
         return biomebase == null ? null : biomebase.getSpawnEntries(type);
     }

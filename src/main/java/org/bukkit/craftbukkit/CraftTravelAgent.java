@@ -16,7 +16,7 @@ public class CraftTravelAgent extends class_108 implements TravelAgent {
 
     public CraftTravelAgent(ServerWorld worldserver) {
         super(worldserver);
-        if (DEFAULT == null && worldserver.dimension == 0) {
+        if (DEFAULT == null && worldserver.dimension.getType() == 0) {
             DEFAULT = this;
         }
     }

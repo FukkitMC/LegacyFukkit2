@@ -5,7 +5,9 @@ package io.github.fukkitmc.fukkit.extras;
  */
 public interface ContainerExtra {
 
-    void transferTo(net.minecraft.container.Container var0, org.bukkit.craftbukkit.entity.CraftHumanEntity var1);
+    default void transferTo(net.minecraft.container.Container var0, org.bukkit.craftbukkit.entity.CraftHumanEntity var1){
+        throw new RuntimeException("Transferto not implemented in " + this.getClass().getSimpleName());
+    }
 
     org.bukkit.inventory.InventoryView getBukkitView();
 }
