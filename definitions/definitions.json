@@ -831,7 +831,7 @@
       },
       {
         "access": 1,
-        "name": "server",
+        "name": "craftServer",
         "type": "Lorg/bukkit/craftbukkit/CraftServer;"
       },
       {
