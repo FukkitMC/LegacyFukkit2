@@ -35,6 +35,7 @@ repositories {
 
 dependencies {
     "ecj"("org.eclipse.jdt:ecj:3.21.0")
+    compile("com.google.guava:guava:23.5-jre")
     minecraft("net.minecraft", "minecraft", "1.8.9")
     mappings("net.fabricmc", "yarn", "1.8.9+build.202007100557", classifier = "v2")
     modCompile("net.fabricmc", "fabric-loader-1.8.9", "0.8.2+build.202004131640"){

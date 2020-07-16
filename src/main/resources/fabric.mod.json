@@ -6,9 +6,7 @@
   "name": "Tater Bukkit",
   "description": "good implementation of CraftBukkit on fabric",
   "authors": [
-    "ramidzkh",
-    "hydos",
-    "half"
+    "hydos"
   ],
   "contact": {
   },
@@ -26,10 +24,6 @@
   "accessWidener": "craftbukkit.aw",
 
   "depends": {
-    "fabricloader": ">=0.7.4",
-    "minecraft": "1.15.x"
-  },
-  "suggests": {
-    "flamingo": "*"
+    "minecraft": "1.8.9"
   }
 }

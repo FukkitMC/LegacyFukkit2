@@ -69,7 +69,7 @@
       {
         "access": 1,
         "name": "entitySlices",
-        "type": "[Ljava/util/List",
+        "type": "Ljava/util/List;",
         "signature": "[Ljava/util/List<Lnet/minecraft/entity/Entity;>;"
       }
     ],
@@ -107,20 +107,7 @@
         "type": "Lorg/bukkit/craftbukkit/entity/CraftEntity;"
       }
     ],
-    "syntheticMethods": [
-      {
-        "opcode": 184,
-        "access": 9,
-        "name": "isLevelAtLeast",
-        "descriptor": "(Lnet/minecraft/nbt/CompoundTag;I)Z",
-        "redirect": {
-          "owner": "io/github/fukkitmc/fukkit/redirects/EntityRedirects",
-          "name": "isLevelAtLeast",
-          "descriptor": "(Lnet/minecraft/nbt/CompoundTag;I)Z",
-          "isInterface": true
-        }
-      }
-    ]
+    "syntheticMethods": []
   },
   {
     "name": "net/minecraft/server/command/TeleportCommand",
@@ -493,20 +480,7 @@
     "name": "net/minecraft/block/dispenser/ItemDispenserBehavior",
     "injectInterfaces": [],
     "syntheticFields": [],
-    "syntheticMethods": [
-      {
-        "opcode": 184,
-        "access": 9,
-        "name": "a",
-        "descriptor": "(Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;ILnet/minecraft/util/math/Direction;Lnet/minecraft/util/math/BlockPointer;)Z",
-        "redirect": {
-          "owner": "io/github/fukkitmc/fukkit/redirects/DispenseBehaviorItemRedirects",
-          "name": "a",
-          "descriptor": "(Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;ILnet/minecraft/util/math/Direction;Lnet/minecraft/util/math/BlockPointer;)Z",
-          "isInterface": true
-        }
-      }
-    ]
+    "syntheticMethods": []
   },
   {
     "name": "net/minecraft/server/network/ServerLoginNetworkHandler",
@@ -536,20 +510,7 @@
     "name": "net/minecraft/item/SpawnEggItem",
     "injectInterfaces": [],
     "syntheticFields": [],
-    "syntheticMethods": [
-      {
-        "opcode": 184,
-        "access": 9,
-        "name": "spawnCreature",
-        "descriptor": "(Lnet/minecraft/world/World;IDDDLorg/bukkit/event/entity/CreatureSpawnEvent/SpawnReason;)Lnet/minecraft/entity/Entity;",
-        "redirect": {
-          "owner": "io/github/fukkitmc/fukkit/redirects/ItemMonsterEggRedirects",
-          "name": "spawnCreature",
-          "descriptor": "(Lnet/minecraft/world/World;IDDDLorg/bukkit/event/entity/CreatureSpawnEvent/SpawnReason;)Lnet/minecraft/entity/Entity;",
-          "isInterface": true
-        }
-      }
-    ]
+    "syntheticMethods": []
   },
   {
     "name": "net/minecraft/server/command/GameRuleCommand",
@@ -1038,13 +999,7 @@
     "injectInterfaces": [
       "io/github/fukkitmc/fukkit/extras/InventoryExtra"
     ],
-    "syntheticFields": [
-      {
-        "access": 1,
-        "name": "MAX_STACK",
-        "type": "I"
-      }
-    ],
+    "syntheticFields": [],
     "syntheticMethods": []
   },
   {

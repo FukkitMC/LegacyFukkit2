@@ -194,7 +194,6 @@ public class Main {
                 // Spigot End
                 System.out.println("Loading libraries, please wait...");
                 Main.options = options;
-                MinecraftServer.main(args);
             } catch (Throwable t) {
                 t.printStackTrace();
             }
