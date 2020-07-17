@@ -24,6 +24,8 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 
 import io.github.fukkitmc.fukkit.config.FukkitPropertiesHandler;
+import io.github.fukkitmc.fukkit.log.FukkitLogger;
+import net.fabricmc.api.EnvType;
 import net.minecraft.class_407;
 import net.minecraft.class_409;
 import net.minecraft.class_629;
@@ -155,20 +157,21 @@ import io.netty.handler.codec.base64.Base64;
 import jline.console.ConsoleReader;
 import net.md_5.bungee.api.chat.BaseComponent;
 
+@net.fabricmc.api.Environment(EnvType.SERVER)
 public final class CraftServer implements Server {
     private static final Player[] EMPTY_PLAYER_ARRAY = new Player[0];
     private final String serverName = "TaterBukkit";
-    private final String serverVersion;
+    private String serverVersion;
     private final String bukkitVersion = Versioning.getBukkitVersion();
-    private Logger logger = Logger.getLogger("Minecraft");
+    private Logger logger = new FukkitLogger(Logger.getLogger("Minecraft"));
     private final ServicesManager servicesManager = new SimpleServicesManager();
     private final CraftScheduler scheduler = new CraftScheduler();
     private final SimpleCommandMap commandMap = new SimpleCommandMap(this);
     private final SimpleHelpMap helpMap = new SimpleHelpMap(this);
     private final StandardMessenger messenger = new StandardMessenger();
     private final PluginManager pluginManager = new SimplePluginManager(this, commandMap);
-    protected final DedicatedServer console;
-    protected final DedicatedPlayerManager playerList;
+    protected DedicatedServer console;
+    protected DedicatedPlayerManager playerList;
     private final Map<String, World> worlds = new LinkedHashMap<String, World>();
     private YamlConfiguration configuration;
     private YamlConfiguration commandsConfiguration;
@@ -193,7 +196,7 @@ public final class CraftServer implements Server {
     private boolean overrideAllCommandBlockCommands = false;
     private final Pattern validUserPattern = Pattern.compile("^[a-zA-Z0-9_]{2,16}$");
     private final UUID invalidUserUUID = UUID.nameUUIDFromBytes("InvalidUsername".getBytes(Charsets.UTF_8));
-    private final List<CraftPlayer> playerView;
+    private List<CraftPlayer> playerView;
     public int reloadCount;
 
     private final class BooleanWrapper {
@@ -695,7 +698,7 @@ public final class CraftServer implements Server {
         console.setSpawnAnimals(config.getBooleanOrDefault("spawn-animals", console.shouldSpawnAnimals()));
         console.setPvpEnabled(config.getBooleanOrDefault("pvp", console.isPvpEnabled()));
         console.setFlightEnabled(config.getBooleanOrDefault("allow-flight", console.isFlightEnabled()));
-        console.setMotd(config.getOrDefault("motd", console.getMotd()));
+        console.setMotd(config.getOrDefault("motd", console.motd));
         monsterSpawn = configuration.getInt("spawn-limits.monsters");
         animalSpawn = configuration.getInt("spawn-limits.animals");
         waterAnimalSpawn = configuration.getInt("spawn-limits.water-animals");
@@ -710,12 +713,12 @@ public final class CraftServer implements Server {
         try {
             playerList.getIpBanList().load();
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to load banned-ips.json, " + ex.getMessage());
+            MinecraftServer.LOGGER.warn("Failed to load banned-ips.json, " + ex.getMessage());
         }
         try {
             playerList.getUserBanList().load();
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Failed to load banned-players.json, " + ex.getMessage());
+            MinecraftServer.LOGGER.warn("Failed to load banned-players.json, " + ex.getMessage());
         }
 
         org.spigotmc.SpigotConfig.init((File) Main.options.valueOf("spigot-settings")); // Spigot
@@ -1078,6 +1081,7 @@ public final class CraftServer implements Server {
             logger = Logger.getLogger("Minecraft");
         }
         return logger;
+        //Fukkit: use minecraft logger
     }
 
     public ConsoleReader getReader() {

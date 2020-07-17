@@ -1816,6 +1816,25 @@
     "syntheticMethods": []
   },
   {
+    "name": "net/minecraft/container/ChestInventory",
+    "injectInterfaces": [
+      "io/github/fukkitmc/fukkit/extras/ChestInventoryExtra"
+    ],
+    "syntheticFields": [
+      {
+        "access": 1,
+        "name": "bukkitEntity",
+        "type": "Lorg/bukkit/craftbukkit/inventory/CraftInventoryView;"
+      },
+      {
+        "access": 1,
+        "name": "playerInv",
+        "type": "Lnet/minecraft/entity/player/PlayerInventory;"
+      }
+    ],
+    "syntheticMethods": []
+  },
+  {
     "name": "net/minecraft/inventory/EnderChestInventory",
     "injectInterfaces": [
       "io/github/fukkitmc/fukkit/extras/EnderChestInventoryExtra"

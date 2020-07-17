@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "extras.ContainerExtraMixin",
+    "net.minecraft.container.ChestInventoryMixin",
     "net.minecraft.entity.EntityMixin",
     "net.minecraft.entity.player.ServerPlayerEntityMixin",
     "net.minecraft.network.ServerPlayNetworkHandlerMixin",

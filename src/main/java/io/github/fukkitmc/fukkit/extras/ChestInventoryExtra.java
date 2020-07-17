@@ -1,9 +1,9 @@
 package io.github.fukkitmc.fukkit.extras;
 
 /**
- * Extra for {@link net.minecraft.class_1992}
+ * Extra for {@link net.minecraft.container.ChestInventory}
  */
-public interface ChestInventoryExtra {
+public interface ChestInventoryExtra extends ContainerExtra{
 
     org.bukkit.craftbukkit.inventory.CraftInventoryView getBukkitView();
 }
