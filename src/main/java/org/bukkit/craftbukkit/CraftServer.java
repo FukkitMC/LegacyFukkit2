@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
 
 import io.github.fukkitmc.fukkit.config.FukkitPropertiesHandler;
 import io.github.fukkitmc.fukkit.log.FukkitLogger;
+import io.github.fukkitmc.fukkit.nms.PluginRemapper;
 import net.fabricmc.api.EnvType;
 import net.minecraft.class_407;
 import net.minecraft.class_409;
@@ -324,14 +325,22 @@ public final class CraftServer implements Server {
         File pluginFolder = (File) Main.options.valueOf("plugins");
 
         if (pluginFolder.exists()) {
-            Plugin[] plugins = pluginManager.loadPlugins(pluginFolder);
+            Plugin[] plugins;
+
+            try {
+                PluginRemapper.remapDirectory(pluginFolder);
+                plugins = pluginManager.loadPlugins(pluginFolder);
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
+
             for (Plugin plugin : plugins) {
                 try {
                     String message = String.format("Loading %s", plugin.getDescription().getFullName());
-                    plugin.getLogger().info(message);
+                    MinecraftServer.LOGGER.info(message);
                     plugin.onLoad();
                 } catch (Throwable ex) {
-                    Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE, ex.getMessage() + " initializing " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
+                    MinecraftServer.LOGGER.fatal(ex.getMessage() + " initializing " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
                 }
             }
         } else {
