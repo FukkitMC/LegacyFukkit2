@@ -198,6 +198,7 @@ public final class CraftServer implements Server {
     private final UUID invalidUserUUID = UUID.nameUUIDFromBytes("InvalidUsername".getBytes(Charsets.UTF_8));
     private List<CraftPlayer> playerView;
     public int reloadCount;
+    public ConsoleCommandSender consoleCommandSender;
 
     private final class BooleanWrapper {
         private boolean value = true;
@@ -937,7 +938,7 @@ public final class CraftServer implements Server {
         internal.method_278(new ServerWorldManager(console, internal));
         internal.levelProperties.setDifficulty(Difficulty.EASY);
         internal.method_341(true, true);
-//        console.worlds.add(internal);
+        ((ArrayList<ServerWorld>) (Object)console.worlds).add(internal);
         //FIXME: very important Fukkit need replacement
         if (generator != null) {
             internal.getCraftWorld().getPopulators().addAll(generator.getDefaultPopulators(internal.getCraftWorld()));
@@ -1085,9 +1086,7 @@ public final class CraftServer implements Server {
     }
 
     public ConsoleReader getReader() {
-        throw new RuntimeException("getReader not implemented in craftServer");
-        //Fukkit FIXME
-//        return console.reader;
+        return console.reader;
     }
 
     @Override
@@ -1477,8 +1476,7 @@ public final class CraftServer implements Server {
 
     @Override
     public ConsoleCommandSender getConsoleSender() {
-        throw new RuntimeException("getConsoleSender not implemented");
-//        return console.console;
+        return consoleCommandSender;
     }
 
     public EntityMetadataStore getEntityMetadata() {
@@ -1495,11 +1493,6 @@ public final class CraftServer implements Server {
 
     @Override
     public File getWorldContainer() {
-        //fukkit FIXME: fix
-//        if (this.getServer().universe != null) {
-//            return this.getServer().universe;
-//        }
-
         if (container == null) {
             container = new File(configuration.getString("settings.world-container", "."));
         }

@@ -26,8 +26,6 @@ public abstract class WorldMixin implements WorldExtra {
 
     @Shadow public CraftWorld craftWorld;
 
-    @Shadow public abstract long method_247();
-
     //method_247 = getSeed()
 
     @Shadow public Dimension dimension;

@@ -1494,6 +1494,11 @@
       },
       {
         "access": 1,
+        "name": "reader",
+        "type": "Ljline/console/ConsoleReader;"
+      },
+      {
+        "access": 1,
         "name": "autosavePeriod",
         "type": "I"
       }

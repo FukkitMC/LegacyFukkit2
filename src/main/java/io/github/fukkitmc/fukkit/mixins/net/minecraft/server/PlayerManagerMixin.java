@@ -13,12 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
 
-    @Shadow public CraftServer cserver;
-
     @Inject(method = "<init>", at = @At("TAIL"))
     public void constructor(MinecraftServer server, CallbackInfo ci){
-        this.cserver = server.server = new CraftServer((DedicatedServer) server, ((PlayerManager)(Object)this));
-//        server.console = org.bukkit.craftbukkit.command.ColouredConsoleSender.getInstance();
+        ((PlayerManager)(Object)this).cserver = server.server = new CraftServer((DedicatedServer) server, ((PlayerManager)(Object)this));
+        ((PlayerManager)(Object)this).cserver.consoleCommandSender = org.bukkit.craftbukkit.command.ColouredConsoleSender.getInstance();
 //        server.reader.addCompleter(new org.bukkit.craftbukkit.command.ConsoleCommandCompleter(server.server));
     }
 

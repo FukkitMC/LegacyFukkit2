@@ -42,11 +42,6 @@ public class Main {
                         .ofType(String.class)
                         .describedAs("Hostname or IP");
 
-                acceptsAll(asList("W", "world-dir", "universe", "world-container"), "World container")
-                        .withRequiredArg()
-                        .ofType(File.class)
-                        .describedAs("Directory containing worlds");
-
                 acceptsAll(asList("w", "world", "level-name"), "World name")
                         .withRequiredArg()
                         .ofType(String.class)

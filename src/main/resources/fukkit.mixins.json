@@ -12,7 +12,8 @@
     "net.minecraft.server.MinecraftServerMixin",
     "net.minecraft.server.PlayerManagerMixin",
     "net.minecraft.server.dedicated.DedicatedServerMixin",
-    "net.minecraft.world.WorldMixin"
+    "net.minecraft.world.WorldMixin",
+    "net.minecraft.world.level.LevelPropertiesMixin"
   ],
   "client": [
   ],
