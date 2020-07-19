@@ -9,10 +9,13 @@ import net.minecraft.world.World;
 import org.bukkit.WeatherType;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity implements ServerPlayerEntityExtra {
 
+
+    @Shadow public abstract void sendMessage(Text text);
 
     public ServerPlayerEntityMixin(World world, GameProfile profile) {
         super(world, profile);
@@ -50,7 +53,9 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Se
 
     @Override
     public void sendMessage(Text[] var0) {
-
+        for(Text text : var0){
+            sendMessage(text);
+        }
     }
 
     @Override

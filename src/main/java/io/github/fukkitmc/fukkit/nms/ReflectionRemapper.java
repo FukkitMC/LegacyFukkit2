@@ -15,7 +15,7 @@ import java.util.Arrays;
 @SuppressWarnings("unused")
 public class ReflectionRemapper {
 
-    private static final String VERSION = "v1_15_R2";
+    private static final String VERSION = "v1_8_R3";
     private static final boolean DEBUG = FabricLoader.getInstance().isDevelopmentEnvironment();
 
     // As concerning as it is, we should just insert the "version" (R1_15_2) thing here
